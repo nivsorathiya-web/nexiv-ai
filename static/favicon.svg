@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#0B101C"/>
+      <stop offset="100%" stop-color="#111827"/>
+    </linearGradient>
+    <linearGradient id="goldGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FCD34D"/>
+      <stop offset="40%" stop-color="#F59E0B"/>
+      <stop offset="100%" stop-color="#D97706"/>
+    </linearGradient>
+    <linearGradient id="emeraldGrad" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#059669"/>
+      <stop offset="50%" stop-color="#10B981"/>
+      <stop offset="100%" stop-color="#34D399"/>
+    </linearGradient>
+    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feComposite in="SourceGraphic" in2="blur" operator="over"/>
+    </filter>
+  </defs>
+  
+  <!-- Base Squircle -->
+  <rect x="16" y="16" width="480" height="480" rx="110" fill="url(#bgGrad)" stroke="#F59E0B" stroke-width="4" stroke-opacity="0.4"/>
+  
+  <!-- Left Gold Pillar -->
+  <rect x="135" y="130" width="46" height="230" rx="18" fill="url(#goldGrad)"/>
+  
+  <!-- Diagonal Gold Strut -->
+  <polygon points="145,150 181,190 340,340 304,380" fill="#D97706"/>
+  
+  <!-- Right Emerald Ascent Beam -->
+  <rect x="330" y="190" width="46" height="170" rx="18" fill="url(#emeraldGrad)"/>
+  
+  <!-- Rising Arrowhead -->
+  <polygon points="380,85 435,160 380,140 330,175" fill="url(#emeraldGrad)" filter="url(#glow)"/>
+  
+  <!-- Radiant Diamond Star -->
+  <polygon points="380,50 388,78 416,85 388,92 380,120 372,92 344,85 372,78" fill="#FFFFFF"/>
+  <polygon points="380,62 385,80 403,85 385,90 380,108 375,90 357,85 375,80" fill="#FDE68A"/>
+</svg>

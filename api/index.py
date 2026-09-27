@@ -10,7 +10,7 @@ if ROOT_DIR not in sys.path:
     sys.path.insert(0, ROOT_DIR)
 
 from fastapi import FastAPI, HTTPException, Response
-from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.responses import HTMLResponse, JSONResponse, FileResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
 from typing import Optional
@@ -47,23 +47,75 @@ class IPOSubmission(BaseModel):
     gmp: Optional[float] = 0.0
     lot_size: Optional[int] = 1
 
+def _find_static_file(filename: str):
+    """Find a static file in either static/ or api/static/."""
+    candidates = [
+        os.path.join(ROOT_DIR, "static", filename),
+        os.path.join(ROOT_DIR, "api", "static", filename),
+        os.path.join(os.path.dirname(__file__), "static", filename),
+        os.path.join(os.path.dirname(__file__), filename),
+        os.path.join(ROOT_DIR, filename)
+    ]
+    for c in candidates:
+        if os.path.exists(c):
+            return c
+    return None
+
 @app.get("/favicon.ico")
 def get_favicon():
-    svg_favicon = """<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 44 44">
-      <defs>
-        <linearGradient id="g" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#FCD34D"/>
-          <stop offset="40%" stop-color="#F59E0B"/>
-          <stop offset="70%" stop-color="#D97706"/>
-          <stop offset="100%" stop-color="#92400E"/>
-        </linearGradient>
-      </defs>
-      <rect x="2" y="2" width="40" height="40" rx="10" fill="#0F172A" stroke="url(#g)" stroke-width="2"/>
-      <path d="M11 32 V 12 L 23 28 V 12" stroke="url(#g)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-      <path d="M23 28 L 33 12" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
-      <polygon points="33,7 35,10 39,10 36,12.5 37.5,15.5 33,13.5 29,15.5 30.5,12.5 27.5,10 31.5,10" fill="#FDE68A"/>
-    </svg>"""
-    return Response(content=svg_favicon, media_type="image/svg+xml")
+    p = _find_static_file("favicon-64.png") or _find_static_file("favicon-32.png")
+    if p:
+        return FileResponse(p, media_type="image/png")
+    return Response(content="", status_code=204)
+
+@app.get("/favicon.svg")
+def get_favicon_svg():
+    p = _find_static_file("favicon.svg")
+    if p:
+        return FileResponse(p, media_type="image/svg+xml")
+    return Response(content="", status_code=204)
+
+@app.get("/apple-touch-icon.png")
+@app.get("/apple-touch-icon-precomposed.png")
+def get_apple_touch_icon():
+    p = _find_static_file("apple-touch-icon.png") or _find_static_file("icon-192.png")
+    if p:
+        return FileResponse(p, media_type="image/png")
+    return Response(content="", status_code=204)
+
+@app.get("/icon-192.png")
+def get_icon_192():
+    p = _find_static_file("icon-192.png")
+    if p:
+        return FileResponse(p, media_type="image/png")
+    return Response(content="", status_code=204)
+
+@app.get("/icon-512.png")
+def get_icon_512():
+    p = _find_static_file("icon-512.png")
+    if p:
+        return FileResponse(p, media_type="image/png")
+    return Response(content="", status_code=204)
+
+@app.get("/manifest.json")
+def get_manifest():
+    p = _find_static_file("manifest.json")
+    if p:
+        return FileResponse(p, media_type="application/manifest+json")
+    return Response(content="{}", media_type="application/manifest+json")
+
+@app.get("/static/{file_path:path}")
+def serve_static(file_path: str):
+    p = _find_static_file(file_path)
+    if p:
+        if file_path.endswith(".png"):
+            return FileResponse(p, media_type="image/png")
+        elif file_path.endswith(".svg"):
+            return FileResponse(p, media_type="image/svg+xml")
+        elif file_path.endswith(".json"):
+            return FileResponse(p, media_type="application/manifest+json")
+        return FileResponse(p)
+    raise HTTPException(status_code=404, detail="File not found")
 
 import math
 
@@ -132,7 +184,18 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>Nexiv.AI • Autonomous Institutional Financial Intelligence</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.ico">
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg">
+    <link rel="icon" type="image/png" sizes="64x64" href="/static/favicon-64.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="/static/favicon-32.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="/apple-touch-icon.png">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Nexiv.AI">
+    <meta name="application-name" content="Nexiv.AI">
+    <meta name="theme-color" content="#0B101C">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
