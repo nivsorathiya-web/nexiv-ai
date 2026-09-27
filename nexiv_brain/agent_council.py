@@ -120,6 +120,52 @@ class CBMAgentCouncil:
         else:
             verdict = "AVOID / OVERVALUED (Negative Margin of Safety or Elevated Risk)"
 
+        # 4-Agent Autonomous Council Synthesis
+        val_agent_verdict = (
+            "Substantial Undervaluation (High Margin of Safety)" if mos >= 20 
+            else ("Fair Value Compounder" if mos >= 5 
+            else ("Fully Valued / Await Pullback" if mos >= -15 
+            else "Significantly Overvalued (Unfavorable Cash Multiples)"))
+        )
+        forensic_agent_verdict = (
+            "Clean Accounting & Rock-Solid Balance Sheet" if (m_res["m_score"] <= -1.78 and "SAFE" in z_res["zone"])
+            else ("High Earnings Quality" if m_res["m_score"] <= -1.78
+            else "Accounting Discrepancy / Aggressive Accruals Flagged")
+        )
+        risk_agent_verdict = (
+            f"Kelly Optimal Allocation ({kelly_alloc * 100:.1f}% Portfolio)" if kelly_alloc > 0.05
+            else "Defensive Sizing (Preserve Cash)"
+        )
+        cycle_agent_verdict = (
+            "Favorable Macro Tailwinds & Structural Growth" if mos >= 5
+            else "Late Cycle Demanding Multiples / Low Asymmetry"
+        )
+
+        council_synthesis = {
+            "valuation_agent": {
+                "name": "Valuation Specialist",
+                "verdict": val_agent_verdict,
+                "intrinsic_value": dcf["intrinsic_value_per_share"],
+                "mos_pct": mos
+            },
+            "forensic_agent": {
+                "name": "Forensics & Shenanigans Auditor",
+                "verdict": forensic_agent_verdict,
+                "altman_z": z_res["z_score"],
+                "beneish_m": m_res["m_score"]
+            },
+            "risk_sizing_agent": {
+                "name": "Kelly Sizing & Capital Allocator",
+                "verdict": risk_agent_verdict,
+                "allocation_pct": kelly_alloc * 100.0
+            },
+            "market_cycle_agent": {
+                "name": "Market Cycle & Macro Strategist",
+                "verdict": cycle_agent_verdict,
+                "horizon": "1 to 3 Years" if mos >= 15 else "Defensive / Tactical"
+            }
+        }
+
         return {
             "profile": profile,
             "benchmark": bm,
@@ -140,5 +186,6 @@ class CBMAgentCouncil:
                 "recommended_kelly_allocation_pct": kelly_alloc * 100.0,
                 "downside_liquidation_floor": graham["ncav_per_share"],
                 "verdict": verdict
-            }
+            },
+            "council_synthesis": council_synthesis
         }

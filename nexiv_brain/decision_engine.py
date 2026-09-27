@@ -90,6 +90,10 @@ class CBMDecisionEngine:
             "currency": currency,
             "is_indian": is_indian,
             "current_price": current_price,
+            "price_source": p.get("price_source", "CACHED"),
+            "price_timestamp": p.get("price_timestamp", "Reference Data"),
+            "live_change": p.get("live_change", 0.0),
+            "live_change_pct": p.get("live_change_pct", 0.0),
             "action": action,
             "action_code": action_code,
             "action_color": action_color,
@@ -102,6 +106,7 @@ class CBMDecisionEngine:
             "summary_advice": summary_advice,
             "reasons_for": reasons_for,
             "reasons_against": reasons_against,
+            "council_synthesis": analysis.get("council_synthesis", {}),
             "raw_analysis": analysis
         }
 
