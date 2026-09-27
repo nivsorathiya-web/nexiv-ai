@@ -65,6 +65,10 @@ def get_favicon():
     </svg>"""
     return Response(content=svg_favicon, media_type="image/svg+xml")
 
+@app.get("/api/search")
+def search_stocks(q: str = ""):
+    return NexivIndianMarket.search_equities(q)
+
 @app.get("/api/stock/{ticker}")
 def analyze_stock(ticker: str):
     try:
@@ -165,6 +169,19 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             border: 1px solid rgba(226, 232, 240, 0.95);
             box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
         }
+        .dropdown-menu {
+            position: absolute;
+            top: calc(100% + 6px);
+            left: 0;
+            right: 0;
+            z-index: 60;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 1rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            max-height: 280px;
+            overflow-y: auto;
+        }
     </style>
 </head>
 <body class="text-slate-800 min-h-screen pb-24 antialiased selection:bg-amber-100 selection:text-amber-900">
@@ -233,18 +250,26 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         <!-- 1. STOCK DECISION SECTION -->
         <section id="stock-section" class="space-y-4">
-            <!-- Search & Presets Card -->
-            <div class="luxury-card rounded-2xl p-4 transition-all">
+            <!-- Search & Autocomplete Card -->
+            <div class="luxury-card rounded-2xl p-4 transition-all relative">
                 <div class="flex items-center justify-between mb-2">
-                    <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">AUDIT INDIAN OR GLOBAL ASSET</label>
-                    <span class="text-[10px] font-semibold text-slate-400">NSE • BSE • NASDAQ • NYSE</span>
+                    <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">LIVE TYPEAHEAD SEARCH</label>
+                    <span class="text-[10px] font-semibold text-slate-400">SEARCH ANY INDIAN OR US STOCK</span>
                 </div>
-                <div class="flex space-x-2">
+                
+                <div class="relative flex space-x-2">
                     <div class="relative flex-1">
                         <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
-                        <input type="text" id="ticker-input" value="RELIANCE" placeholder="e.g. RELIANCE, TATAMOTORS, TCS, NVDA" 
+                        <input type="text" id="ticker-input" value="RELIANCE" placeholder="Type stock name (e.g. Tata, HDFC, Zomato, Reliance)" 
+                               autocomplete="off"
+                               oninput="handleSearchInput(event)"
+                               onfocus="handleSearchFocus()"
                                class="w-full bg-slate-50 border border-slate-200/90 rounded-xl pl-9 pr-3 py-2.5 text-sm font-bold uppercase text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-500/10 transition-all">
+                        
+                        <!-- Floating Live Search Dropdown -->
+                        <div id="search-dropdown" class="dropdown-menu hidden"></div>
                     </div>
+                    
                     <button onclick="analyzeStock()" id="analyze-btn" class="bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center space-x-1.5 shadow-md shadow-slate-900/10">
                         <span>AUDIT</span>
                         <i class="fa-solid fa-arrow-right text-[10px]"></i>
@@ -253,15 +278,13 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 
                 <!-- Quick Indian & Global Tickers Grid -->
                 <div class="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-slate-100">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">INDIA:</span>
+                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">TRENDING:</span>
                     <button onclick="quickStock('RELIANCE')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">RELIANCE</button>
                     <button onclick="quickStock('TATAMOTORS')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">TATA MOTORS</button>
                     <button onclick="quickStock('TCS')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">TCS</button>
                     <button onclick="quickStock('HDFCBANK')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">HDFC BANK</button>
                     <button onclick="quickStock('ZOMATO')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">ZOMATO</button>
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mx-1">US:</span>
                     <button onclick="quickStock('NVDA')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">NVDA</button>
-                    <button onclick="quickStock('AAPL')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">AAPL</button>
                 </div>
             </div>
 
@@ -278,17 +301,25 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <div id="stock-result" class="space-y-4"></div>
         </section>
 
-        <!-- 2. INDIAN IPO SCANNER & GMP TRACKER -->
+        <!-- 2. INDIAN IPO SCANNER & GMP RADAR -->
         <section id="ipo-section" class="hidden space-y-4">
             
             <!-- Live Indian IPO Tracker Banner -->
             <div class="luxury-card rounded-2xl p-4 shadow-sm space-y-3">
                 <div class="flex items-center justify-between pb-2 border-b border-slate-100">
                     <div>
-                        <h2 class="text-sm font-bold text-slate-900">Live Indian IPOs & GMP Radar</h2>
-                        <p class="text-[10px] text-slate-500 font-medium">Real-Time Grey Market Premium & Jay Ritter Model</p>
+                        <h2 class="text-sm font-bold text-slate-900">Brokerage-Grade Indian IPO Radar</h2>
+                        <p class="text-[10px] text-slate-500 font-medium">Bidding Timelines • Live GMP • Subscription Multipliers • AI Verdicts</p>
                     </div>
                     <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">MAINBOARD & SME</span>
+                </div>
+
+                <!-- IPO Filter Pills -->
+                <div class="flex space-x-1.5 overflow-x-auto pb-1 text-xs font-semibold">
+                    <button id="filter-all" onclick="filterIPOs('ALL')" class="px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all">All IPOs</button>
+                    <button id="filter-open" onclick="filterIPOs('OPEN NOW')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">🟢 Open Now</button>
+                    <button id="filter-upcoming" onclick="filterIPOs('UPCOMING')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">🟡 Upcoming</button>
+                    <button id="filter-listed" onclick="filterIPOs('LISTED')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">🔵 Listed</button>
                 </div>
 
                 <!-- Live IPOs Cards Feed -->
@@ -299,8 +330,8 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <div class="luxury-card rounded-2xl p-4 shadow-sm space-y-3">
                 <div class="flex items-center justify-between pb-2 border-b border-slate-100">
                     <div>
-                        <h3 class="text-xs font-bold text-slate-900 uppercase">Custom IPO Evaluator</h3>
-                        <p class="text-[10px] text-slate-500">Test Any Upcoming or SME IPO</p>
+                        <h3 class="text-xs font-bold text-slate-900 uppercase">Custom Indian IPO Evaluator</h3>
+                        <p class="text-[10px] text-slate-500">Test Any Upcoming Mainboard or SME IPO</p>
                     </div>
                     <span class="text-[10px] font-bold text-slate-400">RITTER 100K+ IPOS</span>
                 </div>
@@ -392,6 +423,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     </main>
 
     <script>
+        let searchDebounceTimeout = null;
+        let cachedIPOs = [];
+
         function switchTab(tab) {
             document.getElementById('stock-section').classList.add('hidden');
             document.getElementById('ipo-section').classList.add('hidden');
@@ -418,6 +452,73 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
         }
 
+        // Live Typeahead Search Engine
+        function handleSearchInput(e) {
+            clearTimeout(searchDebounceTimeout);
+            const query = e.target.value.trim();
+            const dropdown = document.getElementById('search-dropdown');
+
+            if (!query || query.length < 1) {
+                dropdown.classList.add('hidden');
+                dropdown.innerHTML = "";
+                return;
+            }
+
+            searchDebounceTimeout = setTimeout(async () => {
+                try {
+                    const resp = await fetch(`/api/search?q=${encodeURIComponent(query)}`);
+                    const matches = await resp.json();
+                    renderSearchDropdown(matches);
+                } catch (err) {
+                    console.error("Search error:", err);
+                }
+            }, 120);
+        }
+
+        function handleSearchFocus() {
+            const query = document.getElementById('ticker-input').value.trim();
+            if (query.length >= 1) {
+                handleSearchInput({ target: { value: query } });
+            }
+        }
+
+        function renderSearchDropdown(matches) {
+            const dropdown = document.getElementById('search-dropdown');
+            if (!matches || matches.length === 0) {
+                dropdown.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center font-medium">No direct match. Press Audit to query global feeds.</div>`;
+                dropdown.classList.remove('hidden');
+                return;
+            }
+
+            dropdown.innerHTML = matches.map(m => `
+                <div onclick="selectSearchResult('${m.symbol}')" class="px-3.5 py-2.5 hover:bg-slate-50 cursor-pointer flex items-center justify-between border-b border-slate-100 last:border-b-0 transition-colors">
+                    <div>
+                        <div class="text-xs font-bold text-slate-900">${m.name}</div>
+                        <div class="text-[10px] font-mono font-semibold text-slate-500">${m.symbol} • ${m.sector}</div>
+                    </div>
+                    <span class="px-2 py-0.5 rounded text-[9px] font-bold ${m.exchange === 'NSE' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-blue-50 text-blue-700 border border-blue-200'}">
+                        ${m.exchange}
+                    </span>
+                </div>
+            `).join('');
+
+            dropdown.classList.remove('hidden');
+        }
+
+        function selectSearchResult(symbol) {
+            document.getElementById('ticker-input').value = symbol;
+            document.getElementById('search-dropdown').classList.add('hidden');
+            analyzeStock();
+        }
+
+        // Close dropdown when tapping outside
+        document.addEventListener('click', (e) => {
+            const container = document.getElementById('ticker-input').parentElement;
+            if (!container.contains(e.target)) {
+                document.getElementById('search-dropdown').classList.add('hidden');
+            }
+        });
+
         function quickStock(ticker) {
             document.getElementById('ticker-input').value = ticker;
             analyzeStock();
@@ -427,6 +528,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const ticker = document.getElementById('ticker-input').value.trim();
             if (!ticker) return;
 
+            document.getElementById('search-dropdown').classList.add('hidden');
             document.getElementById('stock-loading').classList.remove('hidden');
             document.getElementById('stock-result').innerHTML = "";
 
@@ -650,70 +752,150 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         async function loadLiveIPOs() {
             try {
                 const resp = await fetch('/api/ipos/live');
-                const ipos = await resp.json();
-                const container = document.getElementById('live-ipos-feed');
-                container.innerHTML = "";
-
-                ipos.forEach((ipo, idx) => {
-                    container.innerHTML += `
-                        <div class="p-3.5 rounded-2xl border border-slate-200/80 bg-slate-50/80 hover:bg-white hover:shadow-sm transition-all space-y-2.5">
-                            <div class="flex items-start justify-between">
-                                <div>
-                                    <div class="flex items-center space-x-1.5">
-                                        <span class="text-xs font-bold text-slate-900">${ipo.company_name}</span>
-                                        <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-slate-200 text-slate-700">${ipo.status}</span>
-                                    </div>
-                                    <p class="text-[10px] text-slate-500 font-medium">${ipo.sector} • ${ipo.dates}</p>
-                                </div>
-                                <span class="px-2 py-0.5 rounded-full text-[10px] font-extrabold uppercase" style="background-color: ${ipo.rating_color}15; color: ${ipo.rating_color}; border: 1px solid ${ipo.rating_color}40;">
-                                    ${ipo.rating}
-                                </span>
-                            </div>
-
-                            <div class="grid grid-cols-3 gap-1.5 text-center text-xs">
-                                <div class="bg-white p-2 rounded-xl border border-slate-200/60">
-                                    <span class="text-[9px] font-bold text-slate-400 block uppercase">PRICE BAND</span>
-                                    <span class="font-black text-slate-900 font-mono text-[11px]">₹${ipo.price_min} - ₹${ipo.price_max}</span>
-                                </div>
-                                <div class="bg-white p-2 rounded-xl border border-slate-200/60">
-                                    <span class="text-[9px] font-bold text-slate-400 block uppercase">LOT SIZE</span>
-                                    <span class="font-black text-slate-900 font-mono text-[11px]">${ipo.lot_size} sh (₹${ipo.min_investment})</span>
-                                </div>
-                                <div class="bg-white p-2 rounded-xl border border-slate-200/60">
-                                    <span class="text-[9px] font-bold text-slate-400 block uppercase">LIVE GMP</span>
-                                    <span class="font-black text-emerald-700 font-mono text-[11px]">₹${ipo.gmp} (+${ipo.gmp_pct}%)</span>
-                                </div>
-                            </div>
-
-                            <div class="flex items-center justify-between text-[11px] pt-1 border-t border-slate-200/60">
-                                <span class="text-slate-500 font-medium truncate max-w-[280px]">Fresh: ${ipo.fresh_pct.toFixed(0)}% • OFS: ${ipo.ofs_pct.toFixed(0)}%</span>
-                                <button onclick="auditPresetIPO(${idx})" class="px-3 py-1 bg-slate-900 text-white font-bold rounded-lg text-[10px] hover:bg-slate-800 active:scale-95 transition-all">
-                                    Audit IPO
-                                </button>
-                            </div>
-                        </div>
-                    `;
-                });
+                cachedIPOs = await resp.json();
+                renderIPOList(cachedIPOs);
             } catch (err) {
                 console.error("Failed to load live IPOs:", err);
             }
         }
 
-        async function auditPresetIPO(idx) {
-            const resp = await fetch('/api/ipos/live');
-            const ipos = await resp.json();
-            const ipo = ipos[idx];
+        function filterIPOs(filter) {
+            document.querySelectorAll('#ipo-section .overflow-x-auto button').forEach(b => {
+                b.className = "px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all";
+            });
+
+            if (filter === 'ALL') {
+                document.getElementById('filter-all').className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all";
+                renderIPOList(cachedIPOs);
+            } else if (filter === 'OPEN NOW') {
+                document.getElementById('filter-open').className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all";
+                renderIPOList(cachedIPOs.filter(i => i.status === 'OPEN NOW'));
+            } else if (filter === 'UPCOMING') {
+                document.getElementById('filter-upcoming').className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all";
+                renderIPOList(cachedIPOs.filter(i => i.status === 'UPCOMING'));
+            } else if (filter === 'LISTED') {
+                document.getElementById('filter-listed').className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all";
+                renderIPOList(cachedIPOs.filter(i => i.status.includes('LISTED') || i.status.includes('CLOSED')));
+            }
+        }
+
+        function renderIPOList(ipos) {
+            const container = document.getElementById('live-ipos-feed');
+            if (!ipos || ipos.length === 0) {
+                container.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">No IPOs currently in this category.</div>`;
+                return;
+            }
+
+            container.innerHTML = ipos.map((ipo, idx) => `
+                <div class="luxury-card rounded-2xl p-4 space-y-3 hover:shadow-md transition-all">
+                    <!-- Top Header & Live Status Badge -->
+                    <div class="flex items-start justify-between">
+                        <div>
+                            <div class="flex items-center space-x-2">
+                                <h3 class="text-sm font-extrabold text-slate-900">${ipo.company_name}</h3>
+                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold border ${ipo.status_badge}">
+                                    ${ipo.status}
+                                </span>
+                            </div>
+                            <p class="text-[11px] text-slate-500 font-medium">${ipo.sector} • Symbol: ${ipo.symbol}</p>
+                        </div>
+                        <span class="text-right">
+                            <span class="text-[9px] font-bold text-slate-400 block uppercase">ISSUE SIZE</span>
+                            <span class="text-xs font-extrabold font-mono text-slate-900">₹${ipo.issue_details.issue_size_cr.toLocaleString()} Cr</span>
+                        </span>
+                    </div>
+
+                    <!-- Brokerage 4-Step Interactive Timeline -->
+                    <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/60">
+                        <div class="flex items-center justify-between text-[10px] font-semibold text-slate-400 mb-1">
+                            <span>TIMELINE SCHEDULE</span>
+                            <span class="text-amber-700 font-bold">${ipo.timeline.days_left}</span>
+                        </div>
+                        <div class="grid grid-cols-4 gap-1 text-center text-[10px] pt-1">
+                            <div class="bg-white p-1.5 rounded-lg border border-slate-200/50">
+                                <span class="block text-slate-400 text-[8px] uppercase">BIDDING</span>
+                                <span class="font-bold text-slate-800 truncate block">${ipo.timeline.bidding_dates}</span>
+                            </div>
+                            <div class="bg-white p-1.5 rounded-lg border border-slate-200/50">
+                                <span class="block text-slate-400 text-[8px] uppercase">ALLOTMENT</span>
+                                <span class="font-bold text-slate-800 truncate block">${ipo.timeline.allotment_date}</span>
+                            </div>
+                            <div class="bg-white p-1.5 rounded-lg border border-slate-200/50">
+                                <span class="block text-slate-400 text-[8px] uppercase">DEMAT CREDIT</span>
+                                <span class="font-bold text-slate-800 truncate block">${ipo.timeline.demat_credit}</span>
+                            </div>
+                            <div class="bg-white p-1.5 rounded-lg border border-slate-200/50">
+                                <span class="block text-slate-400 text-[8px] uppercase">LISTING DAY</span>
+                                <span class="font-bold text-slate-800 truncate block">${ipo.timeline.listing_date}</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Brokerage Core Details Grid -->
+                    <div class="grid grid-cols-3 gap-2 text-center text-xs">
+                        <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200/60">
+                            <span class="text-[9px] font-bold text-slate-400 block uppercase">PRICE BAND</span>
+                            <span class="font-black text-slate-900 font-mono text-xs">${ipo.issue_details.price_range}</span>
+                            <span class="text-[9px] text-slate-500 block mt-0.5">Lot: ${ipo.issue_details.lot_size} sh (₹${ipo.issue_details.min_investment.toLocaleString()})</span>
+                        </div>
+                        <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200/60">
+                            <span class="text-[9px] font-bold text-slate-400 block uppercase">LIVE GMP</span>
+                            <span class="font-black ${ipo.gmp.value >= 0 ? 'text-emerald-700' : 'text-rose-600'} font-mono text-xs">
+                                ₹${ipo.gmp.value} (${ipo.gmp.pct > 0 ? '+' : ''}${ipo.gmp.pct}%)
+                            </span>
+                            <span class="text-[9px] text-slate-500 block mt-0.5">Est Listing: ₹${ipo.gmp.expected_listing_price}</span>
+                        </div>
+                        <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200/60">
+                            <span class="text-[9px] font-bold text-slate-400 block uppercase">SUBSCRIPTION</span>
+                            <span class="font-black text-blue-700 font-mono text-xs">${ipo.subscription.total}</span>
+                            <span class="text-[9px] text-slate-500 block mt-0.5">QIB: ${ipo.subscription.qib} • Ret: ${ipo.subscription.retail}</span>
+                        </div>
+                    </div>
+
+                    <!-- Fresh vs OFS Progress Bar -->
+                    <div>
+                        <div class="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
+                            <span>Fresh Issue: ${ipo.issue_details.fresh_pct.toFixed(1)}% (₹${ipo.issue_details.fresh_issue_cr} Cr)</span>
+                            <span>Promoter Exit (OFS): ${ipo.issue_details.ofs_pct.toFixed(1)}% (₹${ipo.issue_details.ofs_cr} Cr)</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex">
+                            <div class="bg-emerald-500 h-full" style="width: ${ipo.issue_details.fresh_pct}%"></div>
+                            <div class="bg-rose-500 h-full" style="width: ${ipo.issue_details.ofs_pct}%"></div>
+                        </div>
+                    </div>
+
+                    <!-- Nexiv.AI Direct Autonomous Verdict Callout -->
+                    <div class="p-3 rounded-xl border flex items-start justify-between space-x-2" style="background-color: ${ipo.ai_decision.action_color}08; border-color: ${ipo.ai_decision.action_color}35;">
+                        <div class="space-y-1">
+                            <div class="flex items-center space-x-2">
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase text-white shadow-xs" style="background-color: ${ipo.ai_decision.action_color};">
+                                    ${ipo.ai_decision.action}
+                                </span>
+                                <span class="text-[10px] font-bold font-mono text-slate-600">NEXIV SCORE: ${ipo.ai_decision.score}/100</span>
+                            </div>
+                            <p class="text-[11px] text-slate-700 leading-snug font-medium">${ipo.ai_decision.summary}</p>
+                        </div>
+                        <button onclick="auditPresetIPO('${ipo.symbol}')" class="px-3 py-1.5 bg-slate-900 text-white font-bold rounded-xl text-xs hover:bg-slate-800 active:scale-95 transition-all shrink-0 self-center">
+                            Full Audit
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        async function auditPresetIPO(symbol) {
+            const ipo = cachedIPOs.find(i => i.symbol === symbol) || cachedIPOs[0];
 
             document.getElementById('ipo-name').value = ipo.company_name;
             document.getElementById('ipo-sector').value = ipo.sector;
-            document.getElementById('ipo-pmin').value = ipo.price_min;
-            document.getElementById('ipo-pmax').value = ipo.price_max;
-            document.getElementById('ipo-rev').value = ipo.annual_revenue;
-            document.getElementById('ipo-growth').value = ipo.growth_rate;
-            document.getElementById('ipo-fresh').value = Math.round((ipo.fresh_issue_cr * 10000000) / ipo.price_max) || 10000000;
-            document.getElementById('ipo-ofs').value = Math.round((ipo.ofs_cr * 10000000) / ipo.price_max) || 10000000;
-            document.getElementById('ipo-gmp').value = ipo.gmp;
-            document.getElementById('ipo-lot').value = ipo.lot_size;
+            document.getElementById('ipo-pmin').value = ipo.issue_details.price_min;
+            document.getElementById('ipo-pmax').value = ipo.issue_details.price_max;
+            document.getElementById('ipo-rev').value = ipo.financials.annual_revenue;
+            document.getElementById('ipo-growth').value = ipo.financials.growth_rate;
+            document.getElementById('ipo-fresh').value = Math.round((ipo.issue_details.fresh_issue_cr * 10000000) / ipo.issue_details.price_max) || 10000000;
+            document.getElementById('ipo-ofs').value = Math.round((ipo.issue_details.ofs_cr * 10000000) / ipo.issue_details.price_max) || 10000000;
+            document.getElementById('ipo-gmp').value = ipo.gmp.value;
+            document.getElementById('ipo-lot').value = ipo.issue_details.lot_size;
 
             evaluateCustomIPO();
         }
