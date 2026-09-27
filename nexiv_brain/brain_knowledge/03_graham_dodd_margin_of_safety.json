@@ -1,0 +1,222 @@
+{
+  "title": "Security Analysis (7th Edition)",
+  "author": "Graham & Dodd (Seth Klarman)",
+  "file": "security-analysis-seventh-edition-principles-and-techniques-7nbsped-1264932405-9781264932405_compress.pdf",
+  "total_pages": 1135,
+  "native_text_status": "100% DIGITAL VECTOR TEXT",
+  "core_principles_and_laws": [
+    "The Principle of Margin of Safety: Price vs. Intrinsic Value buffer",
+    "Net-Current-Asset Value (NCAV / Net-Net) liquidation floor",
+    "Forensic Balance Sheet appraisal (haircut on receivables and inventory)",
+    "Earnings Power Value (EPV) under zero-growth assumptions",
+    "Mr. Market psychological separation of price from business reality"
+  ],
+  "table_of_contents_extract": [
+    {
+      "level": 1,
+      "title": "Cover",
+      "page": 1
+    },
+    {
+      "level": 1,
+      "title": "Title Page",
+      "page": 8
+    },
+    {
+      "level": 1,
+      "title": "Copyright Page",
+      "page": 9
+    },
+    {
+      "level": 1,
+      "title": "Dedication",
+      "page": 10
+    },
+    {
+      "level": 1,
+      "title": "Contents",
+      "page": 12
+    },
+    {
+      "level": 1,
+      "title": "Foreword",
+      "page": 18
+    },
+    {
+      "level": 1,
+      "title": "Preface to the Seventh Edition | The Timeless Wisdom of Graham and Dodd",
+      "page": 20
+    },
+    {
+      "level": 2,
+      "title": "Preface to the Second Edition",
+      "page": 62
+    },
+    {
+      "level": 2,
+      "title": "Preface to the First Edition",
+      "page": 64
+    },
+    {
+      "level": 1,
+      "title": "Introduction to the Seventh Edition | Benjamin Graham and Security Analysis: The Historical Backdrop",
+      "page": 66
+    },
+    {
+      "level": 2,
+      "title": "Introduction to the Second Edition",
+      "page": 88
+    },
+    {
+      "level": 1,
+      "title": "PART I Survey and Approach",
+      "page": 104
+    },
+    {
+      "level": 2,
+      "title": "Introduction to Part I | Benjamin Graham\u2014in His Time and Ours",
+      "page": 106
+    },
+    {
+      "level": 2,
+      "title": "1. The Scope and Limitations of Security Analysis. The Concept of Intrinsic Value",
+      "page": 130
+    },
+    {
+      "level": 2,
+      "title": "2. Fundamental Elements in the Problem of Analysis. Quantitative and Qualitative Factors",
+      "page": 144
+    },
+    {
+      "level": 2,
+      "title": "3. Sources of Information",
+      "page": 158
+    },
+    {
+      "level": 2,
+      "title": "4. Distinctions Between Investment and Speculation",
+      "page": 168
+    },
+    {
+      "level": 2,
+      "title": "5. Classification of Securities",
+      "page": 180
+    },
+    {
+      "level": 1,
+      "title": "PART II Fixed-Value Investments",
+      "page": 188
+    },
+    {
+      "level": 2,
+      "title": "Introduction to Part II | Unshackling Bonds",
+      "page": 190
+    },
+    {
+      "level": 2,
+      "title": "6. The Selection of Fixed-Value Investments",
+      "page": 218
+    },
+    {
+      "level": 2,
+      "title": "7. The Selection of Fixed-Value Investments: Second and Third Principles",
+      "page": 231
+    },
+    {
+      "level": 2,
+      "title": "8. Specific Standards for Bond Investment",
+      "page": 246
+    },
+    {
+      "level": 2,
+      "title": "9. Specific Standards for Bond Investment (Continued) available online",
+      "page": 866
+    },
+    {
+      "level": 2,
+      "title": "10. Specific Standards for Bond Investment (Continued)",
+      "page": 257
+    },
+    {
+      "level": 2,
+      "title": "11. Specific Standards for Bond Investment (Continued) available online",
+      "page": 883
+    },
+    {
+      "level": 2,
+      "title": "12. Special Factors in the Analysis of Railroad and Public-Utility Bonds available online",
+      "page": 895
+    },
+    {
+      "level": 2,
+      "title": "13. Other Special Factors in Bond Analysis available online",
+      "page": 915
+    },
+    {
+      "level": 2,
+      "title": "14. The Theory of Preferred Stocks available online",
+      "page": 921
+    },
+    {
+      "level": 2,
+      "title": "15. Technique of Selecting Preferred Stocks for Investment available online",
+      "page": 933
+    },
+    {
+      "level": 2,
+      "title": "16. Income Bonds and Guaranteed Securities available online",
+      "page": 945
+    },
+    {
+      "level": 2,
+      "title": "17. Guaranteed Securities (Continued)",
+      "page": 267
+    },
+    {
+      "level": 2,
+      "title": "18. Protective Covenants and Remedies of Senior Security Holders",
+      "page": 281
+    },
+    {
+      "level": 2,
+      "title": "19. Protective Covenants (Continued)",
+      "page": 294
+    },
+    {
+      "level": 2,
+      "title": "20. Preferred-Stock Protective Provisions. Maintenance of Junior Capital available online",
+      "page": 958
+    },
+    {
+      "level": 2,
+      "title": "21. Supervision of Investment Holdings",
+      "page": 305
+    },
+    {
+      "level": 1,
+      "title": "PART III Senior Securities with Speculative Features",
+      "page": 314
+    },
+    {
+      "level": 2,
+      "title": "Introduction to Part III | Investing in Distressed Credit",
+      "page": 316
+    },
+    {
+      "level": 2,
+      "title": "22. Privileged Issues",
+      "page": 332
+    },
+    {
+      "level": 2,
+      "title": "23. Technical Characteristics of Privileged Senior Securities",
+      "page": 342
+    }
+  ],
+  "sample_semantic_extracts": [
+    "PART VIII  Contemporary Concepts in Value Investing  International Investing  by Bill Duhamel, Ashish Pant, and Jason Moment  713   At the Intersection of Public and Private Investing: A Case Study  by David Abrams  733   Endowment Management Principles and Practice  by Seth Alexander  745   Appendix  available online    About This Edition  757   A",
+    "Great Financial Crisis, more than a decade of meager interest rates  had driven investors, even conservative ones, into larger and larger  equity allocations. TINA (\u201cThere Is No Alternative\u201d) thinking drove  them out of low-yielding bonds and into stocks and, for many  endowments and pension funds, into illiquid and often risky  alternative investm",
+    "relation to the favored issues. Surely this can be true in theory, since at  some price level the good stocks must turn out to have been selling too  high and the others too low. There are strong, if not conclusive,  reasons for arguing that this point may have already been reached in  1940. The two possible points of weakness in the \u201cgood stocks\u201d ",
+    "Graham and Dodd\u2019s thinking. Our concerns are with industry,  company standing within the industry, quality of management,  interest coverage, capital structure, alternative sources of liquidity,  liquidation value, and covenants. Security Analysis reflects many of  these same concerns.  On company standing: \u201cThe experience of the past decade indica"
+  ]
+}

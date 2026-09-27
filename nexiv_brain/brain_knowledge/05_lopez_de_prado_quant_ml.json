@@ -1,0 +1,222 @@
+{
+  "title": "Advances in Financial Machine Learning",
+  "author": "Marcos L\u00f3pez de Prado",
+  "file": "advances-in-financial-machine-learning-1nbsped-9781119482109-9781119482116-9781119482086.pdf",
+  "total_pages": 489,
+  "native_text_status": "100% DIGITAL VECTOR TEXT",
+  "core_principles_and_laws": [
+    "Fractional Differentiation: Preserving financial market memory with stationary returns",
+    "The Triple-Barrier Method: Dynamic labeling for profit-taking, stop-loss, and holding horizon",
+    "Meta-Labeling & Bet Sizing: Separating signal direction from conviction allocation",
+    "Combating Backtest Overfitting: Deflated Sharpe Ratio (DSR) and Family-Wise Error Rate",
+    "Hierarchical Risk Parity (HRP) portfolio optimization"
+  ],
+  "table_of_contents_extract": [
+    {
+      "level": 1,
+      "title": "About the Author",
+      "page": 25
+    },
+    {
+      "level": 1,
+      "title": "PREAMBLE",
+      "page": 26
+    },
+    {
+      "level": 2,
+      "title": "Chapter 1 Financial Machine Learning as a Distinct Subject",
+      "page": 27
+    },
+    {
+      "level": 3,
+      "title": "1.1 Motivation",
+      "page": 27
+    },
+    {
+      "level": 3,
+      "title": "1.2 The Main Reason Financial Machine Learning Projects Usually Fail",
+      "page": 28
+    },
+    {
+      "level": 3,
+      "title": "1.3 Book Structure",
+      "page": 31
+    },
+    {
+      "level": 3,
+      "title": "1.4 Target Audience",
+      "page": 40
+    },
+    {
+      "level": 3,
+      "title": "1.5 Requisites",
+      "page": 40
+    },
+    {
+      "level": 3,
+      "title": "1.6 FAQs",
+      "page": 41
+    },
+    {
+      "level": 3,
+      "title": "1.7 Acknowledgments",
+      "page": 46
+    },
+    {
+      "level": 3,
+      "title": "Exercises",
+      "page": 47
+    },
+    {
+      "level": 3,
+      "title": "References",
+      "page": 48
+    },
+    {
+      "level": 3,
+      "title": "Bibliography",
+      "page": 49
+    },
+    {
+      "level": 3,
+      "title": "Notes",
+      "page": 50
+    },
+    {
+      "level": 1,
+      "title": "PART 1 DATA ANALYSIS",
+      "page": 51
+    },
+    {
+      "level": 2,
+      "title": "Chapter 2 Financial Data Structures",
+      "page": 52
+    },
+    {
+      "level": 3,
+      "title": "2.1 Motivation",
+      "page": 52
+    },
+    {
+      "level": 3,
+      "title": "2.2 Essential Types of Financial Data",
+      "page": 52
+    },
+    {
+      "level": 3,
+      "title": "2.3 Bars",
+      "page": 55
+    },
+    {
+      "level": 3,
+      "title": "2.4 Dealing with Multi-Product Series",
+      "page": 63
+    },
+    {
+      "level": 3,
+      "title": "2.5 Sampling Features",
+      "page": 70
+    },
+    {
+      "level": 3,
+      "title": "Exercises",
+      "page": 73
+    },
+    {
+      "level": 3,
+      "title": "References",
+      "page": 74
+    },
+    {
+      "level": 2,
+      "title": "Chapter 3 Labeling",
+      "page": 76
+    },
+    {
+      "level": 3,
+      "title": "3.1 Motivation",
+      "page": 76
+    },
+    {
+      "level": 3,
+      "title": "3.2 The Fixed-Time Horizon Method",
+      "page": 76
+    },
+    {
+      "level": 3,
+      "title": "3.3 Computing Dynamic Thresholds",
+      "page": 77
+    },
+    {
+      "level": 3,
+      "title": "3.4 The Triple-Barrier Method",
+      "page": 78
+    },
+    {
+      "level": 3,
+      "title": "3.5 Learning Side and Size",
+      "page": 81
+    },
+    {
+      "level": 3,
+      "title": "3.6 Meta-Labeling",
+      "page": 84
+    },
+    {
+      "level": 3,
+      "title": "3.7 How to Use Meta-Labeling",
+      "page": 86
+    },
+    {
+      "level": 3,
+      "title": "3.8 The Quantamental Way",
+      "page": 88
+    },
+    {
+      "level": 3,
+      "title": "3.9 Dropping Unnecessary Labels",
+      "page": 89
+    },
+    {
+      "level": 3,
+      "title": "Exercises",
+      "page": 90
+    },
+    {
+      "level": 3,
+      "title": "Bibliography",
+      "page": 91
+    },
+    {
+      "level": 3,
+      "title": "Note",
+      "page": 95
+    },
+    {
+      "level": 2,
+      "title": "Chapter 4 Sample Weights",
+      "page": 96
+    },
+    {
+      "level": 3,
+      "title": "4.1 Motivation",
+      "page": 96
+    },
+    {
+      "level": 3,
+      "title": "4.2 Overlapping Outcomes",
+      "page": 96
+    },
+    {
+      "level": 3,
+      "title": "4.3 Number of Concurrent Labels",
+      "page": 97
+    }
+  ],
+  "sample_semantic_extracts": [
+    "14.6 Implementation Shortfall 14.7 Efficiency 14.8 Classification Scores 14.9 Attribution Exercises References Bibliography Notes Chapter 15 Understanding Strategy Risk 15.1 Motivation 15.2 Symmetric Payouts 15.3 Asymmetric Payouts 15.4 The Probability of Strategy Failure Exercises References Chapter 16 Machine Learning Asset Allocation 16.1 Motiva",
+    "PART 1  Data Analysis Chapter 2 Financial Data Structures Chapter 3 Labeling Chapter 4 Sample Weights Chapter 5 Fractionally Differentiated Features",
+    "reduce the undue influence of outcomes that contain redundant information. Accordingly, we could sample only a fraction out['tW'].mean() of the observations, or a small multiple of that. In sklearn, the sklearn.ensemble.BaggingClassifier class accepts an argument max_samples, which can be set to max_samples=out['tW'].mean(). In this way, we enforce",
+    "10.5 Repeat exercise 1, where you discretize m with a stepSize=.01, stepSize=.05, and stepSize=.1. 10.6 Rewrite the equations in Section 10.6, so that the bet size is determined by a power function rather than a sigmoid function. 10.7 Modify Snippet 10.4 so that it implements the equations you derived in exercise 6. REFERENCES L\u00f3pez de Prado, M. an"
+  ]
+}

@@ -1,0 +1,223 @@
+{
+  "title": "Valuation (University Edition)",
+  "author": "McKinsey & Co. (Tim Koller)",
+  "file": "Mesuaring-and-Managing-Value-of-Company-7th-version.pdf",
+  "total_pages": 862,
+  "native_text_status": "100% DIGITAL VECTOR TEXT",
+  "core_principles_and_laws": [
+    "The Fundamental Principle of Value Creation: Value = f(ROIC, Growth)",
+    "The Key Value Driver Equation: V = NOPAT*(1 - g/ROIC) / (WACC - g)",
+    "Economic Value Added (EVA) = Invested Capital * (ROIC - WACC)",
+    "NOPAT reconciliation from reported Operating Income",
+    "Invested Capital decomposition (Working Capital + Net PP&E + Intangibles)",
+    "Continuing Value economic decay dynamics"
+  ],
+  "table_of_contents_extract": [
+    {
+      "level": 1,
+      "title": "Valuation University Edition, Fifth Edition: Measuring and Managing the Value of Companies",
+      "page": 5
+    },
+    {
+      "level": 2,
+      "title": "Contents",
+      "page": 7
+    },
+    {
+      "level": 2,
+      "title": "About the Authors",
+      "page": 11
+    },
+    {
+      "level": 2,
+      "title": "Preface",
+      "page": 13
+    },
+    {
+      "level": 2,
+      "title": "Acknowledgments",
+      "page": 17
+    },
+    {
+      "level": 2,
+      "title": "Part One: Foundations of Value",
+      "page": 23
+    },
+    {
+      "level": 3,
+      "title": "Chapter 1: Why Value Value?",
+      "page": 25
+    },
+    {
+      "level": 4,
+      "title": "CONSEQUENCES OF FORGETTING TO VALUE VALUE",
+      "page": 27
+    },
+    {
+      "level": 4,
+      "title": "BENEFITS OF FOCUSING ON LONG-TERM VALUE",
+      "page": 32
+    },
+    {
+      "level": 4,
+      "title": "CHALLENGES OF FOCUSING ON LONG-TERM VALUE",
+      "page": 34
+    },
+    {
+      "level": 4,
+      "title": "REVIEW QUESTIONS",
+      "page": 36
+    },
+    {
+      "level": 3,
+      "title": "Chapter 2: Fundamental Principles of Value Creation",
+      "page": 39
+    },
+    {
+      "level": 4,
+      "title": "GROWTH AND ROIC: DRIVERS OF VALUE",
+      "page": 39
+    },
+    {
+      "level": 4,
+      "title": "CONSERVATION OF VALUE",
+      "page": 48
+    },
+    {
+      "level": 4,
+      "title": "RISK AND VALUE CREATION",
+      "page": 57
+    },
+    {
+      "level": 4,
+      "title": "THE MATH OF VALUE CREATION",
+      "page": 61
+    },
+    {
+      "level": 4,
+      "title": "SUMMARY",
+      "page": 65
+    },
+    {
+      "level": 4,
+      "title": "REVIEW QUESTIONS",
+      "page": 66
+    },
+    {
+      "level": 3,
+      "title": "Chapter 3: The Expectations Treadmill",
+      "page": 67
+    },
+    {
+      "level": 4,
+      "title": "WHY SHAREHOLDER EXPECTATIONS BECOME A TREADMILL",
+      "page": 68
+    },
+    {
+      "level": 4,
+      "title": "REAL-WORLD EFFECTS OF THE EXPECTATIONS TREADMILL",
+      "page": 70
+    },
+    {
+      "level": 4,
+      "title": "DECOMPOSING TRS",
+      "page": 72
+    },
+    {
+      "level": 4,
+      "title": "UNDERSTANDING EXPECTATIONS",
+      "page": 76
+    },
+    {
+      "level": 4,
+      "title": "MANAGERIAL IMPLICATIONS",
+      "page": 77
+    },
+    {
+      "level": 4,
+      "title": "REVIEW QUESTIONS",
+      "page": 79
+    },
+    {
+      "level": 3,
+      "title": "Chapter 4: Return on Invested Capital",
+      "page": 81
+    },
+    {
+      "level": 4,
+      "title": "DRIVERS OF RETURN ON INVESTED CAPITAL",
+      "page": 82
+    },
+    {
+      "level": 4,
+      "title": "COMPETITIVE ADVANTAGE",
+      "page": 84
+    },
+    {
+      "level": 4,
+      "title": "SUSTAINABILITY OF RETURN ON INVESTED CAPITAL",
+      "page": 90
+    },
+    {
+      "level": 4,
+      "title": "EMPIRICAL ANALYSIS OF RETURNS ON INVESTED CAPITAL",
+      "page": 92
+    },
+    {
+      "level": 4,
+      "title": "SUMMARY",
+      "page": 101
+    },
+    {
+      "level": 4,
+      "title": "REVIEW QUESTIONS",
+      "page": 101
+    },
+    {
+      "level": 3,
+      "title": "Chapter 5: Growth",
+      "page": 103
+    },
+    {
+      "level": 4,
+      "title": "DRIVERS OF REVENUE GROWTH",
+      "page": 104
+    },
+    {
+      "level": 4,
+      "title": "GROWTH AND VALUE CREATION",
+      "page": 107
+    },
+    {
+      "level": 4,
+      "title": "DIFFICULTY OF SUSTAINING GROWTH",
+      "page": 111
+    },
+    {
+      "level": 4,
+      "title": "EMPIRICAL ANALYSIS OF CORPORATE GROWTH",
+      "page": 114
+    },
+    {
+      "level": 4,
+      "title": "SUMMARY",
+      "page": 121
+    },
+    {
+      "level": 4,
+      "title": "REVIEW QUESTIONS",
+      "page": 122
+    },
+    {
+      "level": 2,
+      "title": "Part Two: Core Valuation Techniques",
+      "page": 123
+    }
+  ],
+  "sample_semantic_extracts": [
+    "xiv PREFACE uncertainty and \ufb02exibility affect value, and how to apply option pricing theory and decision trees in valuations. WHAT\u2019S NEW ABOUT THE FIFTH EDITION Most of the case examples and empirical analyses have been updated, and we have re\ufb02ected changes in accounting rules. We have enhanced the global perspective in the book with extensive exam",
+    "CONSERVATION OF VALUE 29 Managerial Implications The conservation of value principle is so useful because it tells what to look for when analyzing whether some action will create value: the cash \ufb02ow impact and nothing else. This principle applies across a wide range of important busi- ness decisions, such as accounting policy (Chapter 16), acquisit",
+    "REVIEW QUESTIONS 79 same grouping (a 57 percent probability for those with ROIC below 10 percent, and a 67 percent probability for those with ROIC above 20 percent). Even among companies whose ROIC was between 10 and 20 percent, the greatest probability (40 percent) was for remaining in the same grouping 10 years later. These results show that high",
+    "CREDIT HEALTH AND CAPITAL STRUCTURE 179 Home Depot \u20137.9 Lowe\u2019s  \u20130.1 Revenues Home Depot \u20139.5 Lowe\u2019s  \u20137.1 Revenues/store Home Depot  1.8 Lowe\u2019s  7.5 Number of stores Dollars/ transaction Home Depot \u20136.5 Lowe\u2019s  \u20134.4 Transactions/store Home Depot \u20133.3 Lowe\u2019s  \u20132.8 Transactions/ square foot Home Depot \u20130.5 Lowe\u2019s  0.0 Square feet/store Home Depot \u20136"
+  ]
+}

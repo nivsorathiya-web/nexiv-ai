@@ -1,0 +1,223 @@
+{
+  "title": "Investment Valuation (3rd Edition)",
+  "author": "Aswath Damodaran",
+  "file": "investment-valuation-3rd-edition.pdf",
+  "total_pages": 949,
+  "native_text_status": "100% DIGITAL VECTOR TEXT",
+  "core_principles_and_laws": [
+    "DCF Mechanics (FCFF and FCFE equations)",
+    "Equity Risk Premium estimation across 150+ countries",
+    "Pure-play Unlevered and Relevered Beta adjustments",
+    "R&D capitalization and Operating Lease capitalization into debt",
+    "Terminal value boundary conditions (Terminal growth <= Risk-free rate)",
+    "Distressed firm valuation trees with liquidation probability"
+  ],
+  "table_of_contents_extract": [
+    {
+      "level": 1,
+      "title": "Series",
+      "page": 13
+    },
+    {
+      "level": 1,
+      "title": "Title Page",
+      "page": 14
+    },
+    {
+      "level": 1,
+      "title": "Copyright",
+      "page": 15
+    },
+    {
+      "level": 1,
+      "title": "Dedication",
+      "page": 16
+    },
+    {
+      "level": 1,
+      "title": "Preface to the Third Edition",
+      "page": 17
+    },
+    {
+      "level": 1,
+      "title": "Chapter 1: Introduction to Valuation",
+      "page": 18
+    },
+    {
+      "level": 2,
+      "title": "A PHILOSOPHICAL BASIS FOR VALUATION",
+      "page": 18
+    },
+    {
+      "level": 2,
+      "title": "GENERALITIES ABOUT VALUATION",
+      "page": 19
+    },
+    {
+      "level": 2,
+      "title": "THE ROLE OF VALUATION",
+      "page": 22
+    },
+    {
+      "level": 2,
+      "title": "CONCLUSION",
+      "page": 25
+    },
+    {
+      "level": 2,
+      "title": "QUESTIONS AND SHORT PROBLEMS",
+      "page": 25
+    },
+    {
+      "level": 1,
+      "title": "Chapter 2: Approaches to Valuation",
+      "page": 27
+    },
+    {
+      "level": 2,
+      "title": "DISCOUNTED CASH FLOW VALUATION",
+      "page": 27
+    },
+    {
+      "level": 2,
+      "title": "RELATIVE VALUATION",
+      "page": 34
+    },
+    {
+      "level": 2,
+      "title": "CONTINGENT CLAIM VALUATION",
+      "page": 37
+    },
+    {
+      "level": 2,
+      "title": "CONCLUSION",
+      "page": 39
+    },
+    {
+      "level": 2,
+      "title": "QUESTIONS AND SHORT PROBLEMS",
+      "page": 40
+    },
+    {
+      "level": 1,
+      "title": "Chapter 3: Understanding Financial Statements",
+      "page": 42
+    },
+    {
+      "level": 2,
+      "title": "THE BASIC ACCOUNTING STATEMENTS",
+      "page": 42
+    },
+    {
+      "level": 2,
+      "title": "ASSET MEASUREMENT AND VALUATION",
+      "page": 44
+    },
+    {
+      "level": 2,
+      "title": "MEASURING FINANCING MIX",
+      "page": 50
+    },
+    {
+      "level": 2,
+      "title": "MEASURING EARNINGS AND PROFITABILITY",
+      "page": 56
+    },
+    {
+      "level": 2,
+      "title": "MEASURING RISK",
+      "page": 61
+    },
+    {
+      "level": 2,
+      "title": "OTHER ISSUES IN ANALYZING FINANCIAL STATEMENTS",
+      "page": 67
+    },
+    {
+      "level": 2,
+      "title": "CONCLUSION",
+      "page": 69
+    },
+    {
+      "level": 2,
+      "title": "QUESTIONS AND SHORT PROBLEMS",
+      "page": 69
+    },
+    {
+      "level": 1,
+      "title": "Chapter 4: The Basics of Risk",
+      "page": 73
+    },
+    {
+      "level": 2,
+      "title": "WHAT IS RISK?",
+      "page": 73
+    },
+    {
+      "level": 2,
+      "title": "EQUITY RISK AND EXPECTED RETURN",
+      "page": 74
+    },
+    {
+      "level": 2,
+      "title": "ALTERNATIVE MODELS FOR EQUITY RISK",
+      "page": 85
+    },
+    {
+      "level": 2,
+      "title": "A COMPARATIVE ANALYSIS OF EQUITY RISK MODELS",
+      "page": 90
+    },
+    {
+      "level": 2,
+      "title": "MODELS OF DEFAULT RISK",
+      "page": 91
+    },
+    {
+      "level": 2,
+      "title": "CONCLUSION",
+      "page": 94
+    },
+    {
+      "level": 2,
+      "title": "QUESTIONS AND SHORT PROBLEMS",
+      "page": 95
+    },
+    {
+      "level": 1,
+      "title": "Chapter 5: Option Pricing Theory and Models",
+      "page": 101
+    },
+    {
+      "level": 2,
+      "title": "BASICS OF OPTION PRICING",
+      "page": 101
+    },
+    {
+      "level": 2,
+      "title": "DETERMINANTS OF OPTION VALUE",
+      "page": 102
+    },
+    {
+      "level": 2,
+      "title": "OPTION PRICING MODELS",
+      "page": 104
+    },
+    {
+      "level": 2,
+      "title": "EXTENSIONS OF OPTION PRICING",
+      "page": 117
+    },
+    {
+      "level": 2,
+      "title": "CONCLUSION",
+      "page": 119
+    }
+  ],
+  "sample_semantic_extracts": [
+    "I would like to dedicate this book to Michele, whose patience and support made it possible, and to my four children\u2014Ryan, Brendan, Kendra, and Kiran\u2014who provided the inspiration.",
+    "inextricably linked to the way they value assets. Since assets are primarily valued at historical cost or at book value, both debt and equity also get measured primarily at book value. The next section examines the accounting measurement of both liabilities and equity. Measuring the Value of Liabilities and Equities Accountants categorize liabiliti",
+    "CHAPTER 5 Option Pricing Theory and Models In general, the value of any asset is the present value of the expected cash flows on that asset. This chapter considers an exception to that rule when it looks at assets with two specific characteristics: 1. The assets derive their value from the values of other assets. 2. The cash flows on the assets are",
+    "While operating leverage affects betas, it is difficult to measure the operating leverage of a firm, at least from the outside, since fixed and variable costs are often aggregated in income statements. It is possible to get an approximate measure of the operating leverage of a firm by looking at changes in operating income as a function of changes "
+  ]
+}

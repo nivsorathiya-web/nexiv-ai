@@ -1,0 +1,48 @@
+{
+  "books_catalog": [
+    {
+      "title": "Investment Valuation (3rd Edition)",
+      "author": "Aswath Damodaran",
+      "pages": 949,
+      "vault_file": "01_damodaran_valuation_laws.json"
+    },
+    {
+      "title": "Valuation (University Edition)",
+      "author": "McKinsey & Co. (Tim Koller)",
+      "pages": 862,
+      "vault_file": "02_mckinsey_value_creation.json"
+    },
+    {
+      "title": "Security Analysis (7th Edition)",
+      "author": "Graham & Dodd (Seth Klarman)",
+      "pages": 1135,
+      "vault_file": "03_graham_dodd_margin_of_safety.json"
+    },
+    {
+      "title": "Principles of Corporate Finance (7th Edition)",
+      "author": "Richard Brealey & Stewart Myers",
+      "pages": 1062,
+      "vault_file": "04_brealey_myers_corporate_finance.json"
+    },
+    {
+      "title": "Advances in Financial Machine Learning",
+      "author": "Marcos L\u00f3pez de Prado",
+      "pages": 489,
+      "vault_file": "05_lopez_de_prado_quant_ml.json"
+    },
+    {
+      "title": "Financial Shenanigans (4th Edition)",
+      "author": "Howard Schilit & Jeremy Perler",
+      "pages": 312,
+      "vault_file": "06_schilit_forensic_shenanigans.json"
+    },
+    {
+      "title": "The Most Important Thing Illuminated",
+      "author": "Howard Marks (Oaktree)",
+      "pages": 244,
+      "vault_file": "07_marks_cycles_and_psychology.json"
+    }
+  ],
+  "total_pages_ingested": 5053,
+  "status": "COMPILED"
+}
