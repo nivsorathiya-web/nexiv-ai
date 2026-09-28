@@ -10,18 +10,18 @@ class CBMIPOEngine:
     
     @staticmethod
     def evaluate_ipo(
-        company_name,
-        sector,
-        offer_price_min,
-        offer_price_max,
-        shares_offered,
-        fresh_issue_shares,
-        ofs_shares,
-        pre_ipo_shares,
-        annual_revenue,
-        annual_growth_rate,
-        operating_cash_flow,
-        pre_ipo_cash,
+        company_name="Unlisted Enterprise",
+        sector="Technology",
+        offer_price_min=100.0,
+        offer_price_max=100.0,
+        shares_offered=1000000.0,
+        fresh_issue_shares=700000.0,
+        ofs_shares=300000.0,
+        pre_ipo_shares=10000000.0,
+        annual_revenue=100000000.0,
+        annual_growth_rate=0.20,
+        operating_cash_flow=10000000.0,
+        pre_ipo_cash=50000000.0,
         monthly_cash_burn=None,
         country="India"
     ):

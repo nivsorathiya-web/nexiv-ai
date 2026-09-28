@@ -186,7 +186,7 @@ EXECUTION & COMMUNICATION RULES:
         
         contents.append({"role": "user", "parts": [{"text": final_prompt}]})
 
-        candidate_models = ["gemini-flash-latest", "gemini-3.8-flash", "gemini-3.6-flash"]
+        candidate_models = ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-1.5-flash-latest", "gemini-1.5-pro"]
         is_news = NexivNewsEngine.is_news_query(prompt)
         payload = {
             "contents": contents,
@@ -898,9 +898,7 @@ Charlie Munger's core principles encoded into Nexiv AI:
                 pass
 
             # Graceful automatic switch to our normal autonomous council brain
-            auto_reply = cls.autonomous_brain_response(user_text)
-            notice = "> ⚡ *Your model limit (Gemini) is reached. Switched to our normal autonomous brain.*\n\n"
-            return notice + auto_reply
+            return cls.autonomous_brain_response(user_text)
 
         # Autonomous Brain Mode (Zero Keys)
         return cls.autonomous_brain_response(user_text)

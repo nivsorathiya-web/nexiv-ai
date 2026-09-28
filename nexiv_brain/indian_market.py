@@ -12,6 +12,7 @@ class NexivIndianMarket:
     SEARCH_CATALOG = [
         # Nifty 50 & Heavyweights
         {"symbol": "RELIANCE.NS", "name": "Reliance Industries Limited", "sector": "Energy & Telecom", "exchange": "NSE", "keywords": "reliance jio rIL mukesh ambani oil retail"},
+        {"symbol": "TATAMOTORS.NS", "name": "Tata Motors Limited", "sector": "Automotive & EV", "exchange": "NSE", "keywords": "tata motors tatamotors tm jlr ev tiago nexon harrier safari passenger commercial vehicles"},
         {"symbol": "TMPV.NS", "name": "Tata Motors Passenger Vehicles Ltd", "sector": "Automotive", "exchange": "NSE", "keywords": "tata motors tm jlr ev tiago nexon harrier safari passenger vehicles"},
         {"symbol": "TMCV.NS", "name": "Tata Motors Commercial Vehicles Ltd", "sector": "Commercial Vehicles", "exchange": "NSE", "keywords": "tata motors commercial vehicles trucks buses tmcv"},
         {"symbol": "TCS.NS", "name": "Tata Consultancy Services Ltd", "sector": "Technology", "exchange": "NSE", "keywords": "tata tcs it services software tech"},
@@ -105,6 +106,10 @@ class NexivIndianMarket:
         {"symbol": "META", "name": "Meta Platforms, Inc.", "sector": "Social Media & AI", "exchange": "NASDAQ", "keywords": "meta facebook instagram whatsapp zuckerberg llama"},
         {"symbol": "KO", "name": "The Coca-Cola Company", "sector": "Consumer Defensive", "exchange": "NYSE", "keywords": "coca cola soda beverage warren buffett buffet coke"}
     ]
+
+    @classmethod
+    def search_instruments(cls, query: str):
+        return cls.search_equities(query)
 
     @classmethod
     def search_equities(cls, query: str):
@@ -839,6 +844,8 @@ class NexivIndianMarket:
         ipo = dict(raw_ipo)
         ipo["status"] = status
         ipo["status_badge"] = status_badge
+        ipo["currency"] = "₹"
+        ipo["country"] = "India"
         ipo["timeline"] = {
             "bidding_dates": bidding_str,
             "open_date": fmt(open_dt),
