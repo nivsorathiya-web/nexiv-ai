@@ -119,35 +119,38 @@ Always state exact facts: Moneyview, Snapdeal/AceVector, Orient Cables, Runwal E
             if sym_clean in tokens or sym_clean in raw:
                 matched_stock = item
                 break
-            # Specific alias triggers
-            if "tata motor" in raw or "tatamotor" in raw:
+            # Specific alias & typo triggers
+            if any(w in raw for w in ["tata motor", "tatamotor", "tatamotors", "tata"]):
                 matched_stock = {"symbol": "TMPV.NS", "name": "Tata Motors Passenger Vehicles Ltd"}
                 break
-            if "zomato" in raw or "blinkit" in raw or "eternal" in raw:
+            if any(w in raw for w in ["zomato", "zomto", "blinkit", "eternal"]):
                 matched_stock = {"symbol": "ETERNAL.NS", "name": "Zomato Limited (Eternal Ltd)"}
                 break
-            if "reliance" in raw or "jio" in raw or "ril" in tokens:
+            if any(w in raw for w in ["reliance", "relince", "relianc", "jio", "ambani"]) or "ril" in tokens:
                 matched_stock = {"symbol": "RELIANCE.NS", "name": "Reliance Industries Limited"}
                 break
-            if "sbi" in tokens or "state bank" in raw:
+            if any(w in raw for w in ["sbi", "state bank", "sbin"]):
                 matched_stock = {"symbol": "SBIN.NS", "name": "State Bank of India"}
                 break
-            if "hdfc" in tokens:
+            if "hdfc" in raw:
                 matched_stock = {"symbol": "HDFCBANK.NS", "name": "HDFC Bank Limited"}
                 break
-            if "tcs" in tokens:
+            if any(w in raw for w in ["infosys", "infy", "infosis"]):
+                matched_stock = {"symbol": "INFY.NS", "name": "Infosys Limited"}
+                break
+            if "tcs" in tokens or "tata consult" in raw:
                 matched_stock = {"symbol": "TCS.NS", "name": "Tata Consultancy Services Ltd"}
                 break
             if "itc" in tokens:
                 matched_stock = {"symbol": "ITC.NS", "name": "ITC Limited"}
                 break
-            if "apple" in tokens or "aapl" in tokens:
+            if "apple" in raw or "aapl" in tokens:
                 matched_stock = {"symbol": "AAPL", "name": "Apple Inc."}
                 break
-            if "nvidia" in tokens or "nvda" in tokens:
+            if "nvidia" in raw or "nvda" in tokens:
                 matched_stock = {"symbol": "NVDA", "name": "NVIDIA Corporation"}
                 break
-            if "tesla" in tokens or "tsla" in tokens:
+            if "tesla" in raw or "tsla" in tokens:
                 matched_stock = {"symbol": "TSLA", "name": "Tesla, Inc."}
                 break
 
@@ -218,7 +221,7 @@ Always state exact facts: Moneyview, Snapdeal/AceVector, Orient Cables, Runwal E
                 return reply
 
         # 3. Check for specific Titans book concepts
-        if any(w in raw for w in ["schilit", "shenanigan", "fraud", "manipulation", "accounting trick"]):
+        if any(w in raw for w in ["schilit", "shenanigan", "fraud", "manipulat", "accounting trick", "fake revenue", "fake profit", "fake account", "fake accounting", "lying on balance sheet", "balance sheet lie", "cheat", "scam"]):
             return """### 🔍 Howard Schilit's 7 Financial Shenanigans (from *Financial Shenanigans*, 4th Ed)
 
 Nexiv AI's Forensic Auditor tests every company against these 7 exact rules:
@@ -232,7 +235,7 @@ Nexiv AI's Forensic Auditor tests every company against these 7 exact rules:
 
 💡 *Our Council Flag*: When Days Sales Outstanding (DSO) or Receivables grow faster than Revenue, Schilit warns of aggressive revenue pulling."""
 
-        if any(w in raw for w in ["margin of safety", "graham", "dodd", "buffett", "value investing"]):
+        if any(w in raw for w in ["margin of safety", "graham", "dodd", "buffett", "value investing", "safe price", "fair price", "net net", "liquidation floor"]):
             return """### 🛡️ Benjamin Graham & David Dodd's Margin of Safety (from *Security Analysis*, 7th Ed)
 
 The central pillar of institutional capital preservation:
@@ -242,7 +245,7 @@ The central pillar of institutional capital preservation:
 
 💡 In Nexiv.AI, our engine calculates Graham's Net-Net Liquidation Value and Earning Power Value (EPV) before greenlighting any stock purchase."""
 
-        if any(w in raw for w in ["damodaran", "dcf", "wacc", "discounted cash flow", "valuation"]):
+        if any(w in raw for w in ["damodaran", "dcf", "wacc", "discounted cash flow", "discounted cash", "valuation", "intrinsic value", "cost of capital", "how to value"]):
             return """### 📊 Aswath Damodaran's Valuation Framework (from *Investment Valuation*, 3rd Ed)
 
 Professor Damodaran's immutable laws encoded into Nexiv.AI:
@@ -251,13 +254,29 @@ Professor Damodaran's immutable laws encoded into Nexiv.AI:
 3. **The Reinvestment Hurdle**: Growth without Return on Invested Capital (ROIC) greater than WACC destroys shareholder value.
 4. **Terminal Value Discipline**: A company's terminal growth rate can NEVER exceed the long-term risk-free GDP growth rate of the economy in which it operates (~5.5% in India)."""
 
-        if any(w in raw for w in ["ritter", "ipo rule", "underpricing", "listing gain"]):
+        if any(w in raw for w in ["ritter", "ipo rule", "underpricing", "listing gain", "grey market", "gmp meaning", "how ipo works"]):
             return """### 📈 Professor Jay Ritter's IPO Laws (University of Florida IPO Database)
 
 Learnings from 40+ years of global and Indian IPO performance:
 1. **The First-Day Underpricing Paradox**: High-GMP IPOs pop 20%–50% on Day 1 to reward institutional anchor investors (QIBs), but retail investors who buy at the peak often get trapped.
 2. **The 3-Year Underperformance Curve**: Over 70% of heavily hyped IPOs underperform market indices over 3 years unless they generate genuine operating cash flow.
 3. **The OFS Red Flag**: Issues where Offer for Sale (OFS) exceeds 50% have statistically lower 5-year compounding returns than 100% Fresh Issue offerings."""
+
+        if any(w in raw for w in ["lopez de prado", "marcos", "bet size", "sizing", "kelly", "how much money", "allocation"]):
+            return """### ⚖️ Marcos López de Prado's Quantitative Bet Sizing (from *Advances in Financial Machine Learning*)
+
+Capital Preservation & Sizing Laws:
+1. **Never Bet the Farm**: Even the highest-conviction thesis has non-zero probability of ruin.
+2. **Half-Kelly Criterion**: We compute the Kelly fraction $f^* = \frac{p \cdot b - q}{b}$ and scale down by 50% (Half-Kelly) to prevent drawdowns from market volatility.
+3. **Triple Barrier Defense**: Every position has three simultaneous barriers — Profit Take Target, Stop-Loss Floor, and Time Horizon Expiration."""
+
+        if any(w in raw for w in ["howard marks", "marks", "oaktree", "cycle", "bear market", "bull market", "second level"]):
+            return """### 🔄 Howard Marks' Market Cycles & Risk (from *The Most Important Thing*)
+
+Principles from Oaktree Capital's legendary chairman:
+1. **Rule Number One**: Most things will prove to be cyclical.
+2. **Rule Number Two**: Some of the greatest opportunities for gain and loss come when other people forget Rule Number One.
+3. **Second-Level Thinking**: First-level thinking says: *"It's a good company, let's buy the stock."* Second-level thinking says: *"It's a good company, but everybody thinks it's a great company, and it's not. So the stock is overrated and overpriced; let's sell."*"""
 
         # 4. General Financial Guidance
         return f"""### 🧠 Nexiv AI Council Assistant
