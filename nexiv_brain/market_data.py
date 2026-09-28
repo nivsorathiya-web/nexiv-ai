@@ -74,7 +74,34 @@ class CBMMarketDataProvider:
         "ZOMATO.NS": {"price": 335.00, "name": "Zomato Limited", "sector": "Consumer Cyclical", "country": "India", "shares": 8820000000, "rev": 185000000000, "ebit": 12000000000, "net": 9500000000, "cash": 140000000000, "assets": 280000000000, "debt": 0, "cagr": 0.52, "beta": 1.45},
         "SBIN.NS": {"price": 983.00, "name": "State Bank of India", "sector": "Public Banking", "country": "India", "shares": 8924000000, "rev": 4200000000000, "ebit": 1100000000000, "net": 670000000000, "cash": 2800000000000, "assets": 61000000000000, "debt": 5000000000000, "cagr": 0.16, "beta": 1.05},
         "ITC.NS": {"price": 269.00, "name": "ITC Limited", "sector": "Consumer Defensive", "country": "India", "shares": 12490000000, "rev": 765000000000, "ebit": 260000000000, "net": 205000000000, "cash": 110000000000, "assets": 920000000000, "debt": 0, "cagr": 0.09, "beta": 0.65},
-        "TATASTEEL.NS": {"price": 158.00, "name": "Tata Steel Limited", "sector": "Basic Materials", "country": "India", "shares": 12480000000, "rev": 2290000000000, "ebit": 230000000000, "net": 40000000000, "cash": 120000000000, "assets": 2800000000000, "debt": 870000000000, "cagr": 0.08, "beta": 1.25}
+        "TATASTEEL.NS": {"price": 158.00, "name": "Tata Steel Limited", "sector": "Basic Materials", "country": "India", "shares": 12480000000, "rev": 2290000000000, "ebit": 230000000000, "net": 40000000000, "cash": 120000000000, "assets": 2800000000000, "debt": 870000000000, "cagr": 0.08, "beta": 1.25},
+
+        # Silver ETFs (India)
+        "SILVERIETF.NS": {"price": 221.50, "name": "ICICI Prudential Silver ETF", "sector": "ETF - Precious Metals", "asset_type": "ETF", "country": "India", "shares": 250000000, "rev": 5000000000, "ebit": 500000000, "net": 500000000, "cash": 500000000, "assets": 5500000000, "debt": 0, "cagr": 0.18, "beta": 0.85},
+        "SILVERBEES.NS": {"price": 212.00, "name": "Nippon India Silver ETF", "sector": "ETF - Precious Metals", "asset_type": "ETF", "country": "India", "shares": 300000000, "rev": 6000000000, "ebit": 600000000, "net": 600000000, "cash": 600000000, "assets": 6500000000, "debt": 0, "cagr": 0.18, "beta": 0.85},
+        "HDFCSILVER.NS": {"price": 211.60, "name": "HDFC Silver ETF", "sector": "ETF - Precious Metals", "asset_type": "ETF", "country": "India", "shares": 150000000, "rev": 3000000000, "ebit": 300000000, "net": 300000000, "cash": 300000000, "assets": 3200000000, "debt": 0, "cagr": 0.18, "beta": 0.85},
+        
+        # Gold ETFs (India)
+        "GOLDBEES.NS": {"price": 121.80, "name": "Nippon India ETF Gold BeES", "sector": "ETF - Gold Bullion", "asset_type": "ETF", "country": "India", "shares": 900000000, "rev": 11000000000, "ebit": 1100000000, "net": 1100000000, "cash": 1100000000, "assets": 12000000000, "debt": 0, "cagr": 0.14, "beta": 0.15},
+        "GOLDETF.NS": {"price": 143.50, "name": "ICICI Prudential Gold ETF", "sector": "ETF - Gold Bullion", "asset_type": "ETF", "country": "India", "shares": 400000000, "rev": 5700000000, "ebit": 570000000, "net": 570000000, "cash": 570000000, "assets": 6000000000, "debt": 0, "cagr": 0.14, "beta": 0.15},
+        "SETFGOLD.NS": {"price": 125.60, "name": "SBI Gold ETF", "sector": "ETF - Gold Bullion", "asset_type": "ETF", "country": "India", "shares": 350000000, "rev": 4400000000, "ebit": 440000000, "net": 440000000, "cash": 440000000, "assets": 4500000000, "debt": 0, "cagr": 0.14, "beta": 0.15},
+
+        # Major Index ETFs (India)
+        "NIFTYBEES.NS": {"price": 260.70, "name": "Nippon India ETF Nifty 50 BeES", "sector": "ETF - Index", "asset_type": "ETF", "country": "India", "shares": 1000000000, "rev": 25000000000, "ebit": 2500000000, "net": 2500000000, "cash": 2500000000, "assets": 26000000000, "debt": 0, "cagr": 0.13, "beta": 1.00},
+        "BANKBEES.NS": {"price": 566.50, "name": "Nippon India ETF Nifty Bank BeES", "sector": "ETF - Banking", "asset_type": "ETF", "country": "India", "shares": 250000000, "rev": 14000000000, "ebit": 1400000000, "net": 1400000000, "cash": 1400000000, "assets": 14500000000, "debt": 0, "cagr": 0.15, "beta": 1.10},
+
+        # Metals & Commodities (Global Futures & Spot)
+        "SI=F": {"price": 62.40, "name": "Silver Spot & COMEX Futures", "sector": "Commodities - Precious Metals", "asset_type": "COMMODITY", "country": "United States", "shares": 100000000, "rev": 5000000000, "ebit": 1000000000, "net": 1000000000, "cash": 1000000000, "assets": 6000000000, "debt": 0, "cagr": 0.22, "beta": 0.90},
+        "GC=F": {"price": 4229.20, "name": "Gold Spot & COMEX Futures", "sector": "Commodities - Bullion", "asset_type": "COMMODITY", "country": "United States", "shares": 50000000, "rev": 20000000000, "ebit": 4000000000, "net": 4000000000, "cash": 4000000000, "assets": 25000000000, "debt": 0, "cagr": 0.14, "beta": 0.12},
+        "HG=F": {"price": 6.68, "name": "Copper Futures (Doctor Copper)", "sector": "Commodities - Industrial Metals", "asset_type": "COMMODITY", "country": "United States", "shares": 200000000, "rev": 4000000000, "ebit": 800000000, "net": 800000000, "cash": 800000000, "assets": 5000000000, "debt": 0, "cagr": 0.16, "beta": 1.25},
+        "ZNC=F": {"price": 4050.00, "name": "Zinc Futures (LME / Global)", "sector": "Commodities - Industrial Metals", "asset_type": "COMMODITY", "country": "United Kingdom", "shares": 50000000, "rev": 3000000000, "ebit": 600000000, "net": 600000000, "cash": 600000000, "assets": 4000000000, "debt": 0, "cagr": 0.12, "beta": 1.15},
+        "ALI=F": {"price": 3452.25, "name": "Aluminum Futures (LME / COMEX)", "sector": "Commodities - Industrial Metals", "asset_type": "COMMODITY", "country": "United Kingdom", "shares": 60000000, "rev": 5000000000, "ebit": 800000000, "net": 800000000, "cash": 800000000, "assets": 6000000000, "debt": 0, "cagr": 0.11, "beta": 1.10},
+        "CL=F": {"price": 94.13, "name": "Crude Oil WTI Futures", "sector": "Commodities - Energy", "asset_type": "COMMODITY", "country": "United States", "shares": 100000000, "rev": 15000000000, "ebit": 3000000000, "net": 3000000000, "cash": 3000000000, "assets": 18000000000, "debt": 0, "cagr": 0.08, "beta": 0.75},
+
+        # Indian Metal & Mining Producers
+        "HINDZINC.NS": {"price": 578.40, "name": "Hindustan Zinc Limited", "sector": "Metals & Mining", "asset_type": "EQUITY", "country": "India", "shares": 4225000000, "rev": 320000000000, "ebit": 140000000000, "net": 95000000000, "cash": 25000000000, "assets": 380000000000, "debt": 40000000000, "cagr": 0.12, "beta": 1.20},
+        "HINDALCO.NS": {"price": 963.00, "name": "Hindalco Industries Limited", "sector": "Metals & Mining", "asset_type": "EQUITY", "country": "India", "shares": 2223000000, "rev": 2200000000000, "ebit": 240000000000, "net": 120000000000, "cash": 180000000000, "assets": 2100000000000, "debt": 480000000000, "cagr": 0.14, "beta": 1.35},
+        "VEDL.NS": {"price": 498.00, "name": "Vedanta Limited", "sector": "Metals & Mining", "asset_type": "EQUITY", "country": "India", "shares": 3717000000, "rev": 1450000000000, "ebit": 320000000000, "net": 130000000000, "cash": 150000000000, "assets": 1900000000000, "debt": 650000000000, "cagr": 0.11, "beta": 1.40}
     }
 
     @classmethod
@@ -201,11 +228,26 @@ class CBMMarketDataProvider:
         capex = abs(get_val(cashflow, ["Capital Expenditure", "Purchase Of Property Plant And Equipment"], default=revenue * 0.05))
         free_cash_flow = operating_cf - capex
 
+        # Determine asset classification
+        is_etf = (
+            sym_clean.endswith("ETF.NS") or sym_clean.endswith("IETF.NS") or
+            sym_clean.endswith("BEES.NS") or sym_clean.endswith("SILV.NS") or
+            sym_clean.endswith("GOLD.NS") or "etf" in sector.lower() or
+            (bm and bm.get("asset_type") == "ETF")
+        )
+        is_commodity = (
+            "=F" in sym_clean or "commodit" in sector.lower() or
+            sym_clean in ["SI=F", "GC=F", "HG=F", "ALI=F", "ZNC=F", "CL=F", "BZ=F", "NG=F", "PL=F", "PA=F"] or
+            (bm and bm.get("asset_type") == "COMMODITY")
+        )
+        asset_type = "ETF" if is_etf else ("COMMODITY" if is_commodity else "EQUITY")
+
         return {
             "symbol": sym_clean,
             "company_name": company_name,
             "currency": currency_sym,
             "is_indian": is_indian,
+            "asset_type": asset_type,
             "sector": sector,
             "industry": industry,
             "country": country,

@@ -60,7 +60,42 @@ class NexivIndianMarket:
         {"symbol": "WAAREEENER.NS", "name": "Waaree Energies Limited", "sector": "Solar Energy", "exchange": "NSE", "keywords": "waaree energies solar pv modules export clean energy"},
         {"symbol": "BAJAJHFL.NS", "name": "Bajaj Housing Finance Ltd", "sector": "Housing Finance", "exchange": "NSE", "keywords": "bajaj housing home loans nbfc bhfl"},
 
-        # US & Global Titans
+        # Silver ETFs (India)
+        {"symbol": "SILVERIETF.NS", "name": "ICICI Prudential Silver ETF", "sector": "ETF - Precious Metals", "exchange": "NSE", "keywords": "icici prudential silver etf silverietf icici silver precious metals bullion chandi physical silver"},
+        {"symbol": "SILVERBEES.NS", "name": "Nippon India Silver ETF", "sector": "ETF - Precious Metals", "exchange": "NSE", "keywords": "nippon india silver bees silverbees etf bullion chandi physical silver"},
+        {"symbol": "HDFCSILVER.NS", "name": "HDFC Silver ETF", "sector": "ETF - Precious Metals", "exchange": "NSE", "keywords": "hdfc silver etf bullion chandi physical silver"},
+        {"symbol": "TATSILV.NS", "name": "Tata Silver ETF", "sector": "ETF - Precious Metals", "exchange": "NSE", "keywords": "tata silver etf tatsilv bullion chandi physical silver"},
+
+        # Gold ETFs (India)
+        {"symbol": "GOLDBEES.NS", "name": "Nippon India ETF Gold BeES", "sector": "ETF - Gold Bullion", "exchange": "NSE", "keywords": "nippon india gold bees goldbees etf bullion gold 24k sona physical gold"},
+        {"symbol": "GOLDETF.NS", "name": "ICICI Prudential Gold ETF", "sector": "ETF - Gold Bullion", "exchange": "NSE", "keywords": "icici prudential gold etf goldetf bullion gold sona physical gold"},
+        {"symbol": "SETFGOLD.NS", "name": "SBI Gold ETF", "sector": "ETF - Gold Bullion", "exchange": "NSE", "keywords": "sbi gold etf setfgold bullion gold sona physical gold"},
+        {"symbol": "HDFCGOLD.NS", "name": "HDFC Gold ETF", "sector": "ETF - Gold Bullion", "exchange": "NSE", "keywords": "hdfc gold etf hdfcgold bullion gold sona physical gold"},
+
+        # Major Index & Sectoral ETFs (India)
+        {"symbol": "NIFTYBEES.NS", "name": "Nippon India ETF Nifty 50 BeES", "sector": "ETF - Index", "exchange": "NSE", "keywords": "nifty bees niftybees nifty 50 index etf nippon passive compounding"},
+        {"symbol": "BANKBEES.NS", "name": "Nippon India ETF Nifty Bank BeES", "sector": "ETF - Banking", "exchange": "NSE", "keywords": "bank bees bankbees bank nifty banking index etf nippon"},
+        {"symbol": "ITBEES.NS", "name": "Nippon India ETF Nifty IT", "sector": "ETF - Technology", "exchange": "NSE", "keywords": "it bees itbees tech software information technology etf nippon"},
+        {"symbol": "CPSEETF.NS", "name": "CPSE ETF", "sector": "ETF - Thematic PSU", "exchange": "NSE", "keywords": "cpse etf psu maharatna dividend high yield public sector"},
+        {"symbol": "MON100.NS", "name": "Motilal Oswal Nasdaq 100 ETF", "sector": "ETF - US Tech", "exchange": "NSE", "keywords": "motilal oswal nasdaq 100 mon100 us tech global etf"},
+
+        # Global & MCX Metals & Commodities
+        {"symbol": "SI=F", "name": "Silver Spot & COMEX Futures", "sector": "Commodities - Precious Metals", "exchange": "COMEX / MCX", "keywords": "silver spot futures chandi bullion mcx comex troy oz precious metal"},
+        {"symbol": "GC=F", "name": "Gold Spot & COMEX Futures", "sector": "Commodities - Bullion", "exchange": "COMEX / MCX", "keywords": "gold spot futures sona bullion mcx comex 24k 22k precious metal"},
+        {"symbol": "HG=F", "name": "Copper Futures (Doctor Copper)", "sector": "Commodities - Industrial Metals", "exchange": "COMEX / LME", "keywords": "copper futures tamba industrial metals lme comex electrification ev wire"},
+        {"symbol": "ZNC=F", "name": "Zinc Futures", "sector": "Commodities - Industrial Metals", "exchange": "LME / Global", "keywords": "zinc futures jasta industrial metals galvanizing lme steel"},
+        {"symbol": "ALI=F", "name": "Aluminum Futures", "sector": "Commodities - Industrial Metals", "exchange": "LME / COMEX", "keywords": "aluminum aluminium futures industrial metals lme comex lightweight ev"},
+        {"symbol": "CL=F", "name": "Crude Oil WTI Futures", "sector": "Commodities - Energy", "exchange": "NYMEX / MCX", "keywords": "crude oil wti petroleum energy nymex mcx barrel brent"},
+        {"symbol": "BZ=F", "name": "Brent Crude Oil Futures", "sector": "Commodities - Energy", "exchange": "ICE / Global", "keywords": "brent crude oil petroleum energy global benchmark barrel"},
+        {"symbol": "NG=F", "name": "Natural Gas Futures", "sector": "Commodities - Energy", "exchange": "NYMEX / MCX", "keywords": "natural gas natgas lng cng energy nymex mcx"},
+        {"symbol": "PL=F", "name": "Platinum Futures", "sector": "Commodities - Precious Metals", "exchange": "NYMEX", "keywords": "platinum precious metals jewelry catalytic nymex"},
+
+        # Key Metals & Mining Producers (India)
+        {"symbol": "HINDZINC.NS", "name": "Hindustan Zinc Limited", "sector": "Metals & Mining", "exchange": "NSE", "keywords": "hindustan zinc hzl vedanta zinc silver lead mining metal"},
+        {"symbol": "HINDALCO.NS", "name": "Hindalco Industries Limited", "sector": "Metals & Mining", "exchange": "NSE", "keywords": "hindalco birla aluminium copper novelis metals mining"},
+        {"symbol": "VEDL.NS", "name": "Vedanta Limited", "sector": "Metals & Mining", "exchange": "NSE", "keywords": "vedanta anil agarwal zinc silver aluminium copper oil iron mining"},
+        {"symbol": "NATIONALUM.NS", "name": "National Aluminium Co Ltd (NALCO)", "sector": "Metals & Mining", "exchange": "NSE", "keywords": "nalco national aluminium bauxite alumina psu metal"},
+        {"symbol": "NMDC.NS", "name": "NMDC Limited", "sector": "Metals & Mining", "exchange": "NSE", "keywords": "nmdc iron ore steel raw materials mining psu"},
         {"symbol": "AAPL", "name": "Apple Inc.", "sector": "Consumer Tech", "exchange": "NASDAQ", "keywords": "apple iphone mac ipad tim cook ios"},
         {"symbol": "NVDA", "name": "NVIDIA Corporation", "sector": "Semiconductors & AI", "exchange": "NASDAQ", "keywords": "nvidia gpu chips ai jensen huang blackwell cuda"},
         {"symbol": "TSLA", "name": "Tesla, Inc.", "sector": "Automotive & Clean Energy", "exchange": "NASDAQ", "keywords": "tesla ev elon musk cybertruck energy solar"},
@@ -109,19 +144,70 @@ class NexivIndianMarket:
                 continue
             match_all = True
             for w in words:
-                if w not in item["name"].lower() and w not in item["keywords"].lower() and w not in item["symbol"].lower():
+                if w not in item["name"].lower() and w not in item.get("keywords", "").lower() and w not in item["symbol"].lower():
                     match_all = False
                     break
             if match_all:
                 results.append(item)
                 seen.add(item["symbol"])
 
-        return results[:8]
+        # 4. Fallback to Dynamic Worldwide Search if results < 3
+        if len(results) < 3:
+            try:
+                external = cls.query_worldwide_search(query)
+                for ext in external:
+                    if ext["symbol"] not in seen:
+                        results.append(ext)
+                        seen.add(ext["symbol"])
+            except Exception:
+                pass
+
+        return results[:10]
+
+    @classmethod
+    def query_worldwide_search(cls, query: str):
+        """
+        Dynamically queries global financial markets via Yahoo Finance search API,
+        enabling instantaneous search for any stock, ETF, or commodity worldwide.
+        """
+        import urllib.parse
+        encoded = urllib.parse.quote(query.strip())
+        url = f"https://query2.finance.yahoo.com/v1/finance/search?q={encoded}&quotesCount=5&newsCount=0"
+        req = urllib.request.Request(url, headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64)"})
+        try:
+            with urllib.request.urlopen(req, timeout=3) as r:
+                data = json.loads(r.read().decode())
+                quotes = data.get("quotes", [])
+                results = []
+                for item in quotes:
+                    sym = item.get("symbol")
+                    name = item.get("shortname") or item.get("longname") or sym
+                    exch = item.get("exchange", "GLOBAL")
+                    qtype = item.get("quoteType", "EQUITY")
+                    
+                    if qtype == "ETF":
+                        sector = "Exchange Traded Fund (ETF)"
+                    elif qtype == "FUTURE":
+                        sector = "Commodities & Futures"
+                    else:
+                        sector = item.get("sector") or "Global Market Asset"
+                        
+                    if sym:
+                        results.append({
+                            "symbol": sym,
+                            "name": name,
+                            "sector": sector,
+                            "exchange": exch,
+                            "keywords": f"{sym} {name} {sector}"
+                        })
+                return results
+        except Exception:
+            return []
 
     @classmethod
     def resolve_ticker(cls, query: str) -> tuple[str, bool, str]:
         raw = query.strip().upper()
-        clean = re.sub(r'[^A-Z0-9\.\&\^]', '', raw)
+        clean = re.sub(r'[^A-Z0-9\.\&\^=]', '', raw)
         
         INDIAN_ALIASES = {
             "TATAMOTORS": "TMPV.NS",
@@ -176,8 +262,80 @@ class NexivIndianMarket:
             "VBL": "VBL.NS",
             "HINDUNILVR": "HINDUNILVR.NS",
             "HUL": "HINDUNILVR.NS",
-            "ASIANPAINT": "ASIANPAINT.NS"
+            "ASIANPAINT": "ASIANPAINT.NS",
+
+            # Silver & Gold ETFs
+            "ICICIPRUDENTIALSILVERETF": "SILVERIETF.NS",
+            "ICICIPRUDENTIALSILVER": "SILVERIETF.NS",
+            "ICICISILVERETF": "SILVERIETF.NS",
+            "ICICISILVER": "SILVERIETF.NS",
+            "SILVERIETF": "SILVERIETF.NS",
+            "SILVERETF": "SILVERIETF.NS",
+            "SILVERBEES": "SILVERBEES.NS",
+            "SILVER BEES": "SILVERBEES.NS",
+            "HDFCSILVER": "HDFCSILVER.NS",
+            "TATSILV": "TATSILV.NS",
+            "GOLDBEES": "GOLDBEES.NS",
+            "GOLD BEES": "GOLDBEES.NS",
+            "GOLDETF": "GOLDETF.NS",
+            "ICICIGOLD": "GOLDETF.NS",
+            "SETFGOLD": "SETFGOLD.NS",
+            "HDFCGOLD": "HDFCGOLD.NS",
+
+            # Index & Sectoral ETFs
+            "NIFTYBEES": "NIFTYBEES.NS",
+            "NIFTY BEES": "NIFTYBEES.NS",
+            "BANKBEES": "BANKBEES.NS",
+            "BANK BEES": "BANKBEES.NS",
+            "ITBEES": "ITBEES.NS",
+            "IT BEES": "ITBEES.NS",
+            "CPSEETF": "CPSEETF.NS",
+            "CPSE ETF": "CPSEETF.NS",
+            "MON100": "MON100.NS",
+            "NASDAQ100": "MON100.NS",
+
+            # Metals & Mining Equities
+            "HINDZINC": "HINDZINC.NS",
+            "HINDUSTANZINC": "HINDZINC.NS",
+            "HINDALCO": "HINDALCO.NS",
+            "VEDANTA": "VEDL.NS",
+            "VEDL": "VEDL.NS",
+            "NATIONALUM": "NATIONALUM.NS",
+            "NALCO": "NATIONALUM.NS",
+            "NMDC": "NMDC.NS",
+            "JINDALSTEL": "JINDALSTEL.NS",
+            "JSWSTEEL": "JSWSTEEL.NS"
         }
+
+        # Commodities / Metal futures
+        COMMODITY_ALIASES = {
+            "SILVER": "SI=F",
+            "CHANDI": "SI=F",
+            "SILVERMETAL": "SI=F",
+            "GOLD": "GC=F",
+            "SONA": "GC=F",
+            "GOLDMETAL": "GC=F",
+            "COPPER": "HG=F",
+            "TAMBA": "HG=F",
+            "COPPERMETAL": "HG=F",
+            "ZINC": "ZNC=F",
+            "JASTA": "ZNC=F",
+            "ZINCMETAL": "ZNC=F",
+            "ALUMINUM": "ALI=F",
+            "ALUMINIUM": "ALI=F",
+            "CRUDE": "CL=F",
+            "CRUDEOIL": "CL=F",
+            "OIL": "CL=F",
+            "WTI": "CL=F",
+            "BRENT": "BZ=F",
+            "BRENTCRUDE": "BZ=F",
+            "NATURALGAS": "NG=F",
+            "NATGAS": "NG=F",
+            "PLATINUM": "PL=F"
+        }
+
+        if clean in COMMODITY_ALIASES:
+            return COMMODITY_ALIASES[clean], False, "$"
 
         if clean in INDIAN_ALIASES:
             return INDIAN_ALIASES[clean], True, "₹"
@@ -312,10 +470,10 @@ class NexivIndianMarket:
                 "qib": "14.6x", "nii": "9.3x", "retail": "7.8x", "total": "11.2x"
             },
             "financials": {
-                "annual_revenue": 118167000000,
+                "annual_revenue": 11816700000,
                 "growth_rate": 0.42,
-                "operating_cash_flow": 7200000000,
-                "pre_ipo_cash": 5380000000
+                "operating_cash_flow": 1200000000,
+                "pre_ipo_cash": 850000000
             },
             "ai_decision": {
                 "action": "APPLY FOR LONG TERM COMPOUNDER",

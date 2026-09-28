@@ -23,12 +23,28 @@ class CBMIPOEngine:
         operating_cash_flow,
         pre_ipo_cash,
         monthly_cash_burn=None,
-        country="United States"
+        country="India"
     ):
+        # Currency Detection: India uses ₹, US uses $, UK uses £, Europe uses €
+        country_clean = (country or "India").strip().lower()
+        company_clean = (company_name or "").strip().lower()
+        if any(c in country_clean for c in ["india", "in", "bse", "nse"]) or "(india)" in company_clean:
+            currency = "₹"
+            is_indian = True
+        elif any(c in country_clean for c in ["uk", "united kingdom", "london", "lse", "gb"]):
+            currency = "£"
+            is_indian = False
+        elif any(c in country_clean for c in ["europe", "germany", "france"]):
+            currency = "€"
+            is_indian = False
+        else:
+            currency = "$"
+            is_indian = False
+
         parser = CBMDatasetParser.get_instance()
         bm = parser.find_industry_benchmark(sector)
         rf = parser.risk_free_rate
-        erp = parser.get_country_equity_risk_premium(country)
+        erp = parser.get_country_equity_risk_premium("India" if is_indian else country)
 
         offer_price_mid = (offer_price_min + offer_price_max) / 2.0
         total_post_ipo_shares = pre_ipo_shares + fresh_issue_shares
@@ -147,7 +163,9 @@ class CBMIPOEngine:
             "company_name": company_name,
             "sector": sector,
             "matched_industry": bm.get("matched_industry"),
-            "offer_price_range": f"${offer_price_min:.2f} - ${offer_price_max:.2f}",
+            "currency": currency,
+            "is_indian": is_indian,
+            "offer_price_range": f"{currency}{offer_price_min:.2f} - {currency}{offer_price_max:.2f}",
             "offer_price_mid": offer_price_mid,
             "post_money_valuation": post_money_valuation,
             "fresh_pct": fresh_pct,

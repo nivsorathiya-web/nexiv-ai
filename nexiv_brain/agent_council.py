@@ -143,26 +143,34 @@ class CBMAgentCouncil:
 
         council_synthesis = {
             "valuation_agent": {
-                "name": "Valuation Specialist",
+                "name": "Valuation Architect",
+                "institution": "NYU Stern (Damodaran) & Columbia (Graham & Dodd)",
                 "verdict": val_agent_verdict,
                 "intrinsic_value": dcf["intrinsic_value_per_share"],
-                "mos_pct": mos
+                "mos_pct": mos,
+                "doctrine": "Intrinsic value is the present value of future cash flows discounted by cost of capital (Damodaran & Koller)."
             },
             "forensic_agent": {
-                "name": "Forensics & Shenanigans Auditor",
+                "name": "Forensics & Shenanigans Shield",
+                "institution": "Howard Schilit (Financial Shenanigans) & Altman (NYU)",
                 "verdict": forensic_agent_verdict,
                 "altman_z": z_res["z_score"],
-                "beneish_m": m_res["m_score"]
+                "beneish_m": m_res["m_score"],
+                "doctrine": "Accounting earnings are easily manipulated; working capital divergence and cash flow accruals reveal the truth."
             },
             "risk_sizing_agent": {
                 "name": "Kelly Sizing & Capital Allocator",
+                "institution": "Marcos López de Prado (Half-Kelly) & Ken Griffin (Citadel Pods)",
                 "verdict": risk_agent_verdict,
-                "allocation_pct": kelly_alloc * 100.0
+                "allocation_pct": kelly_alloc * 100.0,
+                "doctrine": "Strict downside bounds and fractional sizing prevent gambler's ruin while maximizing geometric capital growth."
             },
             "market_cycle_agent": {
                 "name": "Market Cycle & Macro Strategist",
+                "institution": "Howard Marks (Oaktree) & Ray Dalio (Bridgewater)",
                 "verdict": cycle_agent_verdict,
-                "horizon": "1 to 3 Years" if mos >= 15 else "Defensive / Tactical"
+                "horizon": "1 to 3 Years" if mos >= 15 else "Defensive / Tactical",
+                "doctrine": "Markets swing between euphoria and despair; apply second-level thinking to buy when others panic."
             }
         }
 
