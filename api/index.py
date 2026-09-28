@@ -220,7 +220,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="Nexiv.AI">
     <meta name="application-name" content="Nexiv.AI">
-    <meta name="theme-color" content="#0B101C">
+    <meta name="theme-color" content="#051F20">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -236,15 +236,40 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                         mono: ['"JetBrains Mono"', 'monospace'],
                     },
                     colors: {
-                        nexiv: {
-                            50: '#F8FAFC',
-                            100: '#F1F5F9',
-                            200: '#E2E8F0',
-                            800: '#1E293B',
-                            900: '#0F172A',
-                            gold: '#D97706',
-                            emerald: '#059669',
-                            crimson: '#DC2626'
+                        // Palette 1: Emerald Obsidian Luxury (Global Shell, Stock Terminal)
+                        em: {
+                            950: '#051F20',
+                            900: '#0B2B26',
+                            800: '#163832',
+                            700: '#235347',
+                            400: '#8EB69B',
+                            100: '#DAF1DE',
+                            50: '#F4F9F5'
+                        },
+                        // Palette 2: Forest Moss & Celadon (IPOs, Bidding Timelines)
+                        moss: {
+                            950: '#0F2A1D',
+                            800: '#375534',
+                            600: '#6B9071',
+                            300: '#AEC3B0',
+                            100: '#E3EED4',
+                            50: '#F7FAF3'
+                        },
+                        // Palette 3: Holst Sapphire (AI Council, Titans Chat, Institutional Brain)
+                        saph: {
+                            950: '#223A5E',
+                            800: '#355982',
+                            600: '#4D79A8',
+                            400: '#6E9ECC',
+                            300: '#9FC0E3',
+                            100: '#D0E1F2',
+                            50: '#F3F8FD'
+                        },
+                        // Institutional Gold Accent
+                        goldLuxe: {
+                            500: '#C5A059',
+                            400: '#D4AF37',
+                            100: '#F7E7CE'
                         }
                     }
                 }
@@ -254,21 +279,39 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <style>
         body { 
             font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, sans-serif;
-            background-color: #F8FAFC;
+            background-color: #F5F8F6;
             background-image: 
-                radial-gradient(at 0% 0%, rgba(245, 158, 11, 0.04) 0px, transparent 40%),
-                radial-gradient(at 100% 0%, rgba(16, 185, 129, 0.04) 0px, transparent 40%);
+                radial-gradient(at 0% 0%, rgba(142, 182, 155, 0.12) 0px, transparent 50%),
+                radial-gradient(at 100% 0%, rgba(110, 158, 204, 0.10) 0px, transparent 50%),
+                radial-gradient(at 50% 100%, rgba(227, 238, 212, 0.15) 0px, transparent 50%);
             -webkit-tap-highlight-color: transparent;
         }
-        .luxury-card {
+        .luxury-card, .luxury-card-emerald {
             background: #FFFFFF;
-            border: 1px solid rgba(226, 232, 240, 0.9);
-            box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.04), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+            border: 1px solid rgba(142, 182, 155, 0.32);
+            box-shadow: 0 10px 30px -8px rgba(5, 31, 32, 0.05), 0 2px 6px -1px rgba(5, 31, 32, 0.02);
         }
         .luxury-card-elevated {
             background: #FFFFFF;
-            border: 1px solid rgba(226, 232, 240, 0.95);
-            box-shadow: 0 10px 30px -4px rgba(15, 23, 42, 0.08), 0 4px 10px -2px rgba(15, 23, 42, 0.03);
+            border: 1px solid rgba(142, 182, 155, 0.45);
+            box-shadow: 0 14px 36px -6px rgba(5, 31, 32, 0.09), 0 4px 12px -2px rgba(5, 31, 32, 0.03);
+        }
+        .luxury-card-moss {
+            background: #FFFFFF;
+            border: 1px solid rgba(107, 144, 113, 0.32);
+            box-shadow: 0 10px 30px -8px rgba(15, 42, 29, 0.05), 0 2px 6px -1px rgba(15, 42, 29, 0.02);
+        }
+        .luxury-card-sapphire {
+            background: #FFFFFF;
+            border: 1px solid rgba(110, 158, 204, 0.32);
+            box-shadow: 0 10px 30px -8px rgba(34, 58, 94, 0.06), 0 2px 6px -1px rgba(34, 58, 94, 0.02);
+        }
+        .no-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+        .no-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
         }
         .dropdown-menu {
             position: absolute;
@@ -277,147 +320,156 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             right: 0;
             z-index: 60;
             background: #FFFFFF;
-            border: 1px solid #E2E8F0;
-            border-radius: 1rem;
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+            border: 1px solid rgba(142, 182, 155, 0.4);
+            border-radius: 1.25rem;
+            box-shadow: 0 20px 35px -5px rgba(5, 31, 32, 0.12), 0 10px 15px -5px rgba(5, 31, 32, 0.05);
             max-height: 280px;
             overflow-y: auto;
         }
     </style>
 </head>
-<body class="text-slate-800 min-h-screen pb-24 antialiased selection:bg-amber-100 selection:text-amber-900">
+<body class="text-slate-800 min-h-screen pb-24 antialiased selection:bg-em-100 selection:text-em-950">
 
-    <!-- Top Luxury App Bar -->
-    <header class="sticky top-0 z-50 bg-white/85 backdrop-blur-xl border-b border-slate-200/80 px-4 py-3 shadow-xs">
+    <!-- Top Luxury App Bar (Palette 1: Obsidian Noir & Emerald) -->
+    <header class="sticky top-0 z-50 bg-em-950/95 backdrop-blur-xl border-b border-em-800 px-3.5 sm:px-4 py-2.5 shadow-md shadow-em-950/20">
         <div class="max-w-xl mx-auto flex items-center justify-between">
-            <div class="flex items-center space-x-3">
+            <div class="flex items-center space-x-2.5 sm:space-x-3">
                 <!-- Bespoke Nexiv.AI Logo SVG -->
-                <div class="w-10 h-10 rounded-xl bg-slate-950 p-1 flex items-center justify-center shadow-md shadow-slate-900/10 border border-amber-500/30">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-em-900 p-1 flex items-center justify-center shadow-md border border-em-700/60 shrink-0">
                     <svg viewBox="0 0 44 44" fill="none" class="w-full h-full" xmlns="http://www.w3.org/2000/svg">
                         <defs>
                             <linearGradient id="nGold" x1="0%" y1="0%" x2="100%" y2="100%">
                                 <stop offset="0%" stop-color="#FDE68A"/>
-                                <stop offset="35%" stop-color="#F59E0B"/>
-                                <stop offset="70%" stop-color="#D97706"/>
-                                <stop offset="100%" stop-color="#92400E"/>
+                                <stop offset="35%" stop-color="#D4AF37"/>
+                                <stop offset="70%" stop-color="#C5A059"/>
+                                <stop offset="100%" stop-color="#85581A"/>
                             </linearGradient>
                         </defs>
                         <!-- Geometric "N" Monograph & Compounding Pillar -->
                         <path d="M11 33 V 11 L 23 27 V 11" stroke="url(#nGold)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
-                        <path d="M23 27 L 33 11" stroke="#10B981" stroke-width="3" stroke-linecap="round"/>
+                        <path d="M23 27 L 33 11" stroke="#8EB69B" stroke-width="3" stroke-linecap="round"/>
                         <!-- Diamond AI Apex Star -->
                         <polygon points="33,6 35,9.5 39,9.5 36,12 37.5,15.5 33,13 28.5,15.5 30,12 27,9.5 31,9.5" fill="#FDE68A"/>
                     </svg>
                 </div>
                 <div>
                     <div class="flex items-center space-x-1.5">
-                        <h1 class="text-base font-extrabold text-slate-900 tracking-tight leading-tight">Nexiv.AI</h1>
-                        <span class="text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-amber-50 text-amber-700 border border-amber-200/80">PRO</span>
+                        <h1 class="text-sm sm:text-base font-extrabold text-saph-50 tracking-tight leading-tight">Nexiv.AI</h1>
+                        <span class="text-[9px] sm:text-[10px] font-bold px-1.5 py-0.5 rounded-md bg-goldLuxe-500/20 text-goldLuxe-400 border border-goldLuxe-500/40">PRO</span>
                     </div>
-                    <p class="text-[10px] font-semibold text-slate-500 tracking-wider">4 PILLARS • 56 ENTITIES • 5,053 PAGES • LIVE</p>
+                    <p class="text-[9px] sm:text-[10px] font-semibold text-em-400 tracking-wider">4 PILLARS • 56 ENTITIES • 5,053 PAGES • LIVE</p>
                 </div>
             </div>
             
             <div class="flex items-center space-x-2 shrink-0">
-                <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+                <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-[10px] font-bold bg-em-900 text-em-100 border border-em-700/60">
                     <span class="relative flex h-2 w-2 mr-1.5">
-                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                        <span class="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-em-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-2 w-2 bg-em-400"></span>
                     </span>
                     NSE / BSE LIVE
                 </span>
 
                 <!-- Stylish Premium iPhone / Desktop Refresh Button -->
                 <button id="page-refresh-btn" onclick="triggerSmartRefresh(event)" aria-label="Refresh Page & Live Prices" title="Refresh Live Data & Prices" 
-                    class="group relative inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-slate-950 via-slate-900 to-slate-950 text-amber-300 border border-amber-500/40 hover:border-amber-400 shadow-sm shadow-amber-500/10 active:scale-95 transition-all duration-200 cursor-pointer select-none">
-                    <i id="refresh-spinner" class="fa-solid fa-arrows-rotate text-xs text-amber-400 group-hover:rotate-180 transition-transform duration-500"></i>
-                    <span id="refresh-label" class="text-[10px] font-extrabold uppercase tracking-wider text-slate-100 font-sans">Refresh</span>
-                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                    class="group relative inline-flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-gradient-to-r from-em-900 via-em-800 to-em-900 text-em-100 border border-em-400/50 hover:border-em-400 shadow-sm shadow-em-950/30 active:scale-95 transition-all duration-200 cursor-pointer select-none">
+                    <i id="refresh-spinner" class="fa-solid fa-arrows-rotate text-xs text-em-400 group-hover:rotate-180 transition-transform duration-500"></i>
+                    <span id="refresh-label" class="text-[10px] font-extrabold uppercase tracking-wider text-em-50 font-sans">Refresh</span>
+                    <span class="w-1.5 h-1.5 rounded-full bg-em-400 animate-pulse"></span>
                 </button>
             </div>
         </div>
     </header>
 
     <!-- Live Market Clock Bar -->
-    <div class="bg-slate-950 text-white px-4 py-1.5 text-center">
+    <div class="bg-em-900 text-em-400 px-3.5 sm:px-4 py-1.5 text-center border-b border-em-800/80">
         <div class="max-w-xl mx-auto flex items-center justify-between text-[10px] font-mono font-semibold">
-            <span class="text-slate-400">📍 IST — India Standard Time</span>
-            <span id="live-clock" class="text-amber-400 font-bold tracking-wider">--:--:-- --</span>
-            <span id="live-date" class="text-slate-400">--- --, ----</span>
+            <span class="text-em-400">📍 IST — India Standard Time</span>
+            <span id="live-clock" class="text-em-100 font-bold tracking-wider">--:--:-- --</span>
+            <span id="live-date" class="text-em-400">--- --, ----</span>
         </div>
     </div>
 
     <!-- Main Container -->
-    <main class="max-w-xl mx-auto px-4 pt-4">
+    <main class="max-w-xl mx-auto px-3.5 sm:px-4 pt-3.5">
 
         <!-- Navigation Segmented Control -->
-        <div class="grid grid-cols-4 gap-1 rounded-2xl bg-slate-100 p-1 mb-4 border border-slate-200/80 shadow-inner text-center">
-            <button id="tab-stock-btn" onclick="switchTab('stock')" class="py-2 text-[11px] font-bold rounded-xl bg-white text-slate-900 shadow-sm transition-all flex items-center justify-center space-x-1">
-                <i class="fa-solid fa-chart-line text-emerald-600"></i>
+        <div class="grid grid-cols-4 gap-1.5 rounded-2xl bg-white/80 backdrop-blur-md p-1.5 mb-4 border border-em-400/25 shadow-xs text-center">
+            <button id="tab-stock-btn" onclick="switchTab('stock')" class="py-2.5 text-[11px] font-bold rounded-xl bg-em-900 text-em-100 shadow-sm transition-all flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-chart-line text-em-400"></i>
                 <span class="truncate">Stocks</span>
             </button>
-            <button id="tab-ipo-btn" onclick="switchTab('ipo')" class="py-2 text-[11px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1">
-                <i class="fa-solid fa-rocket text-amber-600"></i>
+            <button id="tab-ipo-btn" onclick="switchTab('ipo')" class="py-2.5 text-[11px] font-semibold rounded-xl text-em-700 hover:text-em-950 transition-all flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-rocket text-moss-600"></i>
                 <span class="truncate">IPOs</span>
             </button>
-            <button id="tab-chat-btn" onclick="switchTab('chat')" class="py-2 text-[11px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1">
-                <i class="fa-solid fa-comments text-indigo-600"></i>
+            <button id="tab-chat-btn" onclick="switchTab('chat')" class="py-2.5 text-[11px] font-semibold rounded-xl text-saph-600 hover:text-saph-950 transition-all flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-comments text-saph-400"></i>
                 <span class="truncate">AI Chat</span>
             </button>
-            <button id="tab-vault-btn" onclick="switchTab('vault')" class="py-2 text-[11px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1">
-                <i class="fa-solid fa-landmark text-amber-600"></i>
+            <button id="tab-vault-btn" onclick="switchTab('vault')" class="py-2.5 text-[11px] font-semibold rounded-xl text-em-700 hover:text-em-950 transition-all flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-landmark text-em-400"></i>
                 <span class="truncate">Vault (56)</span>
             </button>
         </div>
 
-        <!-- 1. STOCK DECISION SECTION -->
+
+        <!-- 1. STOCK DECISION SECTION (Palette 1: Emerald Obsidian Luxury) -->
         <section id="stock-section" class="space-y-4">
             <!-- Search & Autocomplete Card -->
-            <div class="luxury-card rounded-2xl p-4 transition-all relative">
+            <div class="luxury-card-emerald rounded-3xl p-4 sm:p-5 transition-all relative">
                 <div class="flex items-center justify-between mb-2">
-                    <label class="text-[11px] font-bold text-slate-500 uppercase tracking-wider">LIVE TYPEAHEAD SEARCH</label>
-                    <span class="text-[10px] font-semibold text-slate-400">STOCKS • ETFS • PRECIOUS & INDUSTRIAL METALS</span>
+                    <label class="text-[10px] sm:text-[11px] font-bold text-em-700 uppercase tracking-wider">LIVE TYPEAHEAD SEARCH</label>
+                    <span class="text-[9px] sm:text-[10px] font-mono font-semibold text-em-400">STOCKS • ETFS • METALS</span>
                 </div>
                 
                 <div class="relative flex space-x-2">
                     <div class="relative flex-1">
-                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-slate-400 text-xs"></i>
-                        <input type="text" id="ticker-input" value="SILVERIETF.NS" placeholder="Search Stocks, Silver/Gold ETFs, Copper, Zinc, Metals (e.g. ICICI Silver, Copper, Gold BeES, Tata)" 
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3.5 text-em-700/60 text-xs"></i>
+                        <input type="text" id="ticker-input" value="SILVERIETF.NS" placeholder="Search Stocks, Silver/Gold ETFs, Metals (e.g. ICICI Silver, Copper, Gold BeES)" 
                                autocomplete="off"
                                oninput="handleSearchInput(event)"
                                onfocus="handleSearchFocus()"
-                               class="w-full bg-slate-50 border border-slate-200/90 rounded-xl pl-9 pr-3 py-2.5 text-sm font-bold uppercase text-slate-900 focus:outline-none focus:border-amber-500 focus:bg-white focus:ring-2 focus:ring-amber-500/10 transition-all">
+                               class="w-full bg-em-50 border border-em-400/40 rounded-2xl pl-9 pr-3 py-2.5 text-xs sm:text-sm font-bold uppercase text-em-950 focus:outline-none focus:border-em-800 focus:bg-white focus:ring-2 focus:ring-em-400/20 transition-all">
                         
                         <!-- Floating Live Search Dropdown -->
                         <div id="search-dropdown" class="dropdown-menu hidden"></div>
                     </div>
                     
-                    <button onclick="analyzeStock()" id="analyze-btn" class="bg-slate-900 hover:bg-slate-800 active:scale-95 text-white font-bold px-4 py-2.5 rounded-xl text-xs transition-all flex items-center space-x-1.5 shadow-md shadow-slate-900/10">
+                    <button onclick="analyzeStock()" id="analyze-btn" class="bg-em-900 hover:bg-em-800 active:scale-95 text-em-100 font-bold px-4 py-2.5 rounded-2xl text-xs transition-all flex items-center space-x-1.5 shadow-md shadow-em-950/20 shrink-0">
                         <span>AUDIT</span>
-                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                        <i class="fa-solid fa-arrow-right text-[10px] text-em-400"></i>
                     </button>
                 </div>
                 
-                <!-- Quick Indian & Global Tickers Grid -->
-                <div class="flex flex-wrap items-center gap-1.5 mt-3 pt-3 border-t border-slate-100">
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mr-1">TRENDING:</span>
-                    <button onclick="quickStock('SILVERIETF.NS')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-amber-50 text-xs text-slate-800 font-mono font-bold border border-slate-200/80 active:scale-95 transition-all">🥈 ICICI SILVER ETF</button>
-                    <button onclick="quickStock('GOLDBEES.NS')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-amber-50 text-xs text-slate-800 font-mono font-bold border border-slate-200/80 active:scale-95 transition-all">🪙 GOLD BEES</button>
-                    <button onclick="quickStock('HG=F')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-amber-50 text-xs text-slate-800 font-mono font-bold border border-slate-200/80 active:scale-95 transition-all">⚡ COPPER</button>
-                    <button onclick="quickStock('HINDZINC.NS')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-amber-50 text-xs text-slate-800 font-mono font-bold border border-slate-200/80 active:scale-95 transition-all">🏗️ ZINC</button>
-                    <button onclick="quickStock('NIFTYBEES.NS')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-amber-50 text-xs text-slate-800 font-mono font-bold border border-slate-200/80 active:scale-95 transition-all">📈 NIFTY BEES</button>
-                    <button onclick="quickStock('RELIANCE')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">RELIANCE</button>
-                    <button onclick="quickStock('TATAMOTORS')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">TATA MOTORS</button>
-                    <button onclick="quickStock('ZOMATO')" class="px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-xs text-slate-700 font-mono font-semibold border border-slate-200/60 active:scale-95 transition-all">ZOMATO</button>
+                <!-- Quick Indian & Global Tickers Horizontal Carousel (Swipeable, No wrapping) -->
+                <div class="mt-3 pt-3 border-t border-em-400/20">
+                    <div class="flex items-center justify-between mb-1.5 px-0.5">
+                        <span class="text-[10px] font-bold text-em-700 uppercase tracking-wider flex items-center space-x-1">
+                            <i class="fa-solid fa-arrow-trend-up text-em-900 text-xs"></i>
+                            <span>TRENDING INSTRUMENTS</span>
+                        </span>
+                        <span class="text-[9px] font-mono text-em-400 font-semibold">Swipe →</span>
+                    </div>
+                    <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar pb-1 -mx-1 px-1">
+                        <button onclick="quickStock('SILVERIETF.NS')" class="px-3 py-1.5 rounded-xl bg-em-100/70 hover:bg-em-900 text-em-900 hover:text-em-100 text-xs font-mono font-bold border border-em-400/40 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-2xs">🥈 ICICI SILVER ETF</button>
+                        <button onclick="quickStock('GOLDBEES.NS')" class="px-3 py-1.5 rounded-xl bg-em-100/70 hover:bg-em-900 text-em-900 hover:text-em-100 text-xs font-mono font-bold border border-em-400/40 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-2xs">🪙 GOLD BEES</button>
+                        <button onclick="quickStock('HG=F')" class="px-3 py-1.5 rounded-xl bg-em-100/70 hover:bg-em-900 text-em-900 hover:text-em-100 text-xs font-mono font-bold border border-em-400/40 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-2xs">⚡ COPPER</button>
+                        <button onclick="quickStock('HINDZINC.NS')" class="px-3 py-1.5 rounded-xl bg-em-100/70 hover:bg-em-900 text-em-900 hover:text-em-100 text-xs font-mono font-bold border border-em-400/40 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-2xs">🏗️ ZINC</button>
+                        <button onclick="quickStock('NIFTYBEES.NS')" class="px-3 py-1.5 rounded-xl bg-em-100/70 hover:bg-em-900 text-em-900 hover:text-em-100 text-xs font-mono font-bold border border-em-400/40 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-2xs">📈 NIFTY BEES</button>
+                        <button onclick="quickStock('RELIANCE')" class="px-3 py-1.5 rounded-xl bg-em-100/70 hover:bg-em-900 text-em-900 hover:text-em-100 text-xs font-mono font-bold border border-em-400/40 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-2xs">RELIANCE</button>
+                        <button onclick="quickStock('TATAMOTORS')" class="px-3 py-1.5 rounded-xl bg-em-100/70 hover:bg-em-900 text-em-900 hover:text-em-100 text-xs font-mono font-bold border border-em-400/40 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-2xs">TATA MOTORS</button>
+                        <button onclick="quickStock('ZOMATO')" class="px-3 py-1.5 rounded-xl bg-em-100/70 hover:bg-em-900 text-em-900 hover:text-em-100 text-xs font-mono font-bold border border-em-400/40 active:scale-95 transition-all whitespace-nowrap shrink-0 shadow-2xs">ZOMATO</button>
+                    </div>
                 </div>
             </div>
 
             <!-- Loading Spinner Card -->
-            <div id="stock-loading" class="hidden luxury-card rounded-2xl p-8 text-center space-y-3">
-                <div class="inline-block animate-spin rounded-full h-9 w-9 border-3 border-amber-500 border-t-transparent"></div>
+            <div id="stock-loading" class="hidden luxury-card-emerald rounded-3xl p-8 text-center space-y-3">
+                <div class="inline-block animate-spin rounded-full h-9 w-9 border-3 border-em-700 border-t-transparent"></div>
                 <div class="space-y-1">
-                    <p class="text-xs font-bold text-slate-800">Executing Nexiv.AI Deep Institutional Audit...</p>
-                    <p class="text-[11px] text-slate-500">Damodaran DCF • Altman Z • Beneish Shenanigans • Kelly Bet Sizing</p>
+                    <p class="text-xs font-bold text-em-950">Executing Nexiv.AI Deep Institutional Audit...</p>
+                    <p class="text-[11px] text-em-700">Damodaran DCF • Altman Z • Beneish Shenanigans • Kelly Bet Sizing</p>
                 </div>
             </div>
 
@@ -425,25 +477,25 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <div id="stock-result" class="space-y-4"></div>
         </section>
 
-        <!-- 2. INDIAN IPO SCANNER & GMP RADAR -->
+        <!-- 2. INDIAN IPO SCANNER & GMP RADAR (Palette 2: Forest Moss & Celadon) -->
         <section id="ipo-section" class="hidden space-y-4">
             
             <!-- Live Indian IPO Tracker Banner -->
-            <div class="luxury-card rounded-2xl p-4 shadow-sm space-y-3">
-                <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+            <div class="luxury-card-moss rounded-3xl p-4 sm:p-5 shadow-xs space-y-3.5">
+                <div class="flex items-center justify-between pb-2 border-b border-moss-300/30">
                     <div>
-                        <h2 class="text-sm font-bold text-slate-900">Brokerage-Grade Indian IPO Radar</h2>
-                        <p class="text-[10px] text-slate-500 font-medium">Bidding Timelines • Live GMP • Subscription Multipliers • AI Verdicts</p>
+                        <h2 class="text-sm font-extrabold text-moss-950 tracking-tight">Brokerage-Grade Indian IPO Radar</h2>
+                        <p class="text-[10px] text-moss-600 font-medium">Bidding Timelines • Live GMP • Subscription Multipliers • AI Verdicts</p>
                     </div>
-                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-amber-50 text-amber-700 border border-amber-200">MAINBOARD & SME</span>
+                    <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-moss-100 text-moss-950 border border-moss-300">MAINBOARD & SME</span>
                 </div>
 
-                <!-- IPO Filter Pills -->
-                <div class="flex space-x-1.5 overflow-x-auto pb-1 text-xs font-semibold">
-                    <button id="filter-all" onclick="filterIPOs('ALL')" class="px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all">All IPOs</button>
-                    <button id="filter-open" onclick="filterIPOs('OPEN NOW')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">🟢 Open Now</button>
-                    <button id="filter-upcoming" onclick="filterIPOs('UPCOMING')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">🟡 Upcoming</button>
-                    <button id="filter-listed" onclick="filterIPOs('LISTED')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all">🔵 Listed</button>
+                <!-- IPO Filter Pills (Horizontal Swipe) -->
+                <div class="flex space-x-1.5 overflow-x-auto no-scrollbar pb-1 text-xs font-semibold">
+                    <button id="filter-all" onclick="filterIPOs('ALL')" class="px-3.5 py-1.5 rounded-full bg-moss-950 text-moss-100 shadow-xs font-bold transition-all whitespace-nowrap">All IPOs</button>
+                    <button id="filter-open" onclick="filterIPOs('OPEN NOW')" class="px-3.5 py-1.5 rounded-full bg-moss-100/70 text-moss-800 hover:bg-moss-950 hover:text-moss-100 border border-moss-300/50 transition-all whitespace-nowrap">🟢 Open Now</button>
+                    <button id="filter-upcoming" onclick="filterIPOs('UPCOMING')" class="px-3.5 py-1.5 rounded-full bg-moss-100/70 text-moss-800 hover:bg-moss-950 hover:text-moss-100 border border-moss-300/50 transition-all whitespace-nowrap">🟡 Upcoming</button>
+                    <button id="filter-listed" onclick="filterIPOs('LISTED')" class="px-3.5 py-1.5 rounded-full bg-moss-100/70 text-moss-800 hover:bg-moss-950 hover:text-moss-100 border border-moss-300/50 transition-all whitespace-nowrap">🔵 Listed</button>
                 </div>
 
                 <!-- Live IPOs Cards Feed -->
@@ -451,70 +503,70 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
 
             <!-- Custom IPO Evaluator Card -->
-            <div class="luxury-card rounded-2xl p-4 shadow-sm space-y-3">
-                <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+            <div class="luxury-card-moss rounded-3xl p-4 sm:p-5 shadow-xs space-y-3">
+                <div class="flex items-center justify-between pb-2 border-b border-moss-300/30">
                     <div>
-                        <h3 class="text-xs font-bold text-slate-900 uppercase">Custom Indian IPO Evaluator</h3>
-                        <p class="text-[10px] text-slate-500">Test Any Upcoming Mainboard or SME IPO</p>
+                        <h3 class="text-xs font-bold text-moss-950 uppercase">Custom Indian IPO Evaluator</h3>
+                        <p class="text-[10px] text-moss-600">Test Any Upcoming Mainboard or SME IPO</p>
                     </div>
-                    <span class="text-[10px] font-bold text-slate-400">RITTER 100K+ IPOS</span>
+                    <span class="text-[10px] font-bold text-moss-600 font-mono">RITTER 100K+ IPOS</span>
                 </div>
                 
                 <div class="space-y-2.5">
                     <div>
-                        <label class="text-[11px] font-bold text-slate-500 uppercase">Company Name</label>
-                        <input type="text" id="ipo-name" value="Swiggy Limited" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                        <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">Company Name</label>
+                        <input type="text" id="ipo-name" value="Swiggy Limited" class="w-full mt-1 bg-moss-50 border border-moss-300/60 rounded-xl px-3 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                     </div>
                     
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="text-[11px] font-bold text-slate-500 uppercase">Sector</label>
-                            <input type="text" id="ipo-sector" value="Quick Commerce & Food Delivery" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                            <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">Sector</label>
+                            <input type="text" id="ipo-sector" value="Quick Commerce & Food Delivery" class="w-full mt-1 bg-moss-50 border border-moss-300/60 rounded-xl px-3 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                         </div>
                         <div>
-                            <label class="text-[11px] font-bold text-slate-500 uppercase">Price Band (₹)</label>
+                            <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">Price Band (₹)</label>
                             <div class="flex space-x-1 mt-1">
-                                <input type="number" id="ipo-pmin" value="371" placeholder="Min" class="w-1/2 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
-                                <input type="number" id="ipo-pmax" value="390" placeholder="Max" class="w-1/2 bg-slate-50 border border-slate-200 rounded-xl px-2.5 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                                <input type="number" id="ipo-pmin" value="371" placeholder="Min" class="w-1/2 bg-moss-50 border border-moss-300/60 rounded-xl px-2.5 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
+                                <input type="number" id="ipo-pmax" value="390" placeholder="Max" class="w-1/2 bg-moss-50 border border-moss-300/60 rounded-xl px-2.5 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                             </div>
                         </div>
                     </div>
                     
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="text-[11px] font-bold text-slate-500 uppercase">Annual Revenue (₹)</label>
-                            <input type="number" id="ipo-rev" value="112470000000" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                            <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">Annual Revenue (₹)</label>
+                            <input type="number" id="ipo-rev" value="112470000000" class="w-full mt-1 bg-moss-50 border border-moss-300/60 rounded-xl px-3 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                         </div>
                         <div>
-                            <label class="text-[11px] font-bold text-slate-500 uppercase">YoY Growth (e.g. 0.36)</label>
-                            <input type="number" step="0.01" id="ipo-growth" value="0.36" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                            <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">YoY Growth (e.g. 0.36)</label>
+                            <input type="number" step="0.01" id="ipo-growth" value="0.36" class="w-full mt-1 bg-moss-50 border border-moss-300/60 rounded-xl px-3 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="text-[11px] font-bold text-slate-500 uppercase">Fresh Issue Shares</label>
-                            <input type="number" id="ipo-fresh" value="115000000" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                            <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">Fresh Issue Shares</label>
+                            <input type="number" id="ipo-fresh" value="115000000" class="w-full mt-1 bg-moss-50 border border-moss-300/60 rounded-xl px-3 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                         </div>
                         <div>
-                            <label class="text-[11px] font-bold text-slate-500 uppercase">OFS Promoter Shares</label>
-                            <input type="number" id="ipo-ofs" value="175000000" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                            <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">OFS Promoter Shares</label>
+                            <input type="number" id="ipo-ofs" value="175000000" class="w-full mt-1 bg-moss-50 border border-moss-300/60 rounded-xl px-3 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                         </div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2">
                         <div>
-                            <label class="text-[11px] font-bold text-slate-500 uppercase">Current GMP (₹)</label>
-                            <input type="number" id="ipo-gmp" value="25" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                            <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">Current GMP (₹)</label>
+                            <input type="number" id="ipo-gmp" value="25" class="w-full mt-1 bg-moss-50 border border-moss-300/60 rounded-xl px-3 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                         </div>
                         <div>
-                            <label class="text-[11px] font-bold text-slate-500 uppercase">Lot Size (Shares)</label>
-                            <input type="number" id="ipo-lot" value="38" class="w-full mt-1 bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-xs font-semibold text-slate-900 focus:bg-white focus:border-amber-500 outline-none">
+                            <label class="text-[10px] sm:text-[11px] font-bold text-moss-800 uppercase">Lot Size (Shares)</label>
+                            <input type="number" id="ipo-lot" value="38" class="w-full mt-1 bg-moss-50 border border-moss-300/60 rounded-xl px-3 py-2 text-xs font-semibold text-moss-950 focus:bg-white focus:border-moss-800 outline-none">
                         </div>
                     </div>
 
-                    <button onclick="evaluateCustomIPO()" class="w-full mt-3 bg-slate-900 hover:bg-slate-800 active:scale-98 text-white font-bold py-3 rounded-xl text-xs transition-all shadow-md flex items-center justify-center space-x-2">
-                        <i class="fa-solid fa-chart-pie text-amber-400"></i>
+                    <button onclick="evaluateCustomIPO()" class="w-full mt-3 bg-moss-950 hover:bg-moss-800 active:scale-98 text-moss-100 font-bold py-3.5 rounded-2xl text-xs transition-all shadow-md flex items-center justify-center space-x-2">
+                        <i class="fa-solid fa-chart-pie text-moss-300"></i>
                         <span>RUN NEXIV INSTITUTIONAL IPO AUDIT</span>
                     </button>
                 </div>
@@ -523,171 +575,186 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             <div id="ipo-result" class="space-y-4"></div>
         </section>
 
-        <!-- 3. KNOWLEDGE VAULT SECTION (4 PILLARS • 56 ENTITIES • 5,053 PAGES) -->
+        <!-- 3. KNOWLEDGE VAULT SECTION (Palette 1 & 3 Blend) -->
         <section id="vault-section" class="hidden space-y-4">
             
             <!-- Vault Hero Banner -->
-            <div class="luxury-card rounded-2xl p-4 shadow-sm space-y-3">
-                <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+            <div class="bg-gradient-to-r from-em-950 via-em-900 to-em-950 text-white rounded-3xl p-4 sm:p-5 shadow-md border border-em-800 space-y-3.5">
+                <div class="flex items-center justify-between pb-2 border-b border-em-800/80">
                     <div class="flex items-center space-x-2.5">
-                        <div class="w-9 h-9 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-600">
+                        <div class="w-9 h-9 rounded-xl bg-em-800/90 border border-em-700 flex items-center justify-center text-em-400">
                             <i class="fa-solid fa-landmark text-sm"></i>
                         </div>
                         <div>
-                            <h2 class="text-sm font-extrabold text-slate-900 tracking-tight">Institutional Knowledge Vault</h2>
-                            <p class="text-[10px] text-slate-500 font-medium">4 Pillars • 56 Codified Entities • 5,053 Pages of Financial Truth</p>
+                            <h2 class="text-sm font-extrabold text-saph-50 tracking-tight">Institutional Knowledge Vault</h2>
+                            <p class="text-[10px] text-em-400 font-medium">4 Pillars • 56 Codified Entities • 5,053 Pages of Financial Truth</p>
                         </div>
                     </div>
-                    <span class="text-[9px] font-extrabold px-2 py-0.5 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-200 uppercase tracking-wide">
+                    <span class="text-[9px] font-extrabold px-2.5 py-0.5 rounded-full bg-em-900 text-em-100 border border-em-700 uppercase tracking-wide">
                         100% Codified
                     </span>
                 </div>
 
                 <!-- 4 Metrics Chips -->
                 <div class="grid grid-cols-4 gap-1.5 text-center text-xs">
-                    <div class="bg-slate-50 p-2 rounded-xl border border-slate-200/60">
-                        <span class="text-base font-black text-slate-900 font-mono block">15</span>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Universities</span>
+                    <div class="bg-em-900/60 p-2.5 rounded-xl border border-em-800/80">
+                        <span class="text-base font-black text-em-100 font-mono block">15</span>
+                        <span class="text-[9px] font-bold text-em-400 uppercase tracking-wider">Universities</span>
                     </div>
-                    <div class="bg-slate-50 p-2 rounded-xl border border-slate-200/60">
-                        <span class="text-base font-black text-slate-900 font-mono block">15</span>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Allocators</span>
+                    <div class="bg-em-900/60 p-2.5 rounded-xl border border-em-800/80">
+                        <span class="text-base font-black text-em-100 font-mono block">15</span>
+                        <span class="text-[9px] font-bold text-em-400 uppercase tracking-wider">Allocators</span>
                     </div>
-                    <div class="bg-slate-50 p-2 rounded-xl border border-slate-200/60">
-                        <span class="text-base font-black text-slate-900 font-mono block">15</span>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">Titans</span>
+                    <div class="bg-em-900/60 p-2.5 rounded-xl border border-em-800/80">
+                        <span class="text-base font-black text-em-100 font-mono block">15</span>
+                        <span class="text-[9px] font-bold text-em-400 uppercase tracking-wider">Titans</span>
                     </div>
-                    <div class="bg-slate-50 p-2 rounded-xl border border-slate-200/60">
-                        <span class="text-base font-black text-emerald-600 font-mono block">5,053p</span>
-                        <span class="text-[9px] font-bold text-slate-500 uppercase tracking-wider">7 Books & 4 DBs</span>
+                    <div class="bg-em-900/60 p-2.5 rounded-xl border border-em-800/80">
+                        <span class="text-base font-black text-em-400 font-mono block">5,053p</span>
+                        <span class="text-[9px] font-bold text-em-100 uppercase tracking-wider">7 Books & 4 DBs</span>
                     </div>
                 </div>
 
                 <!-- Live Search Bar inside Vault -->
                 <div class="relative pt-1">
-                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-slate-400 text-xs"></i>
+                    <i class="fa-solid fa-magnifying-glass absolute left-3 top-3.5 text-em-400 text-xs"></i>
                     <input type="text" id="vault-search-input" oninput="handleVaultSearch(event)" placeholder="Search across all 56 entities, doctrines, authors, or Nobel laureates..." 
-                           class="w-full bg-slate-50 border border-slate-200/90 rounded-xl pl-8 pr-3 py-2 text-xs font-semibold text-slate-900 outline-none focus:bg-white focus:border-amber-500 transition-all">
+                           class="w-full bg-em-900/60 border border-em-700/80 rounded-xl pl-8 pr-3 py-2 text-xs font-semibold text-em-100 placeholder-em-400/70 outline-none focus:bg-em-900 focus:border-em-400 transition-all">
                 </div>
 
                 <!-- Vault Filter Pills -->
                 <div class="flex space-x-1.5 overflow-x-auto pb-1 text-xs font-semibold no-scrollbar">
-                    <button id="vault-filter-all" onclick="filterVault('ALL')" class="px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all whitespace-nowrap">All (56)</button>
-                    <button id="vault-filter-books" onclick="filterVault('BOOKS')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">📚 Books (7)</button>
-                    <button id="vault-filter-academic" onclick="filterVault('ACADEMIC')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">🏛️ Academic (15)</button>
-                    <button id="vault-filter-firms" onclick="filterVault('FIRMS')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">🏢 Allocators (15)</button>
-                    <button id="vault-filter-titans" onclick="filterVault('TITANS')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">🧠 Titans (15)</button>
-                    <button id="vault-filter-datasets" onclick="filterVault('DATASETS')" class="px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap">📊 Datasets (4)</button>
+                    <button id="vault-filter-all" onclick="filterVault('ALL')" class="px-3 py-1 rounded-full bg-em-100 text-em-950 shadow-xs font-bold transition-all whitespace-nowrap">All (56)</button>
+                    <button id="vault-filter-books" onclick="filterVault('BOOKS')" class="px-3 py-1 rounded-full bg-em-900 text-em-100 border border-em-700 hover:bg-em-100 hover:text-em-950 transition-all whitespace-nowrap">📚 Books (7)</button>
+                    <button id="vault-filter-academic" onclick="filterVault('ACADEMIC')" class="px-3 py-1 rounded-full bg-em-900 text-em-100 border border-em-700 hover:bg-em-100 hover:text-em-950 transition-all whitespace-nowrap">🏛️ Academic (15)</button>
+                    <button id="vault-filter-firms" onclick="filterVault('FIRMS')" class="px-3 py-1 rounded-full bg-em-900 text-em-100 border border-em-700 hover:bg-em-100 hover:text-em-950 transition-all whitespace-nowrap">🏢 Allocators (15)</button>
+                    <button id="vault-filter-titans" onclick="filterVault('TITANS')" class="px-3 py-1 rounded-full bg-em-900 text-em-100 border border-em-700 hover:bg-em-100 hover:text-em-950 transition-all whitespace-nowrap">🧠 Titans (15)</button>
+                    <button id="vault-filter-datasets" onclick="filterVault('DATASETS')" class="px-3 py-1 rounded-full bg-em-900 text-em-100 border border-em-700 hover:bg-em-100 hover:text-em-950 transition-all whitespace-nowrap">📊 Datasets (4)</button>
                 </div>
             </div>
 
             <!-- Dynamic Vault Items List -->
             <div id="vault-items-container" class="space-y-3">
-                <div class="p-8 text-center text-xs text-slate-400">Loading codified vault assets...</div>
+                <div class="p-8 text-center text-xs text-em-700 font-medium">Loading codified vault assets...</div>
             </div>
         </section>
 
-        <!-- 4. AI COUNCIL CHAT SECTION -->
+        <!-- 4. AI COUNCIL CHAT SECTION (Palette 3: Holst Sapphire & Polar Silk) -->
         <section id="chat-section" class="hidden space-y-3">
-            <div class="luxury-card rounded-2xl p-4 shadow-sm flex flex-col">
+            <div class="luxury-card-sapphire rounded-3xl p-4 sm:p-5 shadow-xs flex flex-col space-y-3">
                 <!-- Chat Header -->
-                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                <div class="flex items-center justify-between pb-3 border-b border-saph-100">
                     <div class="flex items-center space-x-2.5">
-                        <div class="w-9 h-9 rounded-xl bg-slate-950 p-1 flex items-center justify-center border border-amber-500/30 text-amber-400">
+                        <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-2xl bg-saph-950 p-1 flex items-center justify-center border border-saph-800 text-saph-300 shrink-0">
                             <i class="fa-solid fa-brain text-sm"></i>
                         </div>
                         <div>
                             <div class="flex items-center space-x-1.5">
-                                <h2 class="text-sm font-extrabold text-slate-900 tracking-tight">Nexiv AI Council</h2>
-                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">🟢 56 COUNCILS ACTIVE</span>
+                                <h2 class="text-sm font-extrabold text-saph-950 tracking-tight">Nexiv AI Council</h2>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded-full bg-saph-100 text-saph-950 border border-saph-300">🟢 56 COUNCILS ACTIVE</span>
                             </div>
-                            <p class="text-[10px] text-slate-500 font-medium">5,053 Pages of Codified Law • 15 Institutions • 15 Titans</p>
+                            <p class="text-[10px] text-saph-600 font-medium">5,053 Pages of Codified Law • 15 Institutions • 15 Titans</p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-1.5">
-                        <span class="text-[10px] font-bold px-2 py-1 rounded-lg bg-indigo-50 text-indigo-700 border border-indigo-200 flex items-center space-x-1">
-                            <i class="fa-solid fa-bolt text-indigo-500 text-[11px]"></i>
+                        <span class="text-[10px] font-bold px-2.5 py-1 rounded-xl bg-saph-950 text-saph-300 border border-saph-800 flex items-center space-x-1 shadow-2xs">
+                            <i class="fa-solid fa-bolt text-saph-400 text-[11px]"></i>
                             <span>AI Engine Integrated</span>
                         </span>
                     </div>
                 </div>
 
-                <!-- Quick Prompt Chips -->
-                <div class="pt-3 pb-2">
-                    <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1 text-[11px]">
-                        <button onclick="sendQuickPrompt('What is going on in the market currently? Give me news with current date and time')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-amber-50 hover:bg-amber-100 hover:text-amber-900 border border-amber-300 font-bold text-amber-900 transition-all flex items-center space-x-1">
+                <!-- Quick Prompt Chips (Swipeable Horizontal Carousel) -->
+                <div class="py-1">
+                    <div class="flex items-center space-x-2 overflow-x-auto no-scrollbar py-1 -mx-1 px-1 text-[11px]">
+                        <button onclick="sendQuickPrompt('What is going on in the market currently? Give me news with current date and time')" class="whitespace-nowrap px-3 py-1.5 rounded-full bg-saph-950 text-saph-100 border border-saph-800 font-bold hover:bg-saph-800 transition-all flex items-center space-x-1 shrink-0 shadow-2xs">
                             <span>⚡ Today's Market News</span>
                         </button>
-                        <button onclick="sendQuickPrompt('Should I buy Tata Motors right now or wait?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                        <button onclick="sendQuickPrompt('Should I buy Tata Motors right now or wait?')" class="whitespace-nowrap px-3 py-1.5 rounded-full bg-saph-50 hover:bg-saph-950 text-saph-950 hover:text-saph-50 border border-saph-100 font-semibold transition-all shrink-0 shadow-2xs">
                             🚗 Buy Tata Motors?
                         </button>
-                        <button onclick="sendQuickPrompt('Moneyview IPO apply or avoid?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                        <button onclick="sendQuickPrompt('Moneyview IPO apply or avoid?')" class="whitespace-nowrap px-3 py-1.5 rounded-full bg-saph-50 hover:bg-saph-950 text-saph-950 hover:text-saph-50 border border-saph-100 font-semibold transition-all shrink-0 shadow-2xs">
                             🚀 Moneyview IPO
                         </button>
-                        <button onclick="sendQuickPrompt('Give me latest news on Reliance and Zomato')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                        <button onclick="sendQuickPrompt('Give me latest news on Reliance and Zomato')" class="whitespace-nowrap px-3 py-1.5 rounded-full bg-saph-50 hover:bg-saph-950 text-saph-950 hover:text-saph-50 border border-saph-100 font-semibold transition-all shrink-0 shadow-2xs">
                             📰 Stock News
                         </button>
-                        <button onclick="sendQuickPrompt('How does Schilit catch fake revenue on balance sheet?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                        <button onclick="sendQuickPrompt('How does Schilit catch fake revenue on balance sheet?')" class="whitespace-nowrap px-3 py-1.5 rounded-full bg-saph-50 hover:bg-saph-950 text-saph-950 hover:text-saph-50 border border-saph-100 font-semibold transition-all shrink-0 shadow-2xs">
                             🛡️ Schilit Fraud Rules
                         </button>
-                        <button onclick="sendQuickPrompt('What is Graham and Dodd Margin of Safety?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                        <button onclick="sendQuickPrompt('What is Graham and Dodd Margin of Safety?')" class="whitespace-nowrap px-3 py-1.5 rounded-full bg-saph-50 hover:bg-saph-950 text-saph-950 hover:text-saph-50 border border-saph-100 font-semibold transition-all shrink-0 shadow-2xs">
                             📖 Margin of Safety
                         </button>
-                        <button onclick="sendQuickPrompt('What is Damodaran DCF and WACC in India?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                        <button onclick="sendQuickPrompt('What is Damodaran DCF and WACC in India?')" class="whitespace-nowrap px-3 py-1.5 rounded-full bg-saph-50 hover:bg-saph-950 text-saph-950 hover:text-saph-50 border border-saph-100 font-semibold transition-all shrink-0 shadow-2xs">
                             📊 Damodaran WACC
                         </button>
-                        <button onclick="sendQuickPrompt('Tell me about Snapdeal AceVector IPO verdict')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                        <button onclick="sendQuickPrompt('Tell me about Snapdeal AceVector IPO verdict')" class="whitespace-nowrap px-3 py-1.5 rounded-full bg-saph-50 hover:bg-saph-950 text-saph-950 hover:text-saph-50 border border-saph-100 font-semibold transition-all shrink-0 shadow-2xs">
                             📦 Snapdeal IPO
                         </button>
                     </div>
                 </div>
 
                 <!-- Chat Messages Scroll Container -->
-                <div id="chat-messages" class="flex-1 min-h-[360px] max-h-[480px] overflow-y-auto space-y-3 p-1 pr-1 border-t border-b border-slate-100 py-3 scroll-smooth">
+                <div id="chat-messages" class="flex-1 min-h-[360px] max-h-[480px] overflow-y-auto space-y-3 p-1 pr-1 border-t border-b border-saph-100 py-3 scroll-smooth">
                     <!-- Initial Welcome Message -->
                     <div class="flex items-start space-x-2.5">
-                        <div class="w-7 h-7 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+                        <div class="w-8 h-8 rounded-xl bg-saph-950 text-saph-300 flex items-center justify-center shrink-0 text-xs font-black mt-0.5 border border-saph-800">
                             N
                         </div>
-                        <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-sm p-3.5 shadow-xs text-xs text-slate-800 space-y-2 max-w-[88%]">
-                            <p class="font-bold text-slate-900">Welcome! I am the Nexiv AI Council.</p>
-                            <p class="leading-relaxed">
-                                You can ask me anything in your normal, casual words — don't worry about English or grammar! I understand you directly and answer with our full brain:
+                        <div class="bg-saph-50 border border-saph-100 rounded-3xl rounded-tl-sm p-4 shadow-2xs text-xs text-saph-950 space-y-2 max-w-[90%] leading-relaxed">
+                            <p class="font-extrabold text-saph-950 text-sm">Welcome! I am the Nexiv AI Council.</p>
+                            <p class="text-saph-800 font-medium leading-relaxed">
+                                You can ask me anything in your normal, casual words — don't worry about English or grammar! I understand you directly and answer with our full 5,053-page codified brain:
                             </p>
-                            <ul class="space-y-1 text-slate-600 text-[11px] list-disc list-inside">
-                                <li><strong>Real-Time Market News & Telemetry</strong> (e.g. <em>"what's going on in the market today?"</em>) with exact date, time & live exchange feeds</li>
-                                <li><strong>Any Indian Stock</strong> (e.g. <em>"should i buy tata motor or wait"</em>) with live price & targets</li>
-                                <li><strong>Real Indian IPOs</strong> (e.g. <em>"moneyview ipo verdict"</em>) with GMP & Jay Ritter laws</li>
-                                <li><strong>Forensic Fraud Detection</strong> (Schilit's 7 Shenanigans & fake revenue)</li>
-                                <li><strong>Institutional Valuation</strong> (Damodaran DCF, WACC & Graham Margin of Safety)</li>
-                            </ul>
+                            <div class="space-y-1.5 text-saph-950 text-[11px] pt-1">
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-saph-600 mt-1.5 shrink-0"></span>
+                                    <span><strong>Real-Time Market News & Telemetry</strong> (e.g. <em>"what's going on in the market today?"</em>) with exact date, time & live exchange feeds</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-saph-600 mt-1.5 shrink-0"></span>
+                                    <span><strong>Any Indian Stock & ETF</strong> (e.g. <em>"should i buy tata motor or silver etf"</em>) with live price & targets</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-saph-600 mt-1.5 shrink-0"></span>
+                                    <span><strong>Real Indian IPOs</strong> (e.g. <em>"moneyview ipo verdict"</em>) with GMP & Jay Ritter empirical laws</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-saph-600 mt-1.5 shrink-0"></span>
+                                    <span><strong>Forensic Fraud Detection</strong> (Schilit's 7 Shenanigans & fake revenue detection)</span>
+                                </div>
+                                <div class="flex items-start space-x-2">
+                                    <span class="w-1.5 h-1.5 rounded-full bg-saph-600 mt-1.5 shrink-0"></span>
+                                    <span><strong>Institutional Valuation</strong> (Damodaran DCF, India WACC & Graham Margin of Safety)</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- Typing / Thinking Indicator (hidden by default) -->
-                <div id="chat-typing" class="hidden py-2 px-3 text-xs text-slate-500 items-center space-x-2">
+                <div id="chat-typing" class="hidden py-2 px-3 text-xs text-saph-600 items-center space-x-2">
                     <span class="inline-flex space-x-1 items-center">
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse delay-100"></span>
-                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse delay-200"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-saph-600 animate-pulse"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-saph-600 animate-pulse delay-100"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-saph-600 animate-pulse delay-200"></span>
                     </span>
-                    <span class="text-[11px] font-medium text-slate-500">Nexiv AI is analyzing 5,053 pages & live feeds...</span>
+                    <span class="text-[11px] font-semibold text-saph-600">Nexiv AI is analyzing 5,053 pages & live feeds...</span>
                 </div>
 
                 <!-- Chat Input Form -->
-                <div class="pt-3">
+                <div class="pt-2">
                     <form onsubmit="handleChatSubmit(event)" class="relative flex items-center space-x-2">
-                        <input type="text" id="chat-input" placeholder="Ask anything in your words (e.g. should i buy zomato?)..." class="flex-1 bg-slate-50 border border-slate-200/90 rounded-2xl px-4 py-3 text-xs font-medium text-slate-900 outline-none focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all shadow-inner">
-                        <button type="submit" id="chat-send-btn" class="w-11 h-11 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl flex items-center justify-center transition-all shadow-md active:scale-95 shrink-0">
-                            <i class="fa-solid fa-paper-plane text-amber-400 text-xs"></i>
+                        <input type="text" id="chat-input" placeholder="Ask anything in your words (e.g. should i buy zomato?)..." class="flex-1 bg-saph-50 border border-saph-100 rounded-2xl px-4 py-3 text-xs font-semibold text-saph-950 placeholder-saph-400 outline-none focus:bg-white focus:border-saph-800 focus:ring-2 focus:ring-saph-400/20 transition-all shadow-inner">
+                        <button type="submit" id="chat-send-btn" class="w-11 h-11 bg-saph-950 hover:bg-saph-800 text-saph-100 rounded-2xl flex items-center justify-center transition-all shadow-md active:scale-95 shrink-0">
+                            <i class="fa-solid fa-paper-plane text-saph-300 text-xs"></i>
                         </button>
                     </form>
                 </div>
             </div>
         </section>
-
     </main>
+
 
     <script>
         let searchDebounceTimeout = null;
@@ -700,24 +767,23 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             document.getElementById('chat-section').classList.add('hidden');
             document.getElementById('vault-section').classList.add('hidden');
 
-            const inactiveClass = "py-2 text-[11px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1";
-            const activeClass = "py-2 text-[11px] font-bold rounded-xl bg-white text-slate-900 shadow-sm transition-all flex items-center justify-center space-x-1";
-
-            document.getElementById('tab-stock-btn').className = inactiveClass;
-            document.getElementById('tab-ipo-btn').className = inactiveClass;
-            document.getElementById('tab-chat-btn').className = inactiveClass;
-            document.getElementById('tab-vault-btn').className = inactiveClass;
+            const inactiveBase = "py-2.5 text-[11px] font-semibold rounded-xl transition-all flex items-center justify-center space-x-1";
+            
+            document.getElementById('tab-stock-btn').className = `${inactiveBase} text-em-700 hover:text-em-950`;
+            document.getElementById('tab-ipo-btn').className = `${inactiveBase} text-moss-600 hover:text-moss-950`;
+            document.getElementById('tab-chat-btn').className = `${inactiveBase} text-saph-600 hover:text-saph-950`;
+            document.getElementById('tab-vault-btn').className = `${inactiveBase} text-em-700 hover:text-em-950`;
 
             if (tab === 'stock') {
                 document.getElementById('stock-section').classList.remove('hidden');
-                document.getElementById('tab-stock-btn').className = activeClass;
+                document.getElementById('tab-stock-btn').className = "py-2.5 text-[11px] font-bold rounded-xl bg-em-900 text-em-100 shadow-sm transition-all flex items-center justify-center space-x-1";
             } else if (tab === 'ipo') {
                 document.getElementById('ipo-section').classList.remove('hidden');
-                document.getElementById('tab-ipo-btn').className = activeClass;
+                document.getElementById('tab-ipo-btn').className = "py-2.5 text-[11px] font-bold rounded-xl bg-moss-950 text-moss-100 shadow-sm transition-all flex items-center justify-center space-x-1";
                 loadLiveIPOs();
             } else if (tab === 'chat') {
                 document.getElementById('chat-section').classList.remove('hidden');
-                document.getElementById('tab-chat-btn').className = activeClass;
+                document.getElementById('tab-chat-btn').className = "py-2.5 text-[11px] font-bold rounded-xl bg-saph-950 text-saph-100 shadow-sm transition-all flex items-center justify-center space-x-1";
                 scrollChatToBottom();
                 setTimeout(() => {
                     const input = document.getElementById('chat-input');
@@ -725,12 +791,12 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 }, 100);
             } else if (tab === 'vault') {
                 document.getElementById('vault-section').classList.remove('hidden');
-                document.getElementById('tab-vault-btn').className = activeClass;
+                document.getElementById('tab-vault-btn').className = "py-2.5 text-[11px] font-bold rounded-xl bg-em-800 text-em-100 shadow-sm transition-all flex items-center justify-center space-x-1";
                 loadVault();
             }
         }
 
-        // === AI COUNCIL CHAT ENGINE ===
+        // === AI COUNCIL CHAT ENGINE (Palette 3: Holst Sapphire & Polar Silk) ===
         function formatMarkdown(text) {
             if (!text) return "";
             var html = text
@@ -738,23 +804,23 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 .replace(/</g, "&lt;")
                 .replace(/>/g, "&gt;");
             
-            // Headers in descending order of specificity
-            html = html.replace(/^#### (.*$)/gim, '<h5 class="font-bold text-slate-800 mt-2 mb-0.5 text-xs uppercase tracking-wider">$1</h5>');
-            html = html.replace(/^### (.*$)/gim, '<h4 class="font-extrabold text-slate-900 mt-2.5 mb-1 text-xs">$1</h4>');
-            html = html.replace(/^## (.*$)/gim, '<h3 class="font-black text-slate-900 mt-3 mb-1 text-sm">$1</h3>');
-            html = html.replace(/^# (.*$)/gim, '<h2 class="font-black text-slate-900 mt-3 mb-1 text-base">$1</h2>');
+            // Headers
+            html = html.replace(/^#### (.*$)/gim, '<h5 class="font-bold text-saph-800 mt-2 mb-0.5 text-xs uppercase tracking-wider">$1</h5>');
+            html = html.replace(/^### (.*$)/gim, '<h4 class="font-extrabold text-saph-950 mt-2.5 mb-1 text-xs">$1</h4>');
+            html = html.replace(/^## (.*$)/gim, '<h3 class="font-black text-saph-950 mt-3 mb-1 text-sm">$1</h3>');
+            html = html.replace(/^# (.*$)/gim, '<h2 class="font-black text-saph-950 mt-3 mb-1 text-base">$1</h2>');
 
             // Blockquotes
-            html = html.replace(/^> (.*$)/gim, '<blockquote class="border-l-2 border-amber-500/80 pl-2.5 py-0.5 my-1.5 text-slate-700 italic text-xs bg-amber-50/40 rounded-r-lg">$1</blockquote>');
+            html = html.replace(/^> (.*$)/gim, '<blockquote class="border-l-3 border-saph-800 pl-3 py-1 my-1.5 text-saph-900 italic text-xs bg-saph-100/40 rounded-r-xl">$1</blockquote>');
 
             // Bold & Italic
-            html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>');
-            html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-extrabold text-saph-950">$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<em class="italic text-saph-800">$1</em>');
 
-            // Bullets
-            html = html.replace(/^[•\-\*] (.*$)/gim, '<div class="flex items-start space-x-1.5 my-1"><span class="text-amber-500 font-bold">•</span><span>$1</span></div>');
+            // Bullets: Refined sapphire bullet markers (no harsh yellow dots!)
+            html = html.replace(/^[•\-\*] (.*$)/gim, '<div class="flex items-start space-x-2 my-1"><span class="w-1.5 h-1.5 rounded-full bg-saph-600 mt-1.5 shrink-0"></span><span class="text-saph-950 leading-relaxed">$1</span></div>');
 
-            // Paragraph breaks without regex newline issues
+            // Paragraph breaks
             var nl = String.fromCharCode(10);
             html = html.split(nl + nl).join('<div class="h-2"></div>');
             html = html.split(nl).join('<br>');
@@ -767,7 +833,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const div = document.createElement('div');
             div.className = "flex justify-end";
             div.innerHTML = `
-                <div class="bg-slate-900 text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-xs font-medium max-w-[85%] shadow-xs leading-relaxed">
+                <div class="bg-saph-950 text-saph-50 rounded-2xl rounded-tr-sm px-4 py-2.5 text-xs font-semibold max-w-[85%] shadow-sm leading-relaxed">
                     ${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
                 </div>
             `;
@@ -779,15 +845,16 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const div = document.createElement('div');
             div.className = "flex items-start space-x-2.5";
             div.innerHTML = `
-                <div class="w-7 h-7 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+                <div class="w-8 h-8 rounded-xl bg-saph-950 text-saph-300 flex items-center justify-center shrink-0 text-xs font-black mt-0.5 border border-saph-800 shadow-xs">
                     N
                 </div>
-                <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-sm p-3.5 shadow-xs text-xs text-slate-800 space-y-1 max-w-[88%] leading-relaxed">
+                <div class="bg-saph-50 border border-saph-100 rounded-3xl rounded-tl-sm p-4 shadow-2xs text-xs text-saph-950 space-y-1 max-w-[90%] leading-relaxed">
                     ${formatMarkdown(markdown)}
                 </div>
             `;
             container.appendChild(div);
         }
+
 
         function scrollChatToBottom() {
             const container = document.getElementById('chat-messages');
@@ -893,27 +960,27 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         function renderSearchDropdown(matches) {
             const dropdown = document.getElementById('search-dropdown');
             if (!matches || matches.length === 0) {
-                dropdown.innerHTML = `<div class="p-3 text-xs text-slate-400 text-center font-medium">No direct match. Press Audit to query global feeds.</div>`;
+                dropdown.innerHTML = `<div class="p-3.5 text-xs text-em-700 text-center font-medium">No direct match. Press Audit to query global feeds.</div>`;
                 dropdown.classList.remove('hidden');
                 return;
             }
 
             dropdown.innerHTML = matches.map(m => {
-                let badgeStyle = "bg-blue-50 text-blue-700 border border-blue-200";
+                let badgeStyle = "bg-saph-100 text-saph-950 border border-saph-300";
                 if (m.sector && m.sector.includes('ETF')) {
-                    badgeStyle = "bg-purple-50 text-purple-700 border border-purple-200";
+                    badgeStyle = "bg-saph-100 text-saph-950 border border-saph-300";
                 } else if (m.sector && (m.sector.includes('Commodit') || m.sector.includes('Metal'))) {
-                    badgeStyle = "bg-amber-50 text-amber-700 border border-amber-200";
+                    badgeStyle = "bg-em-100 text-em-950 border border-em-400/50";
                 } else if (m.exchange === 'NSE') {
-                    badgeStyle = "bg-emerald-50 text-emerald-700 border border-emerald-200";
+                    badgeStyle = "bg-em-100 text-em-950 border border-em-400/50";
                 }
                 return `
-                <div onclick="selectSearchResult('${m.symbol}')" class="px-3.5 py-2.5 hover:bg-slate-50 cursor-pointer flex items-center justify-between border-b border-slate-100 last:border-b-0 transition-colors">
+                <div onclick="selectSearchResult('${m.symbol}')" class="px-4 py-3 hover:bg-em-50 cursor-pointer flex items-center justify-between border-b border-em-400/15 last:border-b-0 transition-colors">
                     <div>
-                        <div class="text-xs font-bold text-slate-900">${m.name}</div>
-                        <div class="text-[10px] font-mono font-semibold text-slate-500">${m.symbol} • ${m.sector}</div>
+                        <div class="text-xs font-bold text-em-950">${m.name}</div>
+                        <div class="text-[10px] font-mono font-semibold text-em-700">${m.symbol} • ${m.sector}</div>
                     </div>
-                    <span class="px-2 py-0.5 rounded text-[9px] font-bold ${badgeStyle}">
+                    <span class="px-2 py-0.5 rounded-md text-[9px] font-bold ${badgeStyle}">
                         ${m.exchange}
                     </span>
                 </div>
@@ -983,304 +1050,305 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const isIndianAsset = Boolean(data.is_indian || p.is_indian || p.country === 'India' || (data.symbol || '').includes('.NS') || (data.symbol || '').includes('.BO') || (p.symbol || '').includes('.NS') || (p.symbol || '').includes('.BO'));
             const cur = isIndianAsset ? "₹" : (data.currency || p.currency || "$");
 
-            let cardBg = "border-slate-200 bg-white";
-            let badgeBg = "bg-slate-100 text-slate-800 border-slate-300";
+            let cardBg = "border border-em-400/40 bg-white";
+            let badgeBg = "bg-em-900 text-em-100 border border-em-800";
             let badgeIcon = "fa-hand";
 
             if (data.action_code === "BUY" || data.action_code === "ACCUMULATE") {
-                cardBg = "border-2 border-emerald-500/70 bg-gradient-to-b from-emerald-50/70 via-white to-white";
-                badgeBg = "bg-emerald-600 text-white shadow-sm shadow-emerald-600/30";
+                cardBg = "border-2 border-em-400/60 bg-gradient-to-b from-em-50/70 via-white to-white";
+                badgeBg = "bg-em-900 text-em-100 border border-em-800 shadow-sm";
                 badgeIcon = "fa-circle-check";
             } else if (data.action_code === "HOLD") {
-                cardBg = "border-2 border-amber-500/70 bg-gradient-to-b from-amber-50/70 via-white to-white";
-                badgeBg = "bg-amber-500 text-white shadow-sm shadow-amber-500/30";
+                cardBg = "border-2 border-moss-300/60 bg-gradient-to-b from-moss-50/70 via-white to-white";
+                badgeBg = "bg-moss-800 text-moss-100 border border-moss-600 shadow-sm";
                 badgeIcon = "fa-hand";
             } else if (data.action_code === "SELL") {
-                cardBg = "border-2 border-rose-500/70 bg-gradient-to-b from-rose-50/70 via-white to-white";
-                badgeBg = "bg-rose-600 text-white shadow-sm shadow-rose-600/30";
+                cardBg = "border-2 border-rose-400/60 bg-gradient-to-b from-rose-50/70 via-white to-white";
+                badgeBg = "bg-rose-900 text-rose-100 border border-rose-700 shadow-sm";
                 badgeIcon = "fa-triangle-exclamation";
             }
 
             const upsidePct = data.expected_gain_pct || 0;
-            const upsideClass = upsidePct >= 0 ? "text-emerald-700 bg-emerald-50 border-emerald-200" : "text-rose-700 bg-rose-50 border-rose-200";
+            const upsideClass = upsidePct >= 0 ? "text-em-900 bg-em-100 border-em-400/50" : "text-rose-700 bg-rose-50 border-rose-200";
 
             container.innerHTML = `
-                <!-- EXECUTIVE DECISION CARD -->
-                <div class="luxury-card-elevated rounded-3xl p-5 ${cardBg} space-y-4">
+                <!-- EXECUTIVE DECISION CARD (Palette 1: Emerald Obsidian Luxury) -->
+                <div class="luxury-card-elevated rounded-3xl p-4 sm:p-5 ${cardBg} space-y-4">
                     <div class="flex items-start justify-between">
                         <div>
                             <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase tracking-wide ${badgeBg}">
                                 <i class="fa-solid ${badgeIcon}"></i>
                                 <span>${data.action}</span>
                             </span>
-                            <h2 class="text-lg font-black text-slate-900 mt-2 tracking-tight">${data.company_name}</h2>
-                            <p class="text-xs font-semibold text-slate-500 font-mono">${p.symbol || data.symbol} • ${p.sector || (isCommodityOrEtf ? 'Real Asset / Bullion' : '')} • ${p.country || ''}</p>
+                            <h2 class="text-lg sm:text-xl font-black text-em-950 mt-2 tracking-tight">${data.company_name}</h2>
+                            <p class="text-xs font-semibold text-em-700 font-mono">${p.symbol || data.symbol} • ${p.sector || (isCommodityOrEtf ? 'Real Asset / Bullion' : '')} • ${p.country || ''}</p>
                             
-                            <!-- Multi-Institutional Council Attribution Bar -->
-                            <div class="flex flex-wrap gap-1 mt-2 text-[9px] font-bold">
+                            <!-- Multi-Institutional Council Attribution Bar (Cohesive Luxury Badges) -->
+                            <div class="flex flex-wrap gap-1 mt-2.5 text-[9px] font-bold">
                                 ${isCommodityOrEtf ? `
-                                <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200/80 flex items-center space-x-1">
-                                    <i class="fa-solid fa-coins text-amber-600"></i>
+                                <span class="px-2.5 py-1 rounded-lg bg-em-100/90 text-em-950 border border-em-400/40 flex items-center space-x-1">
+                                    <i class="fa-solid fa-coins text-em-800"></i>
                                     <span>LBMA & MCX (Global Spot Parity)</span>
                                 </span>
-                                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200/80 flex items-center space-x-1">
-                                    <i class="fa-solid fa-vault text-emerald-600"></i>
+                                <span class="px-2.5 py-1 rounded-lg bg-em-100/90 text-em-950 border border-em-400/40 flex items-center space-x-1">
+                                    <i class="fa-solid fa-vault text-em-800"></i>
                                     <span>SEBI & Trustee (100% Vaulted Custody)</span>
                                 </span>
-                                <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-800 border border-purple-200/80 flex items-center space-x-1">
-                                    <i class="fa-solid fa-scale-balanced text-purple-600"></i>
+                                <span class="px-2.5 py-1 rounded-lg bg-saph-100 text-saph-950 border border-saph-300 flex items-center space-x-1">
+                                    <i class="fa-solid fa-scale-balanced text-saph-800"></i>
                                     <span>Ray Dalio All-Weather (5-15% Parity)</span>
                                 </span>
-                                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-800 border border-blue-200/80 flex items-center space-x-1">
-                                    <i class="fa-solid fa-bolt text-blue-600"></i>
+                                <span class="px-2.5 py-1 rounded-lg bg-em-100/90 text-em-950 border border-em-400/40 flex items-center space-x-1">
+                                    <i class="fa-solid fa-bolt text-em-800"></i>
                                     <span>Secular Green & Grid Electrification</span>
                                 </span>
                                 ` : `
-                                <span class="px-2 py-0.5 rounded-md bg-amber-50 text-amber-800 border border-amber-200/80 flex items-center space-x-1">
-                                    <i class="fa-solid fa-landmark text-amber-600"></i>
+                                <span class="px-2.5 py-1 rounded-lg bg-em-100/90 text-em-950 border border-em-400/40 flex items-center space-x-1">
+                                    <i class="fa-solid fa-landmark text-em-800"></i>
                                     <span>NYU & Columbia (Damodaran DCF & Moat)</span>
                                 </span>
-                                <span class="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-800 border border-emerald-200/80 flex items-center space-x-1">
-                                    <i class="fa-solid fa-shield-halved text-emerald-600"></i>
+                                <span class="px-2.5 py-1 rounded-lg bg-em-100/90 text-em-950 border border-em-400/40 flex items-center space-x-1">
+                                    <i class="fa-solid fa-shield-halved text-em-800"></i>
                                     <span>Schilit Forensics (Clean Financials)</span>
                                 </span>
-                                <span class="px-2 py-0.5 rounded-md bg-purple-50 text-purple-800 border border-purple-200/80 flex items-center space-x-1">
-                                    <i class="fa-solid fa-building-columns text-purple-600"></i>
+                                <span class="px-2.5 py-1 rounded-lg bg-saph-100 text-saph-950 border border-saph-300 flex items-center space-x-1">
+                                    <i class="fa-solid fa-building-columns text-saph-800"></i>
                                     <span>Citadel & López de Prado (Risk Pod Sizing)</span>
                                 </span>
-                                <span class="px-2 py-0.5 rounded-md bg-blue-50 text-blue-800 border border-blue-200/80 flex items-center space-x-1">
-                                    <i class="fa-solid fa-chart-line text-blue-600"></i>
+                                <span class="px-2.5 py-1 rounded-lg bg-saph-100 text-saph-950 border border-saph-300 flex items-center space-x-1">
+                                    <i class="fa-solid fa-chart-line text-saph-800"></i>
                                     <span>Bridgewater & Oaktree (Debt & Credit Cycle)</span>
                                 </span>
                                 `}
                             </div>
                         </div>
-                        <div class="text-right">
+                        <div class="text-right shrink-0">
                             <div class="flex items-center justify-end space-x-1 mb-0.5">
-                                <span class="text-[10px] font-bold px-2 py-0.5 rounded-full ${(data.price_source||'').includes('LIVE') ? 'bg-emerald-100 text-emerald-800 border border-emerald-300' : 'bg-amber-100 text-amber-800 border border-amber-300'}">${data.price_source || '🟢 LIVE EXCHANGE'}</span>
+                                <span class="text-[9px] sm:text-[10px] font-bold px-2 py-0.5 rounded-full ${(data.price_source||'').includes('LIVE') ? 'bg-em-100 text-em-950 border border-em-400/50' : 'bg-moss-100 text-moss-950 border border-moss-300'}">${data.price_source || '🟢 LIVE EXCHANGE'}</span>
                             </div>
-                            <span class="text-xl font-black font-mono text-slate-900">${cur}${((p.current_price || data.current_price || 0)).toFixed(2)}</span>
-                            ${(data.live_change_pct && data.live_change_pct !== 0) ? `<span class="text-[10px] font-bold ${data.live_change_pct >= 0 ? 'text-emerald-600' : 'text-rose-600'} block font-mono">${data.live_change_pct >= 0 ? '▲' : '▼'} ${Math.abs(data.live_change_pct).toFixed(2)}% today</span>` : ''}
-                            <span class="text-[9px] text-slate-500 font-mono block mt-0.5">${data.price_timestamp || ''}</span>
+                            <span class="text-xl sm:text-2xl font-black font-mono text-em-950">${cur}${((p.current_price || data.current_price || 0)).toFixed(2)}</span>
+                            ${(data.live_change_pct && data.live_change_pct !== 0) ? `<span class="text-[10px] font-bold ${data.live_change_pct >= 0 ? 'text-em-800' : 'text-rose-600'} block font-mono">${data.live_change_pct >= 0 ? '▲' : '▼'} ${Math.abs(data.live_change_pct).toFixed(2)}% today</span>` : ''}
+                            <span class="text-[9px] text-em-700 font-mono block mt-0.5">${data.price_timestamp || ''}</span>
                         </div>
                     </div>
 
-                    <div class="bg-white/90 p-3.5 rounded-2xl border border-slate-200/80 shadow-xs">
-                        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1 flex items-center space-x-1">
-                            <i class="fa-solid fa-microchip text-amber-500"></i>
+                    <div class="bg-white/95 p-3.5 sm:p-4 rounded-2xl border border-em-400/30 shadow-2xs">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-em-700 mb-1 flex items-center space-x-1.5">
+                            <i class="fa-solid fa-microchip text-em-900"></i>
                             <span>Nexiv AI Council Synthesis</span>
                         </div>
-                        <p class="text-xs text-slate-700 leading-relaxed font-medium">${data.summary_advice}</p>
+                        <p class="text-xs text-em-950 leading-relaxed font-medium">${data.summary_advice}</p>
                     </div>
 
                     <!-- 4 Institutional Action Pillars Grid -->
                     <div class="grid grid-cols-2 gap-2 pt-1">
-                        <div class="bg-slate-50/90 p-3 rounded-2xl border border-slate-200/70">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">TARGET PRICE</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase tracking-wider">TARGET PRICE</span>
                             <div class="flex items-baseline space-x-1.5 mt-0.5">
-                                <span class="text-base font-black font-mono text-slate-900">${cur}${((data.target_price || 0)).toFixed(2)}</span>
+                                <span class="text-base font-black font-mono text-em-950">${cur}${((data.target_price || 0)).toFixed(2)}</span>
                                 <span class="text-[10px] font-bold px-1.5 py-0.5 rounded border ${upsideClass}">${upsidePct > 0 ? '+' : ''}${upsidePct.toFixed(1)}%</span>
                             </div>
                         </div>
-                        <div class="bg-slate-50/90 p-3 rounded-2xl border border-slate-200/70">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">STOP-LOSS FLOOR</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase tracking-wider">STOP-LOSS FLOOR</span>
                             <div class="flex items-baseline space-x-1.5 mt-0.5">
-                                <span class="text-base font-black font-mono text-rose-600">${cur}${((data.stop_loss_price || 0)).toFixed(2)}</span>
-                                <span class="text-[10px] font-bold text-slate-400">Defense</span>
+                                <span class="text-base font-black font-mono text-rose-700">${cur}${((data.stop_loss_price || 0)).toFixed(2)}</span>
+                                <span class="text-[10px] font-bold text-em-700/60">Defense</span>
                             </div>
                         </div>
-                        <div class="bg-slate-50/90 p-3 rounded-2xl border border-slate-200/70">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">${isCommodityOrEtf ? 'PARITY UPSIDE' : 'MARGIN OF SAFETY'}</span>
-                            <span class="text-sm font-black font-mono ${((v.margin_of_safety_pct || data.expected_gain_pct || 0)) >= 0 ? 'text-emerald-700' : 'text-rose-600'}">
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase tracking-wider">${isCommodityOrEtf ? 'PARITY UPSIDE' : 'MARGIN OF SAFETY'}</span>
+                            <span class="text-sm font-black font-mono ${((v.margin_of_safety_pct || data.expected_gain_pct || 0)) >= 0 ? 'text-em-900' : 'text-rose-600'}">
                                 ${((v.margin_of_safety_pct || data.expected_gain_pct || 0)) > 0 ? '+' : ''}${((v.margin_of_safety_pct || data.expected_gain_pct || 0)).toFixed(1)}% vs ${isCommodityOrEtf ? 'Parity' : 'DCF'}
                             </span>
                         </div>
-                        <div class="bg-slate-50/90 p-3 rounded-2xl border border-slate-200/70">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase tracking-wider">TIME HORIZON</span>
-                            <span class="text-xs font-bold text-slate-800 truncate block mt-0.5">${data.time_horizon || data.recommended_horizon || '1 to 3 Years'}</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase tracking-wider">TIME HORIZON</span>
+                            <span class="text-xs font-bold text-em-950 truncate block mt-0.5">${data.time_horizon || data.recommended_horizon || '1 to 3 Years'}</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- 4 AGENT COUNCIL CONSENSUS -->
-                <div class="luxury-card rounded-2xl p-4 space-y-3">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div class="luxury-card-emerald rounded-3xl p-4 sm:p-5 space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-em-400/20">
                         <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-users-gear text-amber-600 text-xs"></i>
-                            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wide">4-Agent Autonomous Council</h3>
+                            <i class="fa-solid fa-users-gear text-em-900 text-xs"></i>
+                            <h3 class="text-xs font-bold text-em-950 uppercase tracking-wide">4-Agent Autonomous Council</h3>
                         </div>
-                        <span class="text-[10px] font-bold text-slate-400">UNANIMOUS CONSENSUS</span>
+                        <span class="text-[10px] font-bold text-em-700">UNANIMOUS CONSENSUS</span>
                     </div>
 
                     <div class="space-y-2.5 text-xs">
-                        <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start space-x-2.5">
-                            <span class="w-5 h-5 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                        <div class="p-3 rounded-2xl bg-em-50 border border-em-400/30 flex items-start space-x-2.5">
+                            <span class="w-5 h-5 rounded-lg bg-em-900 text-em-100 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
                             <div class="space-y-0.5 flex-1">
                                 <div class="flex items-center justify-between">
-                                    <span class="font-bold text-slate-900">${syn?.valuation_agent?.name || 'Valuation Architect'}</span>
-                                    <span class="text-[9px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">${syn?.valuation_agent?.institution || (isCommodityOrEtf ? 'LBMA Standards' : 'NYU & Columbia')}</span>
+                                    <span class="font-bold text-em-950">${syn?.valuation_agent?.name || 'Valuation Architect'}</span>
+                                    <span class="text-[9px] font-bold text-em-950 bg-em-100 px-2 py-0.5 rounded-md border border-em-400/40">${syn?.valuation_agent?.institution || (isCommodityOrEtf ? 'LBMA Standards' : 'NYU & Columbia')}</span>
                                 </div>
-                                <p class="text-slate-700 font-medium">${syn?.valuation_agent?.verdict || 'Valuation Audit Complete'} • Value: <span class="font-mono font-bold">${cur}${((v?.dcf?.intrinsic_value_per_share || data.target_price || 0)).toFixed(2)}</span></p>
-                                <p class="text-[10px] text-slate-400 italic font-mono leading-tight">${syn?.valuation_agent?.doctrine || (isCommodityOrEtf ? 'Spot parity tracking without equity dilution.' : 'Intrinsic cash flows discounted by cost of capital.')}</p>
+                                <p class="text-em-900 font-medium">${syn?.valuation_agent?.verdict || 'Valuation Audit Complete'} • Value: <span class="font-mono font-bold">${cur}${((v?.dcf?.intrinsic_value_per_share || data.target_price || 0)).toFixed(2)}</span></p>
+                                <p class="text-[10px] text-em-700 italic font-mono leading-tight">${syn?.valuation_agent?.doctrine || (isCommodityOrEtf ? 'Spot parity tracking without equity dilution.' : 'Intrinsic cash flows discounted by cost of capital.')}</p>
                             </div>
                         </div>
-                        <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start space-x-2.5">
-                            <span class="w-5 h-5 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                        <div class="p-3 rounded-2xl bg-em-50 border border-em-400/30 flex items-start space-x-2.5">
+                            <span class="w-5 h-5 rounded-lg bg-em-900 text-em-100 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
                             <div class="space-y-0.5 flex-1">
                                 <div class="flex items-center justify-between">
-                                    <span class="font-bold text-slate-900">${syn?.forensic_agent?.name || 'Forensics Shield'}</span>
-                                    <span class="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">${syn?.forensic_agent?.institution || (isCommodityOrEtf ? 'SEBI / Custodial Trustee' : 'Howard Schilit')}</span>
+                                    <span class="font-bold text-em-950">${syn?.forensic_agent?.name || 'Forensics Shield'}</span>
+                                    <span class="text-[9px] font-bold text-em-950 bg-em-100 px-2 py-0.5 rounded-md border border-em-400/40">${syn?.forensic_agent?.institution || (isCommodityOrEtf ? 'SEBI / Custodial Trustee' : 'Howard Schilit')}</span>
                                 </div>
-                                <p class="text-slate-700 font-medium">${syn?.forensic_agent?.verdict || 'Forensics Complete'}${isCommodityOrEtf ? '' : ` • Altman Z: <span class="font-mono font-bold">${((f?.altman_z?.z_score || 0)).toFixed(2)}</span> (${f?.altman_z?.zone || 'SAFE'})`}</p>
-                                <p class="text-[10px] text-slate-400 italic font-mono leading-tight">${syn?.forensic_agent?.doctrine || 'Legal asset separation guarantees bankruptcy remoteness.'}</p>
+                                <p class="text-em-900 font-medium">${syn?.forensic_agent?.verdict || 'Forensics Complete'}${isCommodityOrEtf ? '' : ` • Altman Z: <span class="font-mono font-bold">${((f?.altman_z?.z_score || 0)).toFixed(2)}</span> (${f?.altman_z?.zone || 'SAFE'})`}</p>
+                                <p class="text-[10px] text-em-700 italic font-mono leading-tight">${syn?.forensic_agent?.doctrine || 'Legal asset separation guarantees bankruptcy remoteness.'}</p>
                             </div>
                         </div>
-                        <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start space-x-2.5">
-                            <span class="w-5 h-5 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
+                        <div class="p-3 rounded-2xl bg-em-50 border border-em-400/30 flex items-start space-x-2.5">
+                            <span class="w-5 h-5 rounded-lg bg-saph-950 text-saph-100 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
                             <div class="space-y-0.5 flex-1">
                                 <div class="flex items-center justify-between">
-                                    <span class="font-bold text-slate-900">${syn?.risk_sizing_agent?.name || 'Kelly Sizing Allocator'}</span>
-                                    <span class="text-[9px] font-bold text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200">${syn?.risk_sizing_agent?.institution || (isCommodityOrEtf ? 'Ray Dalio All-Weather' : 'Citadel & López de Prado')}</span>
+                                    <span class="font-bold text-saph-950">${syn?.risk_sizing_agent?.name || 'Kelly Sizing Allocator'}</span>
+                                    <span class="text-[9px] font-bold text-saph-950 bg-saph-100 px-2 py-0.5 rounded-md border border-saph-300">${syn?.risk_sizing_agent?.institution || (isCommodityOrEtf ? 'Ray Dalio All-Weather' : 'Citadel & López de Prado')}</span>
                                 </div>
-                                <p class="text-slate-700 font-medium">${syn?.risk_sizing_agent?.verdict || 'Risk Sizing Complete'} • Recommended: <span class="font-mono font-bold">${((r?.recommended_kelly_allocation_pct || data.recommended_allocation_pct || 10)).toFixed(1)}%</span> of portfolio</p>
-                                <p class="text-[10px] text-slate-400 italic font-mono leading-tight">${syn?.risk_sizing_agent?.doctrine || 'Fractional sizing preserves capital while providing macro resilience.'}</p>
+                                <p class="text-saph-950 font-medium">${syn?.risk_sizing_agent?.verdict || 'Risk Sizing Complete'} • Recommended: <span class="font-mono font-bold">${((r?.recommended_kelly_allocation_pct || data.recommended_allocation_pct || 10)).toFixed(1)}%</span> of portfolio</p>
+                                <p class="text-[10px] text-saph-700 italic font-mono leading-tight">${syn?.risk_sizing_agent?.doctrine || 'Fractional sizing preserves capital while providing macro resilience.'}</p>
                             </div>
                         </div>
-                        <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start space-x-2.5">
-                            <span class="w-5 h-5 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">4</span>
+                        <div class="p-3 rounded-2xl bg-em-50 border border-em-400/30 flex items-start space-x-2.5">
+                            <span class="w-5 h-5 rounded-lg bg-em-900 text-em-100 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">4</span>
                             <div class="space-y-0.5 flex-1">
                                 <div class="flex items-center justify-between">
-                                    <span class="font-bold text-slate-900">${syn?.market_cycle_agent?.name || 'Macro Cycle Strategist'}</span>
-                                    <span class="text-[9px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">${syn?.market_cycle_agent?.institution || (isCommodityOrEtf ? 'Commodity Research' : 'Bridgewater & Oaktree')}</span>
+                                    <span class="font-bold text-em-950">${syn?.market_cycle_agent?.name || 'Macro Cycle Strategist'}</span>
+                                    <span class="text-[9px] font-bold text-em-950 bg-em-100 px-2 py-0.5 rounded-md border border-em-400/40">${syn?.market_cycle_agent?.institution || (isCommodityOrEtf ? 'Commodity Research' : 'Bridgewater & Oaktree')}</span>
                                 </div>
-                                <p class="text-slate-700 font-medium">${syn?.market_cycle_agent?.verdict || 'Cycle Aligned'} • Horizon: <span class="font-bold">${data.time_horizon || data.recommended_horizon || '1 to 3 Years'}</span></p>
-                                <p class="text-[10px] text-slate-400 italic font-mono leading-tight">${syn?.market_cycle_agent?.doctrine || 'Structural supply tightness and green transition underpin multi-year supercycle.'}</p>
+                                <p class="text-em-900 font-medium">${syn?.market_cycle_agent?.verdict || 'Cycle Aligned'} • Horizon: <span class="font-bold">${data.time_horizon || data.recommended_horizon || '1 to 3 Years'}</span></p>
+                                <p class="text-[10px] text-em-700 italic font-mono leading-tight">${syn?.market_cycle_agent?.doctrine || 'Structural supply tightness and green transition underpin multi-year supercycle.'}</p>
                             </div>
                         </div>
                     </div>
                 </div>
 
                 <!-- FORENSIC AUDIT CHECKLIST -->
-                <div class="luxury-card rounded-2xl p-4 space-y-3">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div class="luxury-card-emerald rounded-3xl p-4 sm:p-5 space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-em-400/20">
                         <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-shield-halved text-emerald-600 text-xs"></i>
-                            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wide">${isCommodityOrEtf ? 'Vault Custody & Solvency Shield' : 'Forensics & Shenanigans Shield'}</h3>
+                            <i class="fa-solid fa-shield-halved text-em-800 text-xs"></i>
+                            <h3 class="text-xs font-bold text-em-950 uppercase tracking-wide">${isCommodityOrEtf ? 'Vault Custody & Solvency Shield' : 'Forensics & Shenanigans Shield'}</h3>
                         </div>
-                        <span class="text-[10px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200">${isCommodityOrEtf ? 'REGULATED TRUSTEE AUDIT' : 'SCHILIT AUDIT'}</span>
+                        <span class="text-[10px] font-bold text-em-950 bg-em-100 px-2 py-0.5 rounded-md border border-em-400/40">${isCommodityOrEtf ? 'REGULATED TRUSTEE AUDIT' : 'SCHILIT AUDIT'}</span>
                     </div>
 
                     ${isCommodityOrEtf ? `
                     <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Custodial Backing</span>
-                            <span class="text-base font-black font-mono text-emerald-700 mt-0.5 block">100% Physical</span>
-                            <span class="text-[10px] font-bold text-emerald-700 block mt-0.5">LBMA / SEBI Vaulted Bullion</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase">Custodial Backing</span>
+                            <span class="text-base font-black font-mono text-em-900 mt-0.5 block">100% Physical</span>
+                            <span class="text-[10px] font-bold text-em-700 block mt-0.5">LBMA / SEBI Vaulted Bullion</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Single-Entity Credit Risk</span>
-                            <span class="text-base font-black font-mono text-emerald-700 mt-0.5 block">ZERO RISK</span>
-                            <span class="text-[10px] font-bold text-emerald-700 block mt-0.5">Bankruptcy-Remote Trust</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase">Single-Entity Credit Risk</span>
+                            <span class="text-base font-black font-mono text-em-900 mt-0.5 block">ZERO RISK</span>
+                            <span class="text-[10px] font-bold text-em-700 block mt-0.5">Bankruptcy-Remote Trust</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Purity / Delivery Standard</span>
-                            <span class="text-base font-black font-mono text-slate-900 mt-0.5 block">99.9% Purity</span>
-                            <span class="text-[10px] font-bold text-slate-600 block mt-0.5">London / MCX Good Delivery</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase">Purity / Delivery Standard</span>
+                            <span class="text-base font-black font-mono text-em-950 mt-0.5 block">99.9% Purity</span>
+                            <span class="text-[10px] font-bold text-em-700 block mt-0.5">London / MCX Good Delivery</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Tracking Efficiency</span>
-                            <span class="text-base font-black font-mono text-slate-900 mt-0.5 block">&lt; 0.20%</span>
-                            <span class="text-[10px] font-bold text-emerald-700 block mt-0.5">High Market Liquidity</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase">Tracking Efficiency</span>
+                            <span class="text-base font-black font-mono text-em-950 mt-0.5 block">&lt; 0.20%</span>
+                            <span class="text-[10px] font-bold text-em-700 block mt-0.5">High Market Liquidity</span>
                         </div>
                     </div>
                     ` : `
                     <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Altman Z-Score</span>
-                            <span class="text-base font-black font-mono text-slate-900 mt-0.5 block">${((f?.altman_z?.z_score || 0)).toFixed(2)}</span>
-                            <span class="text-[10px] font-bold ${(f?.altman_z?.zone || '').includes('SAFE') ? 'text-emerald-700' : 'text-rose-600'} block mt-0.5">${f?.altman_z?.zone || 'SAFE ZONE'}</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase">Altman Z-Score</span>
+                            <span class="text-base font-black font-mono text-em-950 mt-0.5 block">${((f?.altman_z?.z_score || 0)).toFixed(2)}</span>
+                            <span class="text-[10px] font-bold ${(f?.altman_z?.zone || '').includes('SAFE') ? 'text-em-800' : 'text-rose-600'} block mt-0.5">${f?.altman_z?.zone || 'SAFE ZONE'}</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Beneish M-Score</span>
-                            <span class="text-base font-black font-mono text-slate-900 mt-0.5 block">${((f?.beneish_m?.m_score || 0)).toFixed(2)}</span>
-                            <span class="text-[10px] font-bold ${(f?.beneish_m?.m_score || -2.0) > -1.78 ? 'text-rose-600' : 'text-emerald-700'} block mt-0.5">${f?.beneish_m?.manipulation_risk || 'LOW RISK'}</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase">Beneish M-Score</span>
+                            <span class="text-base font-black font-mono text-em-950 mt-0.5 block">${((f?.beneish_m?.m_score || 0)).toFixed(2)}</span>
+                            <span class="text-[10px] font-bold ${(f?.beneish_m?.m_score || -2.0) > -1.78 ? 'text-rose-600' : 'text-em-800'} block mt-0.5">${f?.beneish_m?.manipulation_risk || 'LOW RISK'}</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Piotroski F-Score</span>
-                            <span class="text-base font-black font-mono text-slate-900 mt-0.5 block">${f?.piotroski_f?.f_score ?? 7}/9</span>
-                            <span class="text-[10px] font-bold text-slate-600 block mt-0.5">${f?.piotroski_f?.rating || 'Strong Fundamentals'}</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase">Piotroski F-Score</span>
+                            <span class="text-base font-black font-mono text-em-950 mt-0.5 block">${f?.piotroski_f?.f_score ?? 7}/9</span>
+                            <span class="text-[10px] font-bold text-em-700 block mt-0.5">${f?.piotroski_f?.rating || 'Strong Fundamentals'}</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Sloan Accruals</span>
-                            <span class="text-base font-black font-mono text-slate-900 mt-0.5 block">${((f?.sloan_accrual?.accrual_ratio || 0)).toFixed(3)}</span>
-                            <span class="text-[10px] font-bold text-slate-600 block mt-0.5">${f?.sloan_accrual?.quality_rating || 'High Quality'}</span>
+                        <div class="bg-em-50 p-3 rounded-2xl border border-em-400/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-em-700 block uppercase">Sloan Accruals</span>
+                            <span class="text-base font-black font-mono text-em-950 mt-0.5 block">${((f?.sloan_accrual?.accrual_ratio || 0)).toFixed(3)}</span>
+                            <span class="text-[10px] font-bold text-em-700 block mt-0.5">${f?.sloan_accrual?.quality_rating || 'High Quality'}</span>
                         </div>
                     </div>
                     `}
                 </div>
 
                 <!-- VALUATION ARCHITECTURE -->
-                <div class="luxury-card rounded-2xl p-4 space-y-3">
-                    <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                <div class="luxury-card-emerald rounded-3xl p-4 sm:p-5 space-y-3">
+                    <div class="flex items-center justify-between pb-2 border-b border-em-400/20">
                         <div class="flex items-center space-x-2">
-                            <i class="fa-solid fa-calculator text-blue-600 text-xs"></i>
-                            <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wide">${isCommodityOrEtf ? 'Commodity Parity & Asset Allocation' : 'Valuation & Capital Allocation'}</h3>
+                            <i class="fa-solid fa-calculator text-em-800 text-xs"></i>
+                            <h3 class="text-xs font-bold text-em-950 uppercase tracking-wide">${isCommodityOrEtf ? 'Commodity Parity & Asset Allocation' : 'Valuation & Capital Allocation'}</h3>
                         </div>
-                        <span class="text-[10px] font-bold text-blue-700 bg-blue-50 px-2 py-0.5 rounded-md border border-blue-200">${isCommodityOrEtf ? 'GLOBAL SPOT PARITY' : 'DAMODARAN DCF'}</span>
+                        <span class="text-[10px] font-bold text-em-950 bg-em-100 px-2 py-0.5 rounded-md border border-em-400/40">${isCommodityOrEtf ? 'GLOBAL SPOT PARITY' : 'DAMODARAN DCF'}</span>
                     </div>
 
                     ${isCommodityOrEtf ? `
                     <div class="space-y-2.5 text-xs">
-                        <div class="flex justify-between items-center py-1 border-b border-slate-100">
-                            <span class="font-medium text-slate-500">Physical NAV / Parity Target</span>
-                            <span class="font-mono font-bold text-slate-900 text-sm">${cur}${((data.target_price || v?.dcf?.intrinsic_value_per_share || 0)).toFixed(2)}</span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-em-400/15">
+                            <span class="font-medium text-em-700">Physical NAV / Parity Target</span>
+                            <span class="font-mono font-bold text-em-950 text-sm">${cur}${((data.target_price || v?.dcf?.intrinsic_value_per_share || 0)).toFixed(2)}</span>
                         </div>
-                        <div class="flex justify-between items-center py-1 border-b border-slate-100">
-                            <span class="font-medium text-slate-500">Upside Potential vs Current Spot</span>
-                            <span class="font-mono font-bold text-emerald-700">+${(data.expected_gain_pct || 18.0).toFixed(1)}%</span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-em-400/15">
+                            <span class="font-medium text-em-700">Upside Potential vs Current Spot</span>
+                            <span class="font-mono font-bold text-em-800">+${(data.expected_gain_pct || 18.0).toFixed(1)}%</span>
                         </div>
-                        <div class="flex justify-between items-center py-1 border-b border-slate-100">
-                            <span class="font-medium text-slate-500">Asset Class Defensive Beta</span>
-                            <span class="font-mono font-bold text-slate-700">0.75 (Non-Correlated Real Asset)</span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-em-400/15">
+                            <span class="font-medium text-em-700">Asset Class Defensive Beta</span>
+                            <span class="font-mono font-bold text-em-800">0.75 (Non-Correlated Real Asset)</span>
                         </div>
-                        <div class="flex justify-between items-center py-1 border-b border-slate-100">
-                            <span class="font-medium text-slate-500">Ray Dalio All-Weather Recommended Band</span>
-                            <span class="font-mono font-bold text-purple-700">5.0% - 15.0% of Portfolio</span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-em-400/15">
+                            <span class="font-medium text-em-700">Ray Dalio All-Weather Recommended Band</span>
+                            <span class="font-mono font-bold text-saph-800">5.0% - 15.0% of Portfolio</span>
                         </div>
-                        <div class="flex justify-between items-center py-1">
-                            <span class="font-medium text-slate-500">Strategic Position Sizing</span>
-                            <span class="font-mono font-bold text-emerald-700">${((data.recommended_allocation_pct || r?.recommended_kelly_allocation_pct || 10)).toFixed(1)}% of Portfolio</span>
+                        <div class="flex justify-between items-center py-1.5">
+                            <span class="font-medium text-em-700">Strategic Position Sizing</span>
+                            <span class="font-mono font-bold text-em-800">${((data.recommended_allocation_pct || r?.recommended_kelly_allocation_pct || 10)).toFixed(1)}% of Portfolio</span>
                         </div>
                     </div>
                     ` : `
                     <div class="space-y-2.5 text-xs">
-                        <div class="flex justify-between items-center py-1 border-b border-slate-100">
-                            <span class="font-medium text-slate-500">Damodaran DCF Intrinsic Value</span>
-                            <span class="font-mono font-bold text-slate-900 text-sm">${cur}${((v?.dcf?.intrinsic_value_per_share || 0)).toFixed(2)}</span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-em-400/15">
+                            <span class="font-medium text-em-700">Damodaran DCF Intrinsic Value</span>
+                            <span class="font-mono font-bold text-em-950 text-sm">${cur}${((v?.dcf?.intrinsic_value_per_share || 0)).toFixed(2)}</span>
                         </div>
-                        <div class="flex justify-between items-center py-1 border-b border-slate-100">
-                            <span class="font-medium text-slate-500">Margin of Safety vs Current Price</span>
-                            <span class="font-mono font-bold ${(v?.margin_of_safety_pct || 0) >= 0 ? 'text-emerald-700' : 'text-rose-600'}">
+                        <div class="flex justify-between items-center py-1.5 border-b border-em-400/15">
+                            <span class="font-medium text-em-700">Margin of Safety vs Current Price</span>
+                            <span class="font-mono font-bold ${(v?.margin_of_safety_pct || 0) >= 0 ? 'text-em-800' : 'text-rose-600'}">
                                 ${(v?.margin_of_safety_pct || 0) > 0 ? '+' : ''}${((v?.margin_of_safety_pct || 0)).toFixed(2)}%
                             </span>
                         </div>
-                        <div class="flex justify-between items-center py-1 border-b border-slate-100">
-                            <span class="font-medium text-slate-500">Benchmark Cost of Capital (WACC)</span>
-                            <span class="font-mono font-bold text-slate-700">${(((v?.wacc || 0.1) * 100)).toFixed(2)}%</span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-em-400/15">
+                            <span class="font-medium text-em-700">Benchmark Cost of Capital (WACC)</span>
+                            <span class="font-mono font-bold text-em-800">${(((v?.wacc || 0.1) * 100)).toFixed(2)}%</span>
                         </div>
-                        <div class="flex justify-between items-center py-1 border-b border-slate-100">
-                            <span class="font-medium text-slate-500">Graham Net-Net Liquidation Floor</span>
-                            <span class="font-mono font-bold text-slate-700">${cur}${((v?.graham_ncav?.ncav_per_share || 0)).toFixed(2)}</span>
+                        <div class="flex justify-between items-center py-1.5 border-b border-em-400/15">
+                            <span class="font-medium text-em-700">Graham Net-Net Liquidation Floor</span>
+                            <span class="font-mono font-bold text-em-800">${cur}${((v?.graham_ncav?.ncav_per_share || 0)).toFixed(2)}</span>
                         </div>
-                        <div class="flex justify-between items-center py-1">
-                            <span class="font-medium text-slate-500">Kelly Optimal Capital Allocation</span>
-                            <span class="font-mono font-bold text-emerald-700">${((r?.recommended_kelly_allocation_pct || 0)).toFixed(1)}% of Portfolio</span>
+                        <div class="flex justify-between items-center py-1.5">
+                            <span class="font-medium text-em-700">Kelly Optimal Capital Allocation</span>
+                            <span class="font-mono font-bold text-em-800">${((r?.recommended_kelly_allocation_pct || 0)).toFixed(1)}% of Portfolio</span>
                         </div>
                     </div>
                     `}
                 </div>
             `;
         }
+
 
         async function loadLiveIPOs() {
             try {
@@ -1294,20 +1362,20 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
         function filterIPOs(filter) {
             document.querySelectorAll('#ipo-section .overflow-x-auto button').forEach(b => {
-                b.className = "px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all";
+                b.className = "px-3.5 py-1.5 rounded-full bg-moss-100/70 text-moss-800 hover:bg-moss-950 hover:text-moss-100 border border-moss-300/50 transition-all whitespace-nowrap";
             });
 
             if (filter === 'ALL') {
-                document.getElementById('filter-all').className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all";
+                document.getElementById('filter-all').className = "px-3.5 py-1.5 rounded-full bg-moss-950 text-moss-100 shadow-xs font-bold transition-all whitespace-nowrap";
                 renderIPOList(cachedIPOs);
             } else if (filter === 'OPEN NOW') {
-                document.getElementById('filter-open').className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all";
+                document.getElementById('filter-open').className = "px-3.5 py-1.5 rounded-full bg-moss-950 text-moss-100 shadow-xs font-bold transition-all whitespace-nowrap";
                 renderIPOList(cachedIPOs.filter(i => i.status === 'OPEN NOW'));
             } else if (filter === 'UPCOMING') {
-                document.getElementById('filter-upcoming').className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all";
+                document.getElementById('filter-upcoming').className = "px-3.5 py-1.5 rounded-full bg-moss-950 text-moss-100 shadow-xs font-bold transition-all whitespace-nowrap";
                 renderIPOList(cachedIPOs.filter(i => i.status === 'UPCOMING'));
             } else if (filter === 'LISTED') {
-                document.getElementById('filter-listed').className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all";
+                document.getElementById('filter-listed').className = "px-3.5 py-1.5 rounded-full bg-moss-950 text-moss-100 shadow-xs font-bold transition-all whitespace-nowrap";
                 renderIPOList(cachedIPOs.filter(i => i.status.includes('LISTED') || i.status.includes('CLOSED')));
             }
         }
@@ -1315,70 +1383,70 @@ HTML_TEMPLATE = """<!DOCTYPE html>
         function renderIPOList(ipos) {
             const container = document.getElementById('live-ipos-feed');
             if (!ipos || ipos.length === 0) {
-                container.innerHTML = `<div class="p-4 text-center text-xs text-slate-400">No IPOs currently in this category.</div>`;
+                container.innerHTML = `<div class="p-4 text-center text-xs text-moss-600">No IPOs currently in this category.</div>`;
                 return;
             }
 
             container.innerHTML = ipos.map((ipo, idx) => `
-                <div class="luxury-card rounded-2xl p-4 space-y-3 hover:shadow-md transition-all">
+                <div class="luxury-card-moss rounded-3xl p-4 sm:p-5 space-y-3.5 hover:shadow-md transition-all">
                     <!-- Top Header & Live Status Badge -->
                     <div class="flex items-start justify-between">
                         <div>
                             <div class="flex items-center space-x-2">
-                                <h3 class="text-sm font-extrabold text-slate-900">${ipo.company_name}</h3>
-                                <span class="px-2 py-0.5 rounded-full text-[9px] font-bold border ${ipo.status_badge}">
+                                <h3 class="text-sm sm:text-base font-extrabold text-moss-950">${ipo.company_name}</h3>
+                                <span class="px-2.5 py-0.5 rounded-full text-[9px] font-bold border ${ipo.status_badge || 'bg-moss-100 text-moss-950 border-moss-300'}">
                                     ${ipo.status}
                                 </span>
                             </div>
-                            <p class="text-[11px] text-slate-500 font-medium">${ipo.sector} • Symbol: ${ipo.symbol}</p>
+                            <p class="text-[11px] text-moss-600 font-medium">${ipo.sector} • Symbol: ${ipo.symbol}</p>
                             <div class="flex items-center space-x-1.5 mt-1 text-[9px] font-bold">
-                                <span class="px-1.5 py-0.5 rounded ${ipo.issue_details.fresh_pct >= 60 ? 'bg-emerald-50 text-emerald-800 border border-emerald-200' : 'bg-rose-50 text-rose-800 border border-rose-200'}">
+                                <span class="px-2 py-0.5 rounded-md ${ipo.issue_details.fresh_pct >= 60 ? 'bg-moss-100 text-moss-950 border border-moss-300/60' : 'bg-rose-50 text-rose-800 border border-rose-200'}">
                                     Ritter Law: ${ipo.issue_details.fresh_pct >= 60 ? 'Safe Expansion (' + ipo.issue_details.fresh_pct.toFixed(0) + '% Fresh)' : 'OFS Exit Trap (' + ipo.issue_details.ofs_pct.toFixed(0) + '% OFS)'}
                                 </span>
-                                <span class="px-1.5 py-0.5 rounded bg-blue-50 text-blue-800 border border-blue-200">
+                                <span class="px-2 py-0.5 rounded-md bg-moss-100 text-moss-950 border border-moss-300/60">
                                     Damodaran DCF Audit
                                 </span>
                             </div>
                         </div>
-                        <span class="text-right">
-                            <span class="text-[9px] font-bold text-slate-400 block uppercase">ISSUE SIZE</span>
-                            <span class="text-xs font-extrabold font-mono text-slate-900">₹${ipo.issue_details.issue_size_cr.toLocaleString()} Cr</span>
+                        <span class="text-right shrink-0">
+                            <span class="text-[9px] font-bold text-moss-600 block uppercase tracking-wider">ISSUE SIZE</span>
+                            <span class="text-xs font-black font-mono text-moss-950">₹${ipo.issue_details.issue_size_cr.toLocaleString()} Cr</span>
                         </span>
                     </div>
 
                     <!-- Brokerage 4-Step Readable Timeline (2x2 grid, no truncation) -->
-                    <div class="bg-slate-50 p-3 rounded-xl border border-slate-200/60">
-                        <div class="flex items-center justify-between text-[10px] font-semibold text-slate-400 mb-2">
+                    <div class="bg-moss-50/80 p-3 rounded-2xl border border-moss-300/40">
+                        <div class="flex items-center justify-between text-[10px] font-semibold text-moss-600 mb-2">
                             <span>📅 TIMELINE SCHEDULE</span>
-                            <span class="text-amber-700 font-bold text-[11px]">${ipo.timeline.days_left}</span>
+                            <span class="text-moss-950 font-bold text-[11px]">${ipo.timeline.days_left}</span>
                         </div>
                         <div class="grid grid-cols-2 gap-2 text-[11px]">
-                            <div class="bg-white p-2 rounded-lg border border-emerald-200/60 flex items-start space-x-2">
-                                <span class="text-emerald-500 text-sm mt-0.5">📋</span>
+                            <div class="bg-white p-2.5 rounded-xl border border-moss-300/50 flex items-start space-x-2 shadow-2xs">
+                                <span class="text-moss-800 text-sm mt-0.5">📋</span>
                                 <div>
-                                    <span class="block text-slate-400 text-[9px] font-bold uppercase tracking-wide">BIDDING WINDOW</span>
-                                    <span class="font-bold text-slate-800 text-[11px] leading-tight">${ipo.timeline.bidding_dates}</span>
+                                    <span class="block text-moss-600 text-[9px] font-bold uppercase tracking-wide">BIDDING WINDOW</span>
+                                    <span class="font-bold text-moss-950 text-[11px] leading-tight">${ipo.timeline.bidding_dates}</span>
                                 </div>
                             </div>
-                            <div class="bg-white p-2 rounded-lg border border-blue-200/60 flex items-start space-x-2">
-                                <span class="text-blue-500 text-sm mt-0.5">🎯</span>
+                            <div class="bg-white p-2.5 rounded-xl border border-moss-300/50 flex items-start space-x-2 shadow-2xs">
+                                <span class="text-moss-800 text-sm mt-0.5">🎯</span>
                                 <div>
-                                    <span class="block text-slate-400 text-[9px] font-bold uppercase tracking-wide">ALLOTMENT</span>
-                                    <span class="font-bold text-slate-800 text-[11px] leading-tight">${ipo.timeline.allotment_date}</span>
+                                    <span class="block text-moss-600 text-[9px] font-bold uppercase tracking-wide">ALLOTMENT</span>
+                                    <span class="font-bold text-moss-950 text-[11px] leading-tight">${ipo.timeline.allotment_date}</span>
                                 </div>
                             </div>
-                            <div class="bg-white p-2 rounded-lg border border-purple-200/60 flex items-start space-x-2">
-                                <span class="text-purple-500 text-sm mt-0.5">💳</span>
+                            <div class="bg-white p-2.5 rounded-xl border border-moss-300/50 flex items-start space-x-2 shadow-2xs">
+                                <span class="text-moss-800 text-sm mt-0.5">💳</span>
                                 <div>
-                                    <span class="block text-slate-400 text-[9px] font-bold uppercase tracking-wide">DEMAT CREDIT</span>
-                                    <span class="font-bold text-slate-800 text-[11px] leading-tight">${ipo.timeline.demat_credit}</span>
+                                    <span class="block text-moss-600 text-[9px] font-bold uppercase tracking-wide">DEMAT CREDIT</span>
+                                    <span class="font-bold text-moss-950 text-[11px] leading-tight">${ipo.timeline.demat_credit}</span>
                                 </div>
                             </div>
-                            <div class="bg-white p-2 rounded-lg border border-amber-200/60 flex items-start space-x-2">
-                                <span class="text-amber-500 text-sm mt-0.5">🚀</span>
+                            <div class="bg-white p-2.5 rounded-xl border border-moss-300/50 flex items-start space-x-2 shadow-2xs">
+                                <span class="text-moss-800 text-sm mt-0.5">🚀</span>
                                 <div>
-                                    <span class="block text-slate-400 text-[9px] font-bold uppercase tracking-wide">LISTING DAY</span>
-                                    <span class="font-bold text-slate-800 text-[11px] leading-tight">${ipo.timeline.listing_date}</span>
+                                    <span class="block text-moss-600 text-[9px] font-bold uppercase tracking-wide">LISTING DAY</span>
+                                    <span class="font-bold text-moss-950 text-[11px] leading-tight">${ipo.timeline.listing_date}</span>
                                 </div>
                             </div>
                         </div>
@@ -1386,49 +1454,49 @@ HTML_TEMPLATE = """<!DOCTYPE html>
 
                     <!-- Brokerage Core Details Grid -->
                     <div class="grid grid-cols-3 gap-2 text-center text-xs">
-                        <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200/60">
-                            <span class="text-[9px] font-bold text-slate-400 block uppercase">PRICE BAND</span>
-                            <span class="font-black text-slate-900 font-mono text-xs">${ipo.issue_details.price_range}</span>
-                            <span class="text-[9px] text-slate-500 block mt-0.5">Lot: ${ipo.issue_details.lot_size} sh (₹${ipo.issue_details.min_investment.toLocaleString()})</span>
+                        <div class="bg-moss-50/80 p-2.5 rounded-2xl border border-moss-300/40">
+                            <span class="text-[9px] font-bold text-moss-600 block uppercase">PRICE BAND</span>
+                            <span class="font-black text-moss-950 font-mono text-xs">${ipo.issue_details.price_range}</span>
+                            <span class="text-[9px] text-moss-700 block mt-0.5">Lot: ${ipo.issue_details.lot_size} sh (₹${ipo.issue_details.min_investment.toLocaleString()})</span>
                         </div>
-                        <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200/60">
-                            <span class="text-[9px] font-bold text-slate-400 block uppercase">LIVE GMP</span>
-                            <span class="font-black ${ipo.gmp.value >= 0 ? 'text-emerald-700' : 'text-rose-600'} font-mono text-xs">
+                        <div class="bg-moss-50/80 p-2.5 rounded-2xl border border-moss-300/40">
+                            <span class="text-[9px] font-bold text-moss-600 block uppercase">LIVE GMP</span>
+                            <span class="font-black ${ipo.gmp.value >= 0 ? 'text-moss-950' : 'text-rose-600'} font-mono text-xs">
                                 ₹${ipo.gmp.value} (${ipo.gmp.pct > 0 ? '+' : ''}${ipo.gmp.pct}%)
                             </span>
-                            <span class="text-[9px] text-slate-500 block mt-0.5">Est Listing: ₹${ipo.gmp.expected_listing_price}</span>
+                            <span class="text-[9px] text-moss-700 block mt-0.5">Est: ₹${ipo.gmp.expected_listing_price}</span>
                         </div>
-                        <div class="bg-slate-50/80 p-2.5 rounded-xl border border-slate-200/60">
-                            <span class="text-[9px] font-bold text-slate-400 block uppercase">SUBSCRIPTION</span>
-                            <span class="font-black text-blue-700 font-mono text-xs">${ipo.subscription.total}</span>
-                            <span class="text-[9px] text-slate-500 block mt-0.5">QIB: ${ipo.subscription.qib} • Ret: ${ipo.subscription.retail}</span>
+                        <div class="bg-moss-50/80 p-2.5 rounded-2xl border border-moss-300/40">
+                            <span class="text-[9px] font-bold text-moss-600 block uppercase">SUBSCRIPTION</span>
+                            <span class="font-black text-moss-950 font-mono text-xs">${ipo.subscription.total}</span>
+                            <span class="text-[9px] text-moss-700 block mt-0.5">QIB: ${ipo.subscription.qib} • Ret: ${ipo.subscription.retail}</span>
                         </div>
                     </div>
 
                     <!-- Fresh vs OFS Progress Bar -->
                     <div>
-                        <div class="flex justify-between text-[10px] font-semibold text-slate-500 mb-1">
+                        <div class="flex justify-between text-[10px] font-semibold text-moss-700 mb-1">
                             <span>Fresh Issue: ${ipo.issue_details.fresh_pct.toFixed(1)}% (₹${ipo.issue_details.fresh_issue_cr} Cr)</span>
                             <span>Promoter Exit (OFS): ${ipo.issue_details.ofs_pct.toFixed(1)}% (₹${ipo.issue_details.ofs_cr} Cr)</span>
                         </div>
-                        <div class="w-full h-1.5 bg-slate-100 rounded-full overflow-hidden flex">
-                            <div class="bg-emerald-500 h-full" style="width: ${ipo.issue_details.fresh_pct}%"></div>
-                            <div class="bg-rose-500 h-full" style="width: ${ipo.issue_details.ofs_pct}%"></div>
+                        <div class="w-full h-2 bg-moss-100 rounded-full overflow-hidden flex">
+                            <div class="bg-moss-800 h-full" style="width: ${ipo.issue_details.fresh_pct}%"></div>
+                            <div class="bg-rose-400 h-full" style="width: ${ipo.issue_details.ofs_pct}%"></div>
                         </div>
                     </div>
 
                     <!-- Nexiv.AI Direct Autonomous Verdict Callout -->
-                    <div class="p-3 rounded-xl border flex items-start justify-between space-x-2" style="background-color: ${ipo.ai_decision.action_color}08; border-color: ${ipo.ai_decision.action_color}35;">
+                    <div class="p-3.5 rounded-2xl border border-moss-300/50 bg-moss-100/70 flex items-start justify-between space-x-2">
                         <div class="space-y-1">
                             <div class="flex items-center space-x-2">
-                                <span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold uppercase text-white shadow-xs" style="background-color: ${ipo.ai_decision.action_color};">
+                                <span class="px-2.5 py-0.5 rounded-full text-[10px] font-extrabold uppercase text-moss-100 bg-moss-950 shadow-xs">
                                     ${ipo.ai_decision.action}
                                 </span>
-                                <span class="text-[10px] font-bold font-mono text-slate-600">NEXIV SCORE: ${ipo.ai_decision.score}/100</span>
+                                <span class="text-[10px] font-bold font-mono text-moss-950">NEXIV SCORE: ${ipo.ai_decision.score}/100</span>
                             </div>
-                            <p class="text-[11px] text-slate-700 leading-snug font-medium">${ipo.ai_decision.summary}</p>
+                            <p class="text-[11px] text-moss-950 leading-snug font-medium">${ipo.ai_decision.summary}</p>
                         </div>
-                        <button onclick="auditPresetIPO('${ipo.symbol}')" class="px-3 py-1.5 bg-slate-900 text-white font-bold rounded-xl text-xs hover:bg-slate-800 active:scale-95 transition-all shrink-0 self-center">
+                        <button onclick="auditPresetIPO('${ipo.symbol}')" class="px-3.5 py-2 bg-moss-950 text-moss-100 font-bold rounded-xl text-xs hover:bg-moss-800 active:scale-95 transition-all shrink-0 self-center shadow-xs">
                             Full Audit
                         </button>
                     </div>
@@ -1494,118 +1562,118 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 bandText = bandText.replace(/₹/g, '$');
             }
 
-            let cardBg = "border-slate-200 bg-white";
-            let badgeBg = "bg-slate-100 text-slate-800 border-slate-300";
+            let cardBg = "border border-moss-300/50 bg-white";
+            let badgeBg = "bg-moss-950 text-moss-100 border border-moss-800";
             let badgeIcon = "fa-hand";
 
             if (data.action_code === "APPLY_LONG") {
-                cardBg = "border-2 border-emerald-500/70 bg-gradient-to-b from-emerald-50/70 via-white to-white";
-                badgeBg = "bg-emerald-600 text-white";
+                cardBg = "border-2 border-moss-600/70 bg-gradient-to-b from-moss-50/70 via-white to-white";
+                badgeBg = "bg-moss-950 text-moss-100 border border-moss-800 shadow-sm";
                 badgeIcon = "fa-circle-check";
             } else if (data.action_code === "APPLY_FLIP") {
-                cardBg = "border-2 border-amber-500/70 bg-gradient-to-b from-amber-50/70 via-white to-white";
-                badgeBg = "bg-amber-500 text-white";
+                cardBg = "border-2 border-moss-300/70 bg-gradient-to-b from-moss-50/70 via-white to-white";
+                badgeBg = "bg-moss-800 text-moss-100 border border-moss-600 shadow-sm";
                 badgeIcon = "fa-bolt";
             } else {
-                cardBg = "border-2 border-rose-500/70 bg-gradient-to-b from-rose-50/70 via-white to-white";
-                badgeBg = "bg-rose-600 text-white";
+                cardBg = "border-2 border-rose-400/70 bg-gradient-to-b from-rose-50/70 via-white to-white";
+                badgeBg = "bg-rose-900 text-rose-100 border border-rose-700 shadow-sm";
                 badgeIcon = "fa-ban";
             }
 
             container.innerHTML = `
-                <div class="luxury-card-elevated rounded-3xl p-5 ${cardBg} space-y-4">
+                <div class="luxury-card-elevated rounded-3xl p-4 sm:p-5 ${cardBg} space-y-4">
                     <div class="flex items-start justify-between">
                         <div>
                             <span class="inline-flex items-center space-x-1.5 px-3 py-1 rounded-full text-xs font-extrabold uppercase ${badgeBg}">
                                 <i class="fa-solid ${badgeIcon}"></i>
                                 <span>${data.action}</span>
                             </span>
-                            <h3 class="text-lg font-black text-slate-900 mt-2 tracking-tight">${data.company_name}</h3>
-                            <p class="text-xs font-semibold text-slate-500 font-mono">${data.sector} • Band: ${bandText}</p>
+                            <h3 class="text-lg sm:text-xl font-black text-moss-950 mt-2 tracking-tight">${data.company_name}</h3>
+                            <p class="text-xs font-semibold text-moss-600 font-mono">${data.sector} • Band: ${bandText}</p>
                         </div>
-                        <div class="text-right">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">NEXIV SCORE</span>
-                            <span class="text-lg font-black font-mono text-slate-900">${data.score}/100</span>
+                        <div class="text-right shrink-0">
+                            <span class="text-[10px] font-bold text-moss-600 block uppercase">NEXIV SCORE</span>
+                            <span class="text-lg sm:text-xl font-black font-mono text-moss-950">${data.score}/100</span>
                         </div>
                     </div>
 
-                    <div class="bg-white/90 p-3.5 rounded-2xl border border-slate-200/80 shadow-xs">
-                        <div class="text-[10px] font-bold uppercase tracking-wider text-slate-400 mb-1">Ritter & Damodaran Synthesis</div>
-                        <p class="text-xs text-slate-700 leading-relaxed font-medium">${data.summary_advice}</p>
+                    <div class="bg-white/95 p-3.5 sm:p-4 rounded-2xl border border-moss-300/40 shadow-2xs">
+                        <div class="text-[10px] font-bold uppercase tracking-wider text-moss-700 mb-1">Ritter & Damodaran Synthesis</div>
+                        <p class="text-xs text-moss-950 leading-relaxed font-medium">${data.summary_advice}</p>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2 text-xs">
-                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Fresh Growth Issue</span>
-                            <span class="text-base font-black font-mono text-emerald-700 mt-0.5 block">${((ipo?.fresh_pct || 0)).toFixed(1)}%</span>
+                        <div class="bg-moss-50 p-3 rounded-2xl border border-moss-300/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-moss-600 block uppercase">Fresh Growth Issue</span>
+                            <span class="text-base font-black font-mono text-moss-950 mt-0.5 block">${((ipo?.fresh_pct || 0)).toFixed(1)}%</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Promoter Exit (OFS)</span>
-                            <span class="text-base font-black font-mono text-rose-600 mt-0.5 block">${((ipo?.ofs_pct || 0)).toFixed(1)}%</span>
+                        <div class="bg-moss-50 p-3 rounded-2xl border border-moss-300/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-moss-600 block uppercase">Promoter Exit (OFS)</span>
+                            <span class="text-base font-black font-mono text-rose-700 mt-0.5 block">${((ipo?.ofs_pct || 0)).toFixed(1)}%</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Rule of 40 Score</span>
-                            <span class="text-base font-black font-mono text-blue-600 mt-0.5 block">${((ipo?.rule_of_40_score || 0)).toFixed(1)}%</span>
+                        <div class="bg-moss-50 p-3 rounded-2xl border border-moss-300/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-moss-600 block uppercase">Rule of 40 Score</span>
+                            <span class="text-base font-black font-mono text-moss-950 mt-0.5 block">${((ipo?.rule_of_40_score || 0)).toFixed(1)}%</span>
                         </div>
-                        <div class="bg-slate-50 p-3 rounded-2xl border border-slate-200/60">
-                            <span class="text-[10px] font-bold text-slate-400 block uppercase">Expected Listing Return</span>
-                            <span class="text-base font-black font-mono text-slate-900 mt-0.5 block">${data.expected_gain || 'N/A'}</span>
+                        <div class="bg-moss-50 p-3 rounded-2xl border border-moss-300/30">
+                            <span class="text-[9px] sm:text-[10px] font-bold text-moss-600 block uppercase">Expected Listing Return</span>
+                            <span class="text-base font-black font-mono text-moss-950 mt-0.5 block">${data.expected_gain || 'N/A'}</span>
                         </div>
                     </div>
 
                     <!-- IPO MULTI-INSTITUTIONAL COUNCIL CONSENSUS -->
-                    <div class="luxury-card rounded-2xl p-4 space-y-3 bg-white/95">
-                        <div class="flex items-center justify-between pb-2 border-b border-slate-100">
+                    <div class="luxury-card-moss rounded-3xl p-4 sm:p-5 space-y-3 bg-white/95">
+                        <div class="flex items-center justify-between pb-2 border-b border-moss-300/30">
                             <div class="flex items-center space-x-2">
-                                <i class="fa-solid fa-users-gear text-amber-600 text-xs"></i>
-                                <h3 class="text-xs font-bold text-slate-900 uppercase tracking-wide">IPO Multi-Institutional Council Consensus</h3>
+                                <i class="fa-solid fa-users-gear text-moss-950 text-xs"></i>
+                                <h3 class="text-xs font-bold text-moss-950 uppercase tracking-wide">IPO Multi-Institutional Council Consensus</h3>
                             </div>
-                            <span class="text-[10px] font-bold text-slate-400">UNANIMOUS AUDIT</span>
+                            <span class="text-[10px] font-bold text-moss-600 font-mono">UNANIMOUS AUDIT</span>
                         </div>
 
                         <div class="space-y-2.5 text-xs">
-                            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start space-x-2.5">
-                                <span class="w-5 h-5 rounded-lg bg-emerald-100 text-emerald-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
+                            <div class="p-3 rounded-2xl bg-moss-50 border border-moss-300/30 flex items-start space-x-2.5">
+                                <span class="w-5 h-5 rounded-lg bg-moss-950 text-moss-100 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">1</span>
                                 <div class="space-y-0.5 flex-1">
                                     <div class="flex items-center justify-between">
-                                        <span class="font-bold text-slate-900">${data?.council_synthesis?.ritter_agent?.name || 'Empirical IPO Auditor'}</span>
-                                        <span class="text-[9px] font-bold text-emerald-700 bg-emerald-50 px-1.5 py-0.5 rounded border border-emerald-200">${data?.council_synthesis?.ritter_agent?.institution || 'Prof. Jay Ritter'}</span>
+                                        <span class="font-bold text-moss-950">${data?.council_synthesis?.ritter_agent?.name || 'Empirical IPO Auditor'}</span>
+                                        <span class="text-[9px] font-bold text-moss-950 bg-moss-100 px-2 py-0.5 rounded-md border border-moss-300/50">${data?.council_synthesis?.ritter_agent?.institution || 'Prof. Jay Ritter'}</span>
                                     </div>
-                                    <p class="text-slate-700 font-medium">${data?.council_synthesis?.ritter_agent?.verdict || 'Empirical IPO Check Complete'} • Fresh: <span class="font-mono font-bold">${((ipo?.fresh_pct || 0)).toFixed(1)}%</span> | OFS: <span class="font-mono font-bold">${((ipo?.ofs_pct || 0)).toFixed(1)}%</span></p>
-                                    <p class="text-[10px] text-slate-400 italic font-mono leading-tight">${data?.council_synthesis?.ritter_agent?.doctrine || 'High OFS (>65%) predicts 3-year underperformance.'}</p>
+                                    <p class="text-moss-900 font-medium">${data?.council_synthesis?.ritter_agent?.verdict || 'Empirical IPO Check Complete'} • Fresh: <span class="font-mono font-bold">${((ipo?.fresh_pct || 0)).toFixed(1)}%</span> | OFS: <span class="font-mono font-bold">${((ipo?.ofs_pct || 0)).toFixed(1)}%</span></p>
+                                    <p class="text-[10px] text-moss-600 italic font-mono leading-tight">${data?.council_synthesis?.ritter_agent?.doctrine || 'High OFS (>65%) predicts 3-year underperformance.'}</p>
                                 </div>
                             </div>
-                            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start space-x-2.5">
-                                <span class="w-5 h-5 rounded-lg bg-blue-100 text-blue-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
+                            <div class="p-3 rounded-2xl bg-moss-50 border border-moss-300/30 flex items-start space-x-2.5">
+                                <span class="w-5 h-5 rounded-lg bg-moss-950 text-moss-100 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">2</span>
                                 <div class="space-y-0.5 flex-1">
                                     <div class="flex items-center justify-between">
-                                        <span class="font-bold text-slate-900">${data?.council_synthesis?.valuation_agent?.name || 'Valuation Architect'}</span>
-                                        <span class="text-[9px] font-bold text-amber-700 bg-amber-50 px-1.5 py-0.5 rounded border border-amber-200">${data?.council_synthesis?.valuation_agent?.institution || 'Aswath Damodaran'}</span>
+                                        <span class="font-bold text-moss-950">${data?.council_synthesis?.valuation_agent?.name || 'Valuation Architect'}</span>
+                                        <span class="text-[9px] font-bold text-moss-950 bg-moss-100 px-2 py-0.5 rounded-md border border-moss-300/50">${data?.council_synthesis?.valuation_agent?.institution || 'Aswath Damodaran'}</span>
                                     </div>
-                                    <p class="text-slate-700 font-medium">${data?.council_synthesis?.valuation_agent?.verdict || 'Valuation Audit Complete'} • Intrinsic DCF: <span class="font-mono font-bold">${cur}${((ipo?.intrinsic_value_per_share || 0)).toFixed(2)}</span></p>
-                                    <p class="text-[10px] text-slate-400 italic font-mono leading-tight">${data?.council_synthesis?.valuation_agent?.doctrine || 'IPO price is set by bankers; value is future cash flows.'}</p>
+                                    <p class="text-moss-900 font-medium">${data?.council_synthesis?.valuation_agent?.verdict || 'Valuation Audit Complete'} • Intrinsic DCF: <span class="font-mono font-bold">${cur}${((ipo?.intrinsic_value_per_share || 0)).toFixed(2)}</span></p>
+                                    <p class="text-[10px] text-moss-600 italic font-mono leading-tight">${data?.council_synthesis?.valuation_agent?.doctrine || 'IPO price is set by bankers; value is future cash flows.'}</p>
                                 </div>
                             </div>
-                            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start space-x-2.5">
-                                <span class="w-5 h-5 rounded-lg bg-purple-100 text-purple-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
+                            <div class="p-3 rounded-2xl bg-moss-50 border border-moss-300/30 flex items-start space-x-2.5">
+                                <span class="w-5 h-5 rounded-lg bg-moss-950 text-moss-100 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">3</span>
                                 <div class="space-y-0.5 flex-1">
                                     <div class="flex items-center justify-between">
-                                        <span class="font-bold text-slate-900">${data?.council_synthesis?.underwriting_agent?.name || 'Underwriting & Solvency Auditor'}</span>
-                                        <span class="text-[9px] font-bold text-purple-700 bg-purple-50 px-1.5 py-0.5 rounded border border-purple-200">${data?.council_synthesis?.underwriting_agent?.institution || 'Goldman & Morgan Stanley'}</span>
+                                        <span class="font-bold text-moss-950">${data?.council_synthesis?.underwriting_agent?.name || 'Underwriting & Solvency Auditor'}</span>
+                                        <span class="text-[9px] font-bold text-moss-950 bg-moss-100 px-2 py-0.5 rounded-md border border-moss-300/50">${data?.council_synthesis?.underwriting_agent?.institution || 'Goldman & Morgan Stanley'}</span>
                                     </div>
-                                    <p class="text-slate-700 font-medium">${data?.council_synthesis?.underwriting_agent?.verdict || 'Runway Assessment Complete'} • Runway: <span class="font-mono font-bold">${((ipo?.runway_months || 24))} Months</span></p>
-                                    <p class="text-[10px] text-slate-400 italic font-mono leading-tight">${data?.council_synthesis?.underwriting_agent?.doctrine || 'Maintain >=18 months operating cash runway for safety.'}</p>
+                                    <p class="text-moss-900 font-medium">${data?.council_synthesis?.underwriting_agent?.verdict || 'Runway Assessment Complete'} • Runway: <span class="font-mono font-bold">${((ipo?.runway_months || 24))} Months</span></p>
+                                    <p class="text-[10px] text-moss-600 italic font-mono leading-tight">${data?.council_synthesis?.underwriting_agent?.doctrine || 'Maintain >=18 months operating cash runway for safety.'}</p>
                                 </div>
                             </div>
-                            <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200/60 flex items-start space-x-2.5">
-                                <span class="w-5 h-5 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">4</span>
+                            <div class="p-3 rounded-2xl bg-moss-50 border border-moss-300/30 flex items-start space-x-2.5">
+                                <span class="w-5 h-5 rounded-lg bg-moss-950 text-moss-100 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">4</span>
                                 <div class="space-y-0.5 flex-1">
                                     <div class="flex items-center justify-between">
-                                        <span class="font-bold text-slate-900">${data?.council_synthesis?.sentiment_arbitrage_agent?.name || 'Microstructure Strategist'}</span>
-                                        <span class="text-[9px] font-bold text-blue-700 bg-blue-50 px-1.5 py-0.5 rounded border border-blue-200">${data?.council_synthesis?.sentiment_arbitrage_agent?.institution || 'Citadel & Rentec'}</span>
+                                        <span class="font-bold text-moss-950">${data?.council_synthesis?.sentiment_arbitrage_agent?.name || 'Microstructure Strategist'}</span>
+                                        <span class="text-[9px] font-bold text-moss-950 bg-moss-100 px-2 py-0.5 rounded-md border border-moss-300/50">${data?.council_synthesis?.sentiment_arbitrage_agent?.institution || 'Citadel & Rentec'}</span>
                                     </div>
-                                    <p class="text-slate-700 font-medium">${data?.council_synthesis?.sentiment_arbitrage_agent?.verdict || 'Arbitrage Check Complete'} • GMP: <span class="font-mono font-bold">${cur}${data.gmp}</span></p>
-                                    <p class="text-[10px] text-slate-400 italic font-mono leading-tight">${data?.council_synthesis?.sentiment_arbitrage_agent?.doctrine || 'Capture first-day pop; exit if fundamentals do not support holding.'}</p>
+                                    <p class="text-moss-900 font-medium">${data?.council_synthesis?.sentiment_arbitrage_agent?.verdict || 'Arbitrage Check Complete'} • GMP: <span class="font-mono font-bold">${cur}${data.gmp}</span></p>
+                                    <p class="text-[10px] text-moss-600 italic font-mono leading-tight">${data?.council_synthesis?.sentiment_arbitrage_agent?.doctrine || 'Capture first-day pop; exit if fundamentals do not support holding.'}</p>
                                 </div>
                             </div>
                         </div>
@@ -1614,6 +1682,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             `;
             container.scrollIntoView({ behavior: 'smooth' });
         }
+
 
         // === INSTITUTIONAL KNOWLEDGE VAULT DYNAMIC ENGINE (56 ASSETS) ===
         let cachedVaultData = null;
@@ -1656,9 +1725,9 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 const el = document.getElementById(b.id);
                 if (el) {
                     if (b.key === filter) {
-                        el.className = "px-3 py-1 rounded-full bg-slate-900 text-white shadow-xs font-bold transition-all whitespace-nowrap";
+                        el.className = "px-3 py-1 rounded-full bg-em-100 text-em-950 shadow-xs font-bold transition-all whitespace-nowrap";
                     } else {
-                        el.className = "px-3 py-1 rounded-full bg-slate-100 text-slate-600 hover:text-slate-900 transition-all whitespace-nowrap";
+                        el.className = "px-3 py-1 rounded-full bg-em-900 text-em-100 border border-em-700 hover:bg-em-100 hover:text-em-950 transition-all whitespace-nowrap";
                     }
                 }
             });
@@ -1684,7 +1753,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             const f = currentVaultFilter;
             let itemsHtml = [];
 
-            // 1. MASTER CODIFIED BOOKS
+            // 1. MASTER CODIFIED BOOKS (Palette 1: Emerald Obsidian Luxury)
             if (f === 'ALL' || f === 'BOOKS') {
                 const books = cachedVaultData.books_principles || {};
                 Object.keys(books).forEach(k => {
@@ -1693,30 +1762,30 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     if (q && !searchText.includes(q)) return;
 
                     itemsHtml.push(`
-                        <div class="luxury-card rounded-2xl p-4 space-y-2.5 hover:shadow-md transition-all border border-slate-200/80">
+                        <div class="luxury-card-emerald rounded-3xl p-4 sm:p-5 space-y-3 hover:shadow-md transition-all border border-em-400/30 bg-white">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <div class="flex items-center space-x-1.5">
-                                        <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-amber-100 text-amber-900 border border-amber-300">📚 CODIFIED MASTER TEXT</span>
-                                        <span class="text-[10px] font-bold text-slate-500 font-mono">${b.pages || 500} Pages Digested</span>
+                                    <div class="flex items-center space-x-1.5 mb-1">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold bg-em-100 text-em-950 border border-em-400/60">📚 MASTER TEXT</span>
+                                        <span class="text-[10px] font-bold text-em-700 font-mono">${b.pages || 500} Pages Codified</span>
                                     </div>
-                                    <h3 class="text-xs font-black text-slate-900 mt-1">${b.title}</h3>
-                                    <p class="text-[11px] font-bold text-slate-600">${b.author}</p>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-em-950">${b.title}</h3>
+                                    <p class="text-[11px] font-bold text-em-700">${b.author}</p>
                                 </div>
-                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">BUNDLED</span>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-em-900 text-em-100 border border-em-800 shrink-0">ACTIVE</span>
                             </div>
 
-                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 space-y-1 text-xs">
-                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Core Codified Principles</span>
-                                <ul class="space-y-1 text-[11px] text-slate-700">
-                                    ${(b.core_principles || []).map(p => `<li class="flex items-start space-x-1.5"><span class="text-amber-500 font-bold">•</span><span>${p}</span></li>`).join('')}
+                            <div class="bg-em-50/70 p-3 rounded-2xl border border-em-300/40 space-y-1.5 text-xs">
+                                <span class="text-[10px] font-extrabold text-em-800 block uppercase tracking-wider">Codified Principles</span>
+                                <ul class="space-y-1 text-[11px] text-em-950 font-medium">
+                                    ${(b.core_principles || []).map(p => `<li class="flex items-start space-x-1.5"><span class="text-em-700 font-bold">•</span><span>${p}</span></li>`).join('')}
                                 </ul>
                             </div>
 
                             <div class="flex items-center justify-between pt-1">
-                                <span class="text-[10px] font-mono text-slate-500 font-semibold">${b.cross_links || 'Codified into Nexiv Valuation & Forensics'}</span>
-                                <button onclick="askCouncilAbout('${b.title.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-bold hover:bg-slate-800 transition-all flex items-center space-x-1">
-                                    <i class="fa-solid fa-comments text-amber-400 text-[9px]"></i>
+                                <span class="text-[10px] font-mono text-em-700 font-semibold truncate mr-2">${b.cross_links || 'Codified into Valuation & Forensics'}</span>
+                                <button onclick="askCouncilAbout('${b.title.replace(/'/g, "\\'")}')" class="px-3 py-1.5 bg-em-950 text-em-100 rounded-xl text-[10px] font-bold hover:bg-em-900 active:scale-95 transition-all flex items-center space-x-1.5 shadow-xs border border-em-800 shrink-0">
+                                    <i class="fa-solid fa-comments text-em-400 text-[9px]"></i>
                                     <span>Ask Council</span>
                                 </button>
                             </div>
@@ -1725,7 +1794,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 });
             }
 
-            // 2. ACADEMIC INSTITUTIONS
+            // 2. ACADEMIC INSTITUTIONS (Palette 3: Holst Sapphire Cognition)
             if (f === 'ALL' || f === 'ACADEMIC') {
                 const insts = cachedVaultData.academic_institutions || {};
                 Object.keys(insts).forEach(k => {
@@ -1734,40 +1803,40 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     if (q && !searchText.includes(q)) return;
 
                     itemsHtml.push(`
-                        <div class="luxury-card rounded-2xl p-4 space-y-2.5 hover:shadow-md transition-all border border-slate-200/80">
+                        <div class="luxury-card-sapphire rounded-3xl p-4 sm:p-5 space-y-3 hover:shadow-md transition-all border border-saph-300/40 bg-white">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <div class="flex items-center space-x-1.5">
-                                        <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-blue-100 text-blue-900 border border-blue-300">🏛️ ACADEMIC INSTITUTION</span>
-                                        <span class="text-[10px] font-bold text-slate-500">Tier-1 Research</span>
+                                    <div class="flex items-center space-x-1.5 mb-1">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold bg-saph-100 text-saph-950 border border-saph-300">🏛️ ACADEMIC INSTITUTION</span>
+                                        <span class="text-[10px] font-bold text-saph-600 font-mono">Tier-1 Research</span>
                                     </div>
-                                    <h3 class="text-xs font-black text-slate-900 mt-1">${u.name}</h3>
-                                    <p class="text-[11px] font-semibold text-slate-600">${u.school}</p>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-saph-950">${u.name}</h3>
+                                    <p class="text-[11px] font-semibold text-saph-700">${u.school}</p>
                                 </div>
-                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-blue-50 text-blue-700 border border-blue-200 shrink-0">ACTIVE</span>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-saph-950 text-saph-100 border border-saph-800 shrink-0">ACTIVE</span>
                             </div>
 
-                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 space-y-1 text-xs">
-                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Nobel Laureates & Pioneers</span>
-                                <p class="text-[11px] font-medium text-slate-700">${u.nobel_laureates_and_pioneers}</p>
+                            <div class="bg-saph-50/70 p-3 rounded-2xl border border-saph-100 space-y-1 text-xs">
+                                <span class="text-[10px] font-extrabold text-saph-800 block uppercase tracking-wider">Nobel Laureates & Pioneers</span>
+                                <p class="text-[11px] font-medium text-saph-950 leading-relaxed">${u.nobel_laureates_and_pioneers}</p>
                             </div>
 
-                            <div class="bg-amber-50/50 p-2.5 rounded-xl border border-amber-200/60 space-y-1 text-xs">
-                                <span class="text-[10px] font-bold text-amber-800 block uppercase">Seminal Breakthroughs in Nexiv</span>
-                                <ul class="space-y-1 text-[11px] text-slate-700">
-                                    ${(u.seminal_breakthroughs || []).slice(0, 3).map(sb => `<li class="flex items-start space-x-1.5"><span class="text-amber-600 font-bold">•</span><span>${sb}</span></li>`).join('')}
+                            <div class="bg-saph-100/50 p-3 rounded-2xl border border-saph-200/60 space-y-1.5 text-xs">
+                                <span class="text-[10px] font-extrabold text-saph-950 block uppercase tracking-wider">Seminal Breakthroughs in Nexiv</span>
+                                <ul class="space-y-1 text-[11px] text-saph-950 font-medium">
+                                    ${(u.seminal_breakthroughs || []).slice(0, 3).map(sb => `<li class="flex items-start space-x-1.5"><span class="text-saph-600 font-bold">•</span><span>${sb}</span></li>`).join('')}
                                 </ul>
                             </div>
 
-                            <div class="p-2.5 rounded-xl bg-slate-900 text-white text-[11px] space-y-0.5">
-                                <span class="text-[9px] font-bold uppercase text-amber-400 block tracking-wider">EXACT RULE ENFORCED BY NEXIV</span>
-                                <p class="font-medium text-slate-200 leading-snug">${u.rule_in_nexiv}</p>
+                            <div class="p-3 rounded-2xl bg-saph-950 text-white text-[11px] space-y-1 border border-saph-800 shadow-inner">
+                                <span class="text-[9px] font-extrabold uppercase text-saph-300 block tracking-wider">EXACT RULE ENFORCED BY NEXIV</span>
+                                <p class="font-medium text-saph-100 leading-snug">${u.rule_in_nexiv}</p>
                             </div>
 
                             <div class="flex items-center justify-between pt-1">
-                                <span class="text-[10px] text-slate-500 font-medium">Doctrine: ${u.core_doctrine}</span>
-                                <button onclick="askCouncilAbout('${u.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-bold hover:bg-slate-800 transition-all flex items-center space-x-1">
-                                    <i class="fa-solid fa-comments text-amber-400 text-[9px]"></i>
+                                <span class="text-[10px] text-saph-600 font-medium truncate mr-2">Doctrine: ${u.core_doctrine}</span>
+                                <button onclick="askCouncilAbout('${u.name.replace(/'/g, "\\'")}')" class="px-3 py-1.5 bg-saph-950 text-saph-100 rounded-xl text-[10px] font-bold hover:bg-saph-900 active:scale-95 transition-all flex items-center space-x-1.5 shadow-xs border border-saph-800 shrink-0">
+                                    <i class="fa-solid fa-comments text-saph-400 text-[9px]"></i>
                                     <span>Ask Council</span>
                                 </button>
                             </div>
@@ -1776,7 +1845,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 });
             }
 
-            // 3. INVESTMENT FIRMS & ALLOCATORS
+            // 3. INVESTMENT FIRMS & ALLOCATORS (Palette 1: Emerald Obsidian Luxury)
             if (f === 'ALL' || f === 'FIRMS') {
                 const firms = cachedVaultData.investment_firms || {};
                 Object.keys(firms).forEach(k => {
@@ -1785,33 +1854,33 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     if (q && !searchText.includes(q)) return;
 
                     itemsHtml.push(`
-                        <div class="luxury-card rounded-2xl p-4 space-y-2.5 hover:shadow-md transition-all border border-slate-200/80">
+                        <div class="luxury-card-emerald rounded-3xl p-4 sm:p-5 space-y-3 hover:shadow-md transition-all border border-em-400/30 bg-white">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <div class="flex items-center space-x-1.5">
-                                        <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-purple-100 text-purple-900 border border-purple-300">🏢 GLOBAL ALLOCATOR</span>
-                                        <span class="text-[10px] font-bold text-slate-500 font-mono">${fm.aum || 'Global Scale'}</span>
+                                    <div class="flex items-center space-x-1.5 mb-1">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold bg-em-100 text-em-950 border border-em-400/60">🏢 GLOBAL ALLOCATOR</span>
+                                        <span class="text-[10px] font-bold text-em-700 font-mono">${fm.aum || 'Global Scale'}</span>
                                     </div>
-                                    <h3 class="text-xs font-black text-slate-900 mt-1">${fm.name}</h3>
-                                    <p class="text-[11px] font-bold text-slate-600">Leader: ${fm.leader}</p>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-em-950">${fm.name}</h3>
+                                    <p class="text-[11px] font-bold text-em-700">Leader: ${fm.leader}</p>
                                 </div>
-                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-purple-50 text-purple-700 border border-purple-200 shrink-0">INSTITUTIONAL</span>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-em-900 text-em-100 border border-em-800 shrink-0">INSTITUTIONAL</span>
                             </div>
 
-                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 space-y-1 text-xs">
-                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Core Philosophy</span>
-                                <p class="text-[11px] font-bold text-slate-800">${fm.core_philosophy}</p>
-                                <p class="text-[11px] text-slate-600 leading-relaxed mt-1">${fm.doctrine}</p>
+                            <div class="bg-em-50/70 p-3 rounded-2xl border border-em-300/40 space-y-1 text-xs">
+                                <span class="text-[10px] font-extrabold text-em-800 block uppercase tracking-wider">Core Philosophy</span>
+                                <p class="text-[11px] font-bold text-em-950">${fm.core_philosophy}</p>
+                                <p class="text-[11px] text-em-700 leading-relaxed mt-1">${fm.doctrine}</p>
                             </div>
 
-                            <div class="p-2.5 rounded-xl bg-slate-900 text-white text-[11px] space-y-0.5">
-                                <span class="text-[9px] font-bold uppercase text-amber-400 block tracking-wider">INSTITUTIONAL ALLOCATION LAW</span>
-                                <p class="font-medium text-slate-200 leading-snug">${fm.rule}</p>
+                            <div class="p-3 rounded-2xl bg-em-950 text-white text-[11px] space-y-1 border border-em-800 shadow-inner">
+                                <span class="text-[9px] font-extrabold uppercase text-em-400 block tracking-wider">INSTITUTIONAL ALLOCATION LAW</span>
+                                <p class="font-medium text-em-100 leading-snug">${fm.rule}</p>
                             </div>
 
                             <div class="flex items-center justify-end pt-1">
-                                <button onclick="askCouncilAbout('${fm.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-bold hover:bg-slate-800 transition-all flex items-center space-x-1">
-                                    <i class="fa-solid fa-comments text-amber-400 text-[9px]"></i>
+                                <button onclick="askCouncilAbout('${fm.name.replace(/'/g, "\\'")}')" class="px-3 py-1.5 bg-em-950 text-em-100 rounded-xl text-[10px] font-bold hover:bg-em-900 active:scale-95 transition-all flex items-center space-x-1.5 shadow-xs border border-em-800 shrink-0">
+                                    <i class="fa-solid fa-comments text-em-400 text-[9px]"></i>
                                     <span>Ask Council</span>
                                 </button>
                             </div>
@@ -1820,7 +1889,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 });
             }
 
-            // 4. FINANCIAL TITANS
+            // 4. FINANCIAL TITANS (Palette 1: Emerald Obsidian Luxury)
             if (f === 'ALL' || f === 'TITANS') {
                 const titans = cachedVaultData.titans || {};
                 Object.keys(titans).forEach(k => {
@@ -1829,35 +1898,35 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     if (q && !searchText.includes(q)) return;
 
                     itemsHtml.push(`
-                        <div class="luxury-card rounded-2xl p-4 space-y-2.5 hover:shadow-md transition-all border border-slate-200/80">
+                        <div class="luxury-card-emerald rounded-3xl p-4 sm:p-5 space-y-3 hover:shadow-md transition-all border border-em-400/30 bg-white">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <div class="flex items-center space-x-1.5">
-                                        <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-emerald-100 text-emerald-900 border border-emerald-300">🧠 MARKET TITAN</span>
-                                        <span class="text-[9px] font-bold text-slate-500">${t.category}</span>
+                                    <div class="flex items-center space-x-1.5 mb-1">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold bg-em-100 text-em-950 border border-em-400/60">🧠 MARKET TITAN</span>
+                                        <span class="text-[9px] font-bold text-em-700">${t.category}</span>
                                     </div>
-                                    <h3 class="text-xs font-black text-slate-900 mt-1">${t.name}</h3>
-                                    <p class="text-[11px] font-bold text-slate-600">${t.professional_role}</p>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-em-950">${t.name}</h3>
+                                    <p class="text-[11px] font-bold text-em-700">${t.professional_role}</p>
                                 </div>
-                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-emerald-50 text-emerald-700 border border-emerald-200 shrink-0">LEGEND</span>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-em-900 text-em-100 border border-em-800 shrink-0">LEGEND</span>
                             </div>
 
-                            <div class="bg-slate-50 p-2.5 rounded-xl border border-slate-200/60 space-y-1 text-xs">
-                                <span class="text-[10px] font-bold text-slate-400 block uppercase">Analytical Superpower</span>
-                                <p class="text-[11px] font-semibold text-slate-800">${t.analytical_superpower}</p>
+                            <div class="bg-em-50/70 p-3 rounded-2xl border border-em-300/40 space-y-1 text-xs">
+                                <span class="text-[10px] font-extrabold text-em-800 block uppercase tracking-wider">Analytical Superpower</span>
+                                <p class="text-[11px] font-bold text-em-950 leading-relaxed">${t.analytical_superpower}</p>
                             </div>
 
-                            <div class="bg-emerald-50/50 p-2.5 rounded-xl border border-emerald-200/60 space-y-1 text-xs">
-                                <span class="text-[10px] font-bold text-emerald-900 block uppercase">Key Laws & Compounding Rules</span>
-                                <ul class="space-y-1 text-[11px] text-slate-700">
-                                    ${(t.key_laws || []).map(l => `<li class="flex items-start space-x-1.5"><span class="text-emerald-600 font-bold">•</span><span>${l}</span></li>`).join('')}
+                            <div class="bg-em-100/50 p-3 rounded-2xl border border-em-400/40 space-y-1.5 text-xs">
+                                <span class="text-[10px] font-extrabold text-em-950 block uppercase tracking-wider">Key Laws & Compounding Rules</span>
+                                <ul class="space-y-1 text-[11px] text-em-950 font-medium">
+                                    ${(t.key_laws || []).map(l => `<li class="flex items-start space-x-1.5"><span class="text-em-700 font-bold">•</span><span>${l}</span></li>`).join('')}
                                 </ul>
                             </div>
 
                             <div class="flex items-center justify-between pt-1">
-                                <span class="text-[10px] text-slate-500 font-medium">${t.bio ? t.bio.slice(0, 65) + '...' : ''}</span>
-                                <button onclick="askCouncilAbout('${t.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-bold hover:bg-slate-800 transition-all flex items-center space-x-1">
-                                    <i class="fa-solid fa-comments text-amber-400 text-[9px]"></i>
+                                <span class="text-[10px] text-em-700 font-medium truncate mr-2">${t.bio ? t.bio.slice(0, 65) + '...' : ''}</span>
+                                <button onclick="askCouncilAbout('${t.name.replace(/'/g, "\\'")}')" class="px-3 py-1.5 bg-em-950 text-em-100 rounded-xl text-[10px] font-bold hover:bg-em-900 active:scale-95 transition-all flex items-center space-x-1.5 shadow-xs border border-em-800 shrink-0">
+                                    <i class="fa-solid fa-comments text-em-400 text-[9px]"></i>
                                     <span>Ask Council</span>
                                 </button>
                             </div>
@@ -1866,7 +1935,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 });
             }
 
-            // 5. EMPIRICAL DATASETS
+            // 5. EMPIRICAL DATASETS (Palette 3: Holst Sapphire Quant)
             if (f === 'ALL' || f === 'DATASETS') {
                 const datasets = cachedVaultData.empirical_datasets || {};
                 Object.keys(datasets).forEach(k => {
@@ -1875,33 +1944,33 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                     if (q && !searchText.includes(q)) return;
 
                     itemsHtml.push(`
-                        <div class="luxury-card rounded-2xl p-4 space-y-2.5 hover:shadow-md transition-all border border-slate-200/80">
+                        <div class="luxury-card-sapphire rounded-3xl p-4 sm:p-5 space-y-3 hover:shadow-md transition-all border border-saph-300/40 bg-white">
                             <div class="flex items-start justify-between">
                                 <div>
-                                    <div class="flex items-center space-x-1.5">
-                                        <span class="px-2 py-0.5 rounded text-[9px] font-extrabold bg-indigo-100 text-indigo-900 border border-indigo-300">📊 QUANT ARCHIVE & DATASET</span>
-                                        <span class="text-[10px] font-bold text-slate-500">Empirical Research</span>
+                                    <div class="flex items-center space-x-1.5 mb-1">
+                                        <span class="px-2.5 py-0.5 rounded-full text-[9px] font-extrabold bg-saph-100 text-saph-950 border border-saph-300">📊 QUANT ARCHIVE & DATASET</span>
+                                        <span class="text-[10px] font-bold text-saph-600 font-mono">Empirical Research</span>
                                     </div>
-                                    <h3 class="text-xs font-black text-slate-900 mt-1">${ds.name}</h3>
-                                    <p class="text-[11px] font-medium text-slate-600">${ds.coverage}</p>
+                                    <h3 class="text-xs sm:text-sm font-extrabold text-saph-950">${ds.name}</h3>
+                                    <p class="text-[11px] font-medium text-saph-700">${ds.coverage}</p>
                                 </div>
-                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-indigo-50 text-indigo-700 border border-indigo-200 shrink-0">DATASET</span>
+                                <span class="px-2 py-0.5 rounded-md text-[10px] font-bold bg-saph-950 text-saph-100 border border-saph-800 shrink-0">DATASET</span>
                             </div>
 
-                            <div class="p-2.5 rounded-xl bg-slate-900 text-white text-[11px] space-y-0.5">
-                                <span class="text-[9px] font-bold uppercase text-amber-400 block tracking-wider">EMPIRICAL QUANTITATIVE LAWS</span>
-                                <p class="font-medium text-slate-200 leading-snug">${ds.laws}</p>
+                            <div class="p-3 rounded-2xl bg-saph-950 text-white text-[11px] space-y-1 border border-saph-800 shadow-inner">
+                                <span class="text-[9px] font-extrabold uppercase text-saph-300 block tracking-wider">EMPIRICAL QUANTITATIVE LAWS</span>
+                                <p class="font-medium text-saph-100 leading-snug">${ds.laws}</p>
                             </div>
 
                             ${(ds.files && ds.files.length) ? `
-                            <div class="bg-slate-50 p-2 rounded-xl border border-slate-200/60 text-[10px] text-slate-500 font-mono">
-                                <span class="font-bold text-slate-400 uppercase text-[9px] block mb-0.5">Bundled Raw Data Files</span>
+                            <div class="bg-saph-50/70 p-2.5 rounded-2xl border border-saph-200/60 text-[10px] text-saph-800 font-mono">
+                                <span class="font-bold text-saph-950 uppercase text-[9px] block mb-0.5">Bundled Raw Data Files</span>
                                 ${ds.files.join(' • ')}
                             </div>` : ''}
 
                             <div class="flex items-center justify-end pt-1">
-                                <button onclick="askCouncilAbout('${ds.name.replace(/'/g, "\\'")}')" class="px-2.5 py-1 bg-slate-900 text-white rounded-lg text-[10px] font-bold hover:bg-slate-800 transition-all flex items-center space-x-1">
-                                    <i class="fa-solid fa-comments text-amber-400 text-[9px]"></i>
+                                <button onclick="askCouncilAbout('${ds.name.replace(/'/g, "\\'")}')" class="px-3 py-1.5 bg-saph-950 text-saph-100 rounded-xl text-[10px] font-bold hover:bg-saph-900 active:scale-95 transition-all flex items-center space-x-1.5 shadow-xs border border-saph-800 shrink-0">
+                                    <i class="fa-solid fa-comments text-saph-400 text-[9px]"></i>
                                     <span>Ask Council</span>
                                 </button>
                             </div>
@@ -1911,7 +1980,7 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             }
 
             if (itemsHtml.length === 0) {
-                container.innerHTML = `<div class="p-8 text-center text-xs text-slate-400">No knowledge assets matched "${q}". Try searching for another term.</div>`;
+                container.innerHTML = `<div class="p-8 text-center text-xs text-em-700 font-medium">No knowledge assets matched "${q}". Try searching for another term.</div>`;
             } else {
                 container.innerHTML = itemsHtml.join('');
             }
