@@ -17,9 +17,15 @@ from typing import Optional
 
 from nexiv_brain.decision_engine import CBMDecisionEngine
 from nexiv_brain.indian_market import NexivIndianMarket
+from nexiv_brain.chat_engine import NexivChatEngine
 from nexiv_brain import nexiv_config as cfg
 
 app = FastAPI(title="Nexiv.AI • Autonomous Institutional Financial Intelligence", version="3.0.0")
+
+class ChatMessageRequest(BaseModel):
+    message: str
+    history: Optional[list] = []
+    api_key: Optional[str] = None
 
 app.add_middleware(
     CORSMiddleware,
@@ -152,6 +158,14 @@ def analyze_ipo(data: IPOSubmission):
     try:
         res = CBMDecisionEngine.evaluate_ipo_action(data.dict())
         return sanitize_json(res)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.post("/api/chat")
+def chat_endpoint(data: ChatMessageRequest):
+    try:
+        reply = NexivChatEngine.answer(data.message, data.history, data.api_key)
+        return {"reply": reply}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
@@ -318,18 +332,22 @@ HTML_TEMPLATE = """<!DOCTYPE html>
     <main class="max-w-xl mx-auto px-4 pt-4">
 
         <!-- Navigation Segmented Control -->
-        <div class="flex rounded-2xl bg-slate-100 p-1 mb-4 border border-slate-200/80 shadow-inner">
-            <button id="tab-stock-btn" onclick="switchTab('stock')" class="flex-1 py-2 text-xs font-bold rounded-xl bg-white text-slate-900 shadow-sm transition-all flex items-center justify-center space-x-1.5">
+        <div class="grid grid-cols-4 gap-1 rounded-2xl bg-slate-100 p-1 mb-4 border border-slate-200/80 shadow-inner text-center">
+            <button id="tab-stock-btn" onclick="switchTab('stock')" class="py-2 text-[11px] font-bold rounded-xl bg-white text-slate-900 shadow-sm transition-all flex items-center justify-center space-x-1">
                 <i class="fa-solid fa-chart-line text-emerald-600"></i>
-                <span>Stock Decision</span>
+                <span class="truncate">Stocks</span>
             </button>
-            <button id="tab-ipo-btn" onclick="switchTab('ipo')" class="flex-1 py-2 text-xs font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1.5">
+            <button id="tab-ipo-btn" onclick="switchTab('ipo')" class="py-2 text-[11px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1">
                 <i class="fa-solid fa-rocket text-amber-600"></i>
-                <span>Indian IPOs & GMP</span>
+                <span class="truncate">IPOs</span>
             </button>
-            <button id="tab-vault-btn" onclick="switchTab('vault')" class="flex-1 py-2 text-xs font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1.5">
+            <button id="tab-chat-btn" onclick="switchTab('chat')" class="py-2 text-[11px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1">
+                <i class="fa-solid fa-comments text-indigo-600"></i>
+                <span class="truncate">AI Chat</span>
+            </button>
+            <button id="tab-vault-btn" onclick="switchTab('vault')" class="py-2 text-[11px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1">
                 <i class="fa-solid fa-book-bookmark text-slate-600"></i>
-                <span>7 Titans Vault</span>
+                <span class="truncate">Vault</span>
             </button>
         </div>
 
@@ -505,22 +523,135 @@ HTML_TEMPLATE = """<!DOCTYPE html>
             </div>
         </section>
 
+        <!-- 4. AI COUNCIL CHAT SECTION -->
+        <section id="chat-section" class="hidden space-y-3">
+            <div class="luxury-card rounded-2xl p-4 shadow-sm flex flex-col">
+                <!-- Chat Header -->
+                <div class="flex items-center justify-between pb-3 border-b border-slate-100">
+                    <div class="flex items-center space-x-2.5">
+                        <div class="w-9 h-9 rounded-xl bg-slate-950 p-1 flex items-center justify-center border border-amber-500/30 text-amber-400">
+                            <i class="fa-solid fa-brain text-sm"></i>
+                        </div>
+                        <div>
+                            <div class="flex items-center space-x-1.5">
+                                <h2 class="text-sm font-extrabold text-slate-900 tracking-tight">Nexiv AI Council</h2>
+                                <span class="text-[9px] font-bold px-1.5 py-0.5 rounded bg-emerald-50 text-emerald-700 border border-emerald-200">ACTIVE</span>
+                            </div>
+                            <p class="text-[10px] text-slate-500 font-medium">5,053 Pages of Titans • Casual English & Hinglish Ready</p>
+                        </div>
+                    </div>
+                    <button onclick="toggleApiKeyModal()" title="LLM Settings / API Key" class="p-2 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-600 transition-colors text-xs flex items-center space-x-1">
+                        <i class="fa-solid fa-key text-amber-600"></i>
+                        <span class="text-[10px] font-bold">API Key</span>
+                    </button>
+                </div>
+
+                <!-- API Key Config Drawer / Modal (Collapsible) -->
+                <div id="api-key-drawer" class="hidden my-3 p-3 bg-slate-50 rounded-xl border border-slate-200/80 text-xs space-y-2">
+                    <div class="flex items-center justify-between">
+                        <span class="font-bold text-slate-800 text-[11px] flex items-center space-x-1.5">
+                            <i class="fa-solid fa-microchip text-indigo-600"></i>
+                            <span>Gemini LLM Key (Optional)</span>
+                        </span>
+                        <span id="api-key-status" class="text-[9px] font-bold text-slate-500">Autonomous Mode</span>
+                    </div>
+                    <p class="text-[10px] text-slate-500 leading-tight">
+                        Nexiv works 100% free with its autonomous brain. Adding your free Gemini API key enables open-ended natural conversation.
+                    </p>
+                    <div class="flex space-x-2">
+                        <input type="password" id="gemini-key-input" placeholder="AIzaSy..." class="flex-1 bg-white border border-slate-200 rounded-lg px-2.5 py-1.5 text-xs font-mono text-slate-900 outline-none focus:border-amber-500">
+                        <button onclick="saveApiKey()" class="px-3 py-1.5 bg-slate-900 text-white rounded-lg text-xs font-bold hover:bg-slate-800">Save</button>
+                        <button onclick="clearApiKey()" class="px-2.5 py-1.5 bg-slate-200 text-slate-700 rounded-lg text-xs font-bold hover:bg-slate-300">Clear</button>
+                    </div>
+                </div>
+
+                <!-- Quick Prompt Chips -->
+                <div class="pt-3 pb-2">
+                    <div class="flex items-center space-x-1.5 overflow-x-auto no-scrollbar pb-1 text-[11px]">
+                        <button onclick="sendQuickPrompt('Should I buy Tata Motors right now or wait?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                            🚗 Buy Tata Motors?
+                        </button>
+                        <button onclick="sendQuickPrompt('Moneyview IPO apply or avoid?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                            🚀 Moneyview IPO
+                        </button>
+                        <button onclick="sendQuickPrompt('How does Schilit catch fake revenue on balance sheet?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                            🛡️ Schilit Fraud Rules
+                        </button>
+                        <button onclick="sendQuickPrompt('What is Graham and Dodd Margin of Safety?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                            📖 Margin of Safety
+                        </button>
+                        <button onclick="sendQuickPrompt('What is Damodaran DCF and WACC in India?')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                            📊 Damodaran WACC
+                        </button>
+                        <button onclick="sendQuickPrompt('Tell me about Snapdeal AceVector IPO verdict')" class="whitespace-nowrap px-2.5 py-1 rounded-full bg-slate-100 hover:bg-amber-50 hover:text-amber-900 hover:border-amber-300 border border-slate-200/80 font-medium text-slate-700 transition-all">
+                            📦 Snapdeal IPO
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Chat Messages Scroll Container -->
+                <div id="chat-messages" class="flex-1 min-h-[360px] max-h-[480px] overflow-y-auto space-y-3 p-1 pr-1 border-t border-b border-slate-100 py-3 scroll-smooth">
+                    <!-- Initial Welcome Message -->
+                    <div class="flex items-start space-x-2.5">
+                        <div class="w-7 h-7 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+                            N
+                        </div>
+                        <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-sm p-3.5 shadow-xs text-xs text-slate-800 space-y-2 max-w-[88%]">
+                            <p class="font-bold text-slate-900">Welcome! I am the Nexiv AI Council.</p>
+                            <p class="leading-relaxed">
+                                You can ask me anything in your normal, casual words — don't worry about English or grammar! I understand you directly and answer with our full brain:
+                            </p>
+                            <ul class="space-y-1 text-slate-600 text-[11px] list-disc list-inside">
+                                <li><strong>Any Indian Stock</strong> (e.g. <em>"should i buy tata motor or wait"</em>) with live price & targets</li>
+                                <li><strong>Real Indian IPOs</strong> (e.g. <em>"moneyview ipo verdict"</em>) with GMP & Jay Ritter laws</li>
+                                <li><strong>Forensic Fraud Detection</strong> (Schilit's 7 Shenanigans & fake revenue)</li>
+                                <li><strong>Institutional Valuation</strong> (Damodaran DCF, WACC & Graham Margin of Safety)</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Typing / Thinking Indicator (hidden by default) -->
+                <div id="chat-typing" class="hidden py-2 px-3 text-xs text-slate-500 items-center space-x-2">
+                    <span class="inline-flex space-x-1 items-center">
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse delay-100"></span>
+                        <span class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse delay-200"></span>
+                    </span>
+                    <span class="text-[11px] font-medium text-slate-500">Nexiv AI is analyzing 5,053 pages & live feeds...</span>
+                </div>
+
+                <!-- Chat Input Form -->
+                <div class="pt-3">
+                    <form onsubmit="handleChatSubmit(event)" class="relative flex items-center space-x-2">
+                        <input type="text" id="chat-input" placeholder="Ask anything in your words (e.g. should i buy zomato?)..." class="flex-1 bg-slate-50 border border-slate-200/90 rounded-2xl px-4 py-3 text-xs font-medium text-slate-900 outline-none focus:bg-white focus:border-amber-500 focus:ring-2 focus:ring-amber-200 transition-all shadow-inner">
+                        <button type="submit" id="chat-send-btn" class="w-11 h-11 bg-slate-900 hover:bg-slate-800 text-white rounded-2xl flex items-center justify-center transition-all shadow-md active:scale-95 shrink-0">
+                            <i class="fa-solid fa-paper-plane text-amber-400 text-xs"></i>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
     </main>
 
     <script>
         let searchDebounceTimeout = null;
         let cachedIPOs = [];
+        let chatHistory = [];
 
         function switchTab(tab) {
             document.getElementById('stock-section').classList.add('hidden');
             document.getElementById('ipo-section').classList.add('hidden');
+            document.getElementById('chat-section').classList.add('hidden');
             document.getElementById('vault-section').classList.add('hidden');
 
-            const inactiveClass = "flex-1 py-2 text-xs font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1.5";
-            const activeClass = "flex-1 py-2 text-xs font-bold rounded-xl bg-white text-slate-900 shadow-sm transition-all flex items-center justify-center space-x-1.5";
+            const inactiveClass = "py-2 text-[11px] font-semibold rounded-xl text-slate-500 hover:text-slate-800 transition-all flex items-center justify-center space-x-1";
+            const activeClass = "py-2 text-[11px] font-bold rounded-xl bg-white text-slate-900 shadow-sm transition-all flex items-center justify-center space-x-1";
 
             document.getElementById('tab-stock-btn').className = inactiveClass;
             document.getElementById('tab-ipo-btn').className = inactiveClass;
+            document.getElementById('tab-chat-btn').className = inactiveClass;
             document.getElementById('tab-vault-btn').className = inactiveClass;
 
             if (tab === 'stock') {
@@ -530,10 +661,191 @@ HTML_TEMPLATE = """<!DOCTYPE html>
                 document.getElementById('ipo-section').classList.remove('hidden');
                 document.getElementById('tab-ipo-btn').className = activeClass;
                 loadLiveIPOs();
+            } else if (tab === 'chat') {
+                document.getElementById('chat-section').classList.remove('hidden');
+                document.getElementById('tab-chat-btn').className = activeClass;
+                updateApiKeyUI();
+                scrollChatToBottom();
+                setTimeout(() => {
+                    const input = document.getElementById('chat-input');
+                    if (input) input.focus();
+                }, 100);
             } else if (tab === 'vault') {
                 document.getElementById('vault-section').classList.remove('hidden');
                 document.getElementById('tab-vault-btn').className = activeClass;
                 loadVault();
+            }
+        }
+
+        // === AI COUNCIL CHAT ENGINE ===
+        function formatMarkdown(text) {
+            if (!text) return "";
+            let html = text
+                .replace(/&/g, "&amp;")
+                .replace(/</g, "&lt;")
+                .replace(/>/g, "&gt;");
+            
+            // Headers
+            html = html.replace(/^### (.*$)/gim, '<h4 class="font-bold text-slate-900 mt-2 mb-1 text-xs">$1</h4>');
+            html = html.replace(/^## (.*$)/gim, '<h3 class="font-extrabold text-slate-900 mt-2 mb-1 text-sm">$1</h3>');
+            html = html.replace(/^# (.*$)/gim, '<h2 class="font-black text-slate-900 mt-2 mb-1 text-base">$1</h2>');
+
+            // Bold & Italic
+            html = html.replace(/\*\*(.*?)\*\*/g, '<strong class="font-bold text-slate-900">$1</strong>');
+            html = html.replace(/\*(.*?)\*/g, '<em class="italic">$1</em>');
+
+            // Bullets
+            html = html.replace(/^[•\-\*] (.*$)/gim, '<div class="flex items-start space-x-1.5 my-1"><span class="text-amber-500 font-bold">•</span><span>$1</span></div>');
+
+            // Paragraph breaks
+            html = html.replace(/\n\n/g, '<div class="h-2"></div>');
+            html = html.replace(/\n/g, '<br>');
+
+            return html;
+        }
+
+        function appendUserBubble(text) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = "flex justify-end";
+            div.innerHTML = `
+                <div class="bg-slate-900 text-white rounded-2xl rounded-tr-sm px-3.5 py-2.5 text-xs font-medium max-w-[85%] shadow-xs leading-relaxed">
+                    ${text.replace(/</g, "&lt;").replace(/>/g, "&gt;")}
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function appendAiBubble(markdown) {
+            const container = document.getElementById('chat-messages');
+            const div = document.createElement('div');
+            div.className = "flex items-start space-x-2.5";
+            div.innerHTML = `
+                <div class="w-7 h-7 rounded-lg bg-slate-900 text-amber-400 flex items-center justify-center shrink-0 text-xs font-bold mt-0.5">
+                    N
+                </div>
+                <div class="bg-white border border-slate-200 rounded-2xl rounded-tl-sm p-3.5 shadow-xs text-xs text-slate-800 space-y-1 max-w-[88%] leading-relaxed">
+                    ${formatMarkdown(markdown)}
+                </div>
+            `;
+            container.appendChild(div);
+        }
+
+        function scrollChatToBottom() {
+            const container = document.getElementById('chat-messages');
+            if (container) {
+                container.scrollTop = container.scrollHeight;
+            }
+        }
+
+        async function sendChatMessage(text) {
+            if (!text || !text.trim()) return;
+            text = text.trim();
+
+            const input = document.getElementById('chat-input');
+            if (input) input.value = '';
+
+            appendUserBubble(text);
+            chatHistory.push({ role: 'user', content: text });
+
+            const typing = document.getElementById('chat-typing');
+            const sendBtn = document.getElementById('chat-send-btn');
+            if (typing) {
+                typing.classList.remove('hidden');
+                typing.classList.add('flex');
+            }
+            if (sendBtn) sendBtn.disabled = true;
+
+            scrollChatToBottom();
+
+            const storedKey = localStorage.getItem('nexiv_gemini_key') || '';
+
+            try {
+                const resp = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        message: text,
+                        history: chatHistory.slice(-6),
+                        api_key: storedKey
+                    })
+                });
+
+                if (!resp.ok) {
+                    throw new Error(`Server returned ${resp.status}`);
+                }
+
+                const data = await resp.json();
+                const reply = data.reply || "I analyzed your request, but could not produce a verdict. Please try again.";
+                appendAiBubble(reply);
+                chatHistory.push({ role: 'model', content: reply });
+            } catch (err) {
+                console.error("Chat error:", err);
+                appendAiBubble("⚠️ Could not reach Nexiv AI Council right now. Please check your connection and try again.");
+            } finally {
+                if (typing) {
+                    typing.classList.add('hidden');
+                    typing.classList.remove('flex');
+                }
+                if (sendBtn) sendBtn.disabled = false;
+                scrollChatToBottom();
+            }
+        }
+
+        function handleChatSubmit(e) {
+            e.preventDefault();
+            const input = document.getElementById('chat-input');
+            if (input && input.value) {
+                sendChatMessage(input.value);
+            }
+        }
+
+        function sendQuickPrompt(txt) {
+            switchTab('chat');
+            sendChatMessage(txt);
+        }
+
+        function toggleApiKeyModal() {
+            const drawer = document.getElementById('api-key-drawer');
+            if (drawer) {
+                drawer.classList.toggle('hidden');
+                if (!drawer.classList.contains('hidden')) {
+                    const input = document.getElementById('gemini-key-input');
+                    if (input) input.focus();
+                }
+            }
+        }
+
+        function saveApiKey() {
+            const val = document.getElementById('gemini-key-input').value.trim();
+            if (val) {
+                localStorage.setItem('nexiv_gemini_key', val);
+                updateApiKeyUI();
+                toggleApiKeyModal();
+            }
+        }
+
+        function clearApiKey() {
+            localStorage.removeItem('nexiv_gemini_key');
+            document.getElementById('gemini-key-input').value = '';
+            updateApiKeyUI();
+        }
+
+        function updateApiKeyUI() {
+            const k = localStorage.getItem('nexiv_gemini_key');
+            const statusEl = document.getElementById('api-key-status');
+            const inputEl = document.getElementById('gemini-key-input');
+            if (k && k.length > 5) {
+                if (statusEl) {
+                    statusEl.textContent = 'Gemini LLM Connected';
+                    statusEl.className = 'text-[9px] font-bold text-emerald-600';
+                }
+                if (inputEl) inputEl.value = k;
+            } else {
+                if (statusEl) {
+                    statusEl.textContent = 'Autonomous Mode (0 Keys)';
+                    statusEl.className = 'text-[9px] font-bold text-slate-500';
+                }
             }
         }
 
